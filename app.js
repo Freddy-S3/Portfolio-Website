@@ -11,3 +11,7 @@
         document.body.classList.toggle("light-mode");
     })
 })();
+(function submitForm(event) {
+    event.preventDefault(); // Prevents the default link behavior
+    document.getElementById('myForm').submit();
+});

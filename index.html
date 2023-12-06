@@ -615,20 +615,47 @@
                             </div>
                         </div>
                     </div>
+                    <!--
+                    <div id="emailForm">
+                        <form id="myForm">
+                          <label for="email">Email:</label>
+                          <input type="email" id="email" name="email" required>
+                    
+                          <label for="message">Message:</label>
+                          <textarea id="message" name="message" rows="4" required></textarea>
+                    
+                          <button type="button" onclick="submitForm()">Submit</button>
+                        </form>
+                      </div>
+                    
+                      <script>
+                        function submitForm() {
+                          // Get values from the form
+                          var email = document.getElementById("email").value;
+                          var message = document.getElementById("message").value;
+                    
+                          // Construct the mailto link
+                          var mailtoLink = "mailto:" + encodeURIComponent(email) + "?subject=Message from your website&body=" + encodeURIComponent(message);
+                    
+                          // Open the default email client with the pre-populated email
+                          window.location.href = mailtoLink;
+                        }
+                      </script>
+                      -->
                     <div class="right-contact">
-                        <form action="" class="contact-form">
+                        <form method="get" action="mailto:shaikhfh1@gmail.com" enctype="multipart/form-data" class="contact-form" id="myForm">
                             <div class="input-control i-c-2">
-                                <input type="text" required placeholder="YOUR NAME">
-                                <input type="email" required placeholder="YOUR EMAIL">
+                                <input type="text" required placeholder="YOUR NAME" name="EmailerName">
+                                <input type="email" required placeholder="YOUR EMAIL" name="email">
                             </div>
                             <div class="input-control">
-                                <input type="text" required placeholder="ENTER SUBJECT">
+                                <input type="text" required placeholder="ENTER SUBJECT" name="subject">
                             </div>
                             <div class="input-control">
-                                <textarea name="" id="" cols="15" rows="8" placeholder="Message Here..."></textarea>
+                                <textarea name="body" id="" cols="15" rows="8" placeholder="Message Here..."></textarea>
                             </div>
                             <div class="submit-btn">
-                                <a href="mailto:shaikhfh1@gmail.com" class="main-btn">
+                                <a href="javascript:void(0);" class="main-btn" onclick="submitForm()">
                                     <span class="btn-text">Send Message</span>
                                     <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
                                 </a>
