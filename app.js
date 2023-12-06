@@ -1,4 +1,8 @@
 (function () {
+    function submitForm() {
+        document.getElementById('myForm').submit();
+    }
+
     [...document.querySelectorAll(".control")].forEach(button => {
         button.addEventListener("click", function() {
             document.querySelector(".active-btn").classList.remove("active-btn");
@@ -10,8 +14,6 @@
     document.querySelector(".theme-btn").addEventListener("click", () => {
         document.body.classList.toggle("light-mode");
     })
+
+    document.querySelector(".submit-btn a").addEventListener("click", submitForm);
 })();
-(function submitForm(event) {
-    event.preventDefault(); // Prevents the default link behavior
-    document.getElementById('myForm').submit();
-});
