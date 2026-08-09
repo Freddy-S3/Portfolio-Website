@@ -40,7 +40,7 @@ Japan Exchange Teaching (JET) Program | Tokyo, Japan | August 2018 - August 2019
 PROJECTS
 ========================================================================
 
-Agentic Engineering Harness (https://github.com/Freddy-S3/claude-harness)
+Agentic Engineering Harness (https://github.com/Freddy-S3/claude-harness-public)
 - Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.
 
 Portfolio Site & Resume Pipeline (https://freddyshaikh.com)

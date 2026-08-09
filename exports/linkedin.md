@@ -87,7 +87,7 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 
 ## Projects
 
-- **Agentic Engineering Harness** (https://github.com/Freddy-S3/claude-harness)
+- **Agentic Engineering Harness** (https://github.com/Freddy-S3/claude-harness-public)
   - Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.
 - **Portfolio Site & Resume Pipeline** (https://freddyshaikh.com)
   - Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright.

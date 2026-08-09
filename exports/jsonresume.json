@@ -94,7 +94,7 @@
       "highlights": [
         "Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets."
       ],
-      "url": "https://github.com/Freddy-S3/claude-harness"
+      "url": "https://github.com/Freddy-S3/claude-harness-public"
     },
     {
       "name": "Portfolio Site & Resume Pipeline",
