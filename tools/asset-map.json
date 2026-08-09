@@ -1,0 +1,46 @@
+{
+  "_comment": "Images and links for resume-driven cards. Keys must match the title exactly as it appears in resume/resume/awards.tex or projects.tex. 'label' overrides the displayed title; img/href/icon are optional and fall back to img/hero.png, '#', and a generic icon.",
+
+  "AWS Certified Machine Learning Engineer - Associate": {
+    "label": "AWS Machine Learning Engineer Associate",
+    "img": "img/AWSMLEA.jpg",
+    "href": "#",
+    "icon": "fab fa-aws"
+  },
+  "AWS Certified Developer - Associate": {
+    "label": "AWS Developer Associate",
+    "img": "img/AWSDA.jpg",
+    "href": "Certificates/AWS Certified Developer - Associate certificate.pdf",
+    "icon": "fab fa-aws"
+  },
+  "Google Cloud Certified: Professional Cloud Architect": {
+    "label": "GCP Professional Cloud Architect",
+    "img": "img/GCPCloudArchitectLogo.jpg",
+    "href": "https://google.accredible.com/3259369f-c575-4640-bd46-8c4b2d3b93a2",
+    "icon": "fab fa-google"
+  },
+  "AWS Certified Solutions Architect - Professional": {
+    "label": "AWS Solutions Architect Professional",
+    "img": "img/AWSSAP.jpg",
+    "href": "Certificates/AWS Certified Solutions Architect - Professional certificate.pdf",
+    "icon": "fab fa-aws"
+  },
+  "Japanese-Language Proficiency Test (JLPT) - N2": {
+    "label": "Japanese Language Proficiency Level N2",
+    "img": "img/JLPTLogo.jpg",
+    "href": "Certificates/JLPTN2long.pdf",
+    "icon": "fas fa-download"
+  },
+  "TEFL Teaching Certification": {
+    "label": "TEFL Teaching Certification",
+    "img": "img/TEFLLogo.jpg",
+    "href": "Certificates/TEFL Teaching Certification.jpg",
+    "icon": "fas fa-download"
+  },
+
+  "Google Drive Clone": {
+    "img": "img/GoogleDriveCloneLogo.jpg",
+    "href": "https://github.com/Freddy-S3/Google-Drive-Clone",
+    "icon": "fab fa-github"
+  }
+}
