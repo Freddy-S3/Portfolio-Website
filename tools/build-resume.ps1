@@ -58,6 +58,14 @@ No LaTeX engine found. Install Tectonic (recommended):
 
 if (-not (Test-Path $buildDir)) { New-Item -ItemType Directory -Path $buildDir | Out-Null }
 
+# PDF writers stamp a creation date and a random /ID, so an unchanged resume would
+# still produce different bytes on every build and churn in git. Pinning the clock to
+# the last commit that touched resume/ makes the output reproducible.
+$epoch = git -C $root log -1 --format=%ct -- resume/
+if (-not $epoch) { $epoch = '1700000000' }
+$env:SOURCE_DATE_EPOCH = $epoch.Trim()
+$env:FORCE_SOURCE_DATE = '1'
+
 Push-Location $resumeDir
 try {
     # Start-Process keeps the engine's stderr from being wrapped in NativeCommandError.
