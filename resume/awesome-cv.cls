@@ -164,7 +164,13 @@
 %                Configuration for fonts
 %-------------------------------------------------------------------------------
 % Set the FontAwesome font to be up-to-date.
-\newfontfamily\FA[Path=\@fontdir]{FontAwesome}
+% fontawesome.sty already defines \FA on distributions that ship it (TeX Live),
+% so redefine rather than clash; MiKTeX without the package takes the \else.
+\ifdefined\FA
+  \renewfontfamily\FA[Path=\@fontdir]{FontAwesome}
+\else
+  \newfontfamily\FA[Path=\@fontdir]{FontAwesome}
+\fi
 % Set font for header (default is Roboto)
 \newfontfamily\headerfont[
   Path=\@fontdir,
