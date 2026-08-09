@@ -32,7 +32,7 @@
       "startDate": "2025-01",
       "summary": "",
       "highlights": [
-        "Pioneered the team's AI-assisted engineering harness: skill files, scoped context/token budgets, and operating-mode guardrails; mentored the team onto it as their default workflow.",
+        "Serving as the designated lead for AI-driven engineering acceleration: pioneered the team's AI-assisted engineering harness (skill files, scoped context/token budgets, operating-mode guardrails) and mentored senior and principal engineers onto it as their default workflow.",
         "Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.",
         "Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats."
       ]
@@ -94,7 +94,7 @@
       "highlights": [
         "Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets."
       ],
-      "url": ""
+      "url": "https://github.com/Freddy-S3/claude-harness"
     },
     {
       "name": "Portfolio Site & Resume Pipeline",
