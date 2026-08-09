@@ -75,7 +75,7 @@ def run(headed):
         page.click('.control[data-id="portfolio"]')
         page.wait_for_timeout(600)
         cards = page.locator(".portfolio-item")
-        check("portfolio cards rendered", cards.count() == 10, "found %d, expected 10" % cards.count())
+        check("portfolio cards rendered", cards.count() == 11, "found %d, expected 11" % cards.count())
 
         # --- every image decoded, not just requested
         broken = page.eval_on_selector_all(
