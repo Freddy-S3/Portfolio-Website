@@ -4,7 +4,13 @@
   "AWS Certified Machine Learning Engineer - Associate": {
     "label": "AWS Machine Learning Engineer Associate",
     "img": "img/AWSMLEA.jpg",
+    "_todo": "No certificate file or credential URL found in the repo. Replace href with the real credential URL (e.g. Credly/AWS badge link) once available.",
     "href": "#",
+    "icon": "fab fa-aws"
+  },
+  "AWS Certified AI Practitioner": {
+    "label": "AWS Certified AI Practitioner",
+    "href": "Certificates/AWS Certified AI Practitioner certificate.pdf",
     "icon": "fab fa-aws"
   },
   "AWS Certified Developer - Associate": {
