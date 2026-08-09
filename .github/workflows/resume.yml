@@ -17,6 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Without a pinned clock the PDF gets a fresh timestamp and /ID each run, so the
+      # committed file churns and conflicts with any open branch.
+      - name: Pin the build clock to the last resume commit
+        run: |
+          echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct -- resume/)" >> "$GITHUB_ENV"
+          echo "FORCE_SOURCE_DATE=1" >> "$GITHUB_ENV"
+
       - name: Compile resume.tex with xelatex
         uses: xu-cheng/latex-action@v3
         with:
