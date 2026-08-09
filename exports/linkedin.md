@@ -109,6 +109,9 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 
 ## Projects
 
-- **Google Drive Clone** (https://github.com/Freddy-S3/Google-Drive-Clone)
-  - Built a full-featured file manager using Laravel, PHP, Inertia.js, and Vue.js.
-  - Supports unlimited folder depth, file upload, download, sharing, search, and AWS S3-backed storage.
+- **Agentic Engineering Harness** (no link)
+  - Authored a personal AI engineering harness: 30+ composable skill files that define planning, debugging, review, and delivery workflows for coding agents, with explicit operating modes and escalation rules.
+  - Engineered scoped context and token budgets, MCP tool integration, and self-improving instruction files; the same practices I introduced to my team at Morningstar.
+- **Portfolio Site & Resume Pipeline** (https://freddyshaikh.com)
+  - Built and deployed a personal site with JavaScript, SCSS, and AWS CloudFront; a Python generator cascades this LaTeX resume into the site, PDF, and job-board exports from one source of truth.
+  - Automated the release with GitHub Actions and a Playwright browser suite asserting rendering, colour contrast, and responsive layout on every push.
