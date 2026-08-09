@@ -77,9 +77,9 @@
         .progress-bars{
             grid-template-columns: repeat(1, 1fr);
         }
-        .skill-categories{
-            grid-template-columns: repeat(1, 1fr);
-        }
+    }
+    .skill-categories{
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .portfolios{
@@ -263,7 +263,7 @@
     .about-stats .progress-bars{
         grid-template-columns: repeat(1, 1fr);
     }
-    .about-stats .skill-categories{
+    .skill-categories{
         grid-template-columns: repeat(1, 1fr);
     }
     .about-container .right-about{
