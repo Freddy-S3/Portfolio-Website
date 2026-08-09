@@ -13,9 +13,9 @@ Senior Full Stack Software Engineer
 ## About
 
 ```
-Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery and built the team's AI-assisted engineering harness: skill files, scoped context, and token budgets that make agentic workflows repeatable. A self-directed learner who taught himself programming, Japanese, and French, I translate current AI research into practical team capability.
+Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery and built the team's AI-assisted engineering harness: skill files, scoped context, and token budgets that make agentic workflows repeatable. Self-taught in programming, Japanese, and French, I translate current AI research into practical team capability.
 ```
-  <!-- 498 / 2600 chars - OK -->
+  <!-- 470 / 2600 chars - OK -->
 
 ## Experience
 
@@ -24,21 +24,21 @@ Senior Full Stack Software Engineer with 7+ years delivering cloud-native system
 Toronto, Canada | 2025-01 to Present
 
 ```
-- Pioneered a reusable AI-assisted engineering harness for the team: composable skill files, scoped LLM context and token budgets, and operating-mode guardrails for autonomous coding agents, then mentored teammates on adopting it.
-- Led MCP (Model Context Protocol) server implementation as Project Manager and Subject Matter Expert, coordinating architecture through production release.
+- Pioneered the team's AI-assisted engineering harness: skill files, scoped context/token budgets, and operating-mode guardrails; mentored the team onto it as their default workflow.
+- Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.
 ```
-  <!-- 568 / 2000 chars - OK -->
+  <!-- 478 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
 Toronto, Canada | 2019-08 to 2025-01
 
 ```
-- Rearchitected a monolithic on-premises application into AWS cloud microservices, improving uptime and maintainability.
-- Designed and delivered custom haptic VR training systems end-to-end for enterprise clients, from requirements through iteration.
+- Led the rearchitecture of a monolithic on-premises app into AWS cloud microservices for independent deployability and uptime.
+- Owned custom haptic VR training systems for enterprise clients end-to-end as primary technical decision-maker, from requirements through delivery.
 ```
-  <!-- 251 / 2000 chars - OK -->
+  <!-- 276 / 2000 chars - OK -->
 
 ### English Language Teacher - Japan Exchange Teaching (JET) Program
 
@@ -90,4 +90,4 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 - **Agentic Engineering Harness** (no link)
   - Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.
 - **Portfolio Site & Resume Pipeline** (https://freddyshaikh.com)
-  - Built and deployed a personal site (JavaScript, SCSS, AWS CloudFront); a Python generator cascades this LaTeX resume into the site, PDF, and job-board exports from one source of truth, CI-verified with Playwright.
+  - Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright.
