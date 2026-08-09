@@ -97,8 +97,10 @@ the build script prefers Tectonic and only falls back to xelatex.
 `exports/PROFILE-SYNC.md` is the checklist. Read it before touching LinkedIn.
 
 Short version: none of LinkedIn, Indeed, Glassdoor, or ZipRecruiter exposes a
-candidate-profile write API, so no script can push these. Driving the logged-in UI
-would need stored credentials and breaks their terms. What exists instead:
+candidate-profile write API, so nothing can push these headlessly. Driving your own
+logged-in Chrome session with Claude in Chrome is possible and stores no credentials,
+but do it with you watching - LinkedIn in particular restricts accounts it thinks are
+automated, which is expensive mid-search. What exists instead:
 
 | File | Use |
 |---|---|
@@ -111,12 +113,12 @@ Turn off "Share profile updates" on LinkedIn before a bulk edit.
 
 ## Open items
 
-2. **The resume is 2 pages.** `experience.tex` carries your note "Need to get rid of 5 lines to fit everything", so you probably want 1. Content call, left alone.
-3. `AWS Certified Machine Learning Engineer - Associate` has no certificate file and no credential URL. Its link in `tools/asset-map.json` is a placeholder `"#"`.
-4. `Certificates/AWS Certified AI Practitioner certificate.pdf` exists but is not in `awards.tex`, so it gets no card. Add it to the resume or delete the file.
-5. `skills.tex` throws an overfull hbox, 53pt too wide - a skills line runs past the margin in the PDF.
-6. Merge `resume-cascade` to `master` once the page looks right. Draft PR is open.
-7. The PDF rebuilds byte-differently on each CI run, so it churns in git history. Harmless; drop it from the workflow's `git add` if it bothers you.
+1. **The resume is 2 pages.** `experience.tex` carries your note "Need to get rid of 5 lines to fit everything", so you probably want 1. Content call, left alone.
+2. `AWS Certified Machine Learning Engineer - Associate` has no certificate file and no credential URL. Its link in `tools/asset-map.json` is a placeholder `"#"`.
+3. `Certificates/AWS Certified AI Practitioner certificate.pdf` exists but is not in `awards.tex`, so it gets no card. Add it to the resume or delete the file.
+4. `skills.tex` throws an overfull hbox, 53pt too wide - a skills line runs past the margin in the PDF.
+5. Merge `resume-cascade` to `master`. PR #1 is open and ready for review.
+6. The PDF rebuilds byte-differently on each CI run, so it churns in git history. Harmless; drop it from the workflow's `git add` if it bothers you.
 
 ## Notes
 
