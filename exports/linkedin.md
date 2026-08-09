@@ -13,9 +13,9 @@ Senior Full Stack Software Engineer
 ## About
 
 ```
-Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery, including an article-to-audio platform built with AWS Bedrock, Amazon Polly, .NET, and Vue, while architecting REST APIs and Harness CI/CD. I build repeatable AI-assisted engineering workflows through skill files, scoped context, and disciplined token management. A self-directed learner who taught himself programming, Japanese, and French, I translate current AI research and documentation into practical team capability.
+Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery and built the team's AI-assisted engineering harness: skill files, scoped context, and token budgets that make agentic workflows repeatable. A self-directed learner who taught himself programming, Japanese, and French, I translate current AI research into practical team capability.
 ```
-  <!-- 640 / 2600 chars - OK -->
+  <!-- 498 / 2600 chars - OK -->
 
 ## Experience
 
@@ -24,36 +24,30 @@ Senior Full Stack Software Engineer with 7+ years delivering cloud-native system
 Toronto, Canada | 2025-01 to Present
 
 ```
-- Architected RESTful APIs powering a Vue-based browser extension, enabling real-time communication between the front end and distributed .NET Lambda back-end services.
-- Pioneered repeatable AI-assisted engineering workflows across the team by authoring AI skill files, designing scoped LLM context and token budgets, and mentoring teammates on AI-augmented development practices.
-- Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%.
-- Led MCP (Model Context Protocol) server feature implementation as Project Manager and Subject Matter Expert, coordinating architecture, development, and production release.
-- Owned end-to-end delivery of an AI audio generation feature, architecting .NET services that use AWS Bedrock for LLM-driven SSML generation and Amazon Polly for audio synthesis; built the Vue browser-extension UI and shipped transcript, smart-summary, and flash-briefing formats.
-- Built a GraphQL API over a knowledge graph to model and query concept relationships, improving content discoverability across the platform.
-- Authored reusable, parameterized scripts that automated recurring administrative workflows and reduced manual effort.
-- Led the Asian/Pacific Islander Association (APIA) Employee Resource Group, championing inclusion and belonging across the engineering organization.
+- Pioneered a reusable AI-assisted engineering harness for the team: composable skill files, scoped LLM context and token budgets, and operating-mode guardrails for autonomous coding agents, then mentored teammates on adopting it.
+- Led MCP (Model Context Protocol) server implementation as Project Manager and Subject Matter Expert, coordinating architecture through production release.
+- Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.
 ```
-  <!-- 1379 / 2000 chars - OK -->
+  <!-- 568 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
 Toronto, Canada | 2019-08 to 2025-01
 
 ```
-- Rearchitected a monolithic on-premises application into AWS cloud microservices, improving uptime, scalability, and maintainability.
-- Designed and delivered custom haptic VR training systems end-to-end; consulted directly with enterprise clients to define requirements and iterate on software solutions.
-- Refactored a legacy codebase to object-oriented architecture, increasing code reuse and reducing the defect surface area.
+- Rearchitected a monolithic on-premises application into AWS cloud microservices, improving uptime and maintainability.
+- Designed and delivered custom haptic VR training systems end-to-end for enterprise clients, from requirements through iteration.
 ```
-  <!-- 430 / 2000 chars - OK -->
+  <!-- 251 / 2000 chars - OK -->
 
 ### English Language Teacher - Japan Exchange Teaching (JET) Program
 
 Tokyo, Japan | 2018-08 to 2019-08
 
 ```
-- Delivered English language instruction to over 1,000 elementary and 500 middle school students; leveraged self-taught Japanese to adapt curriculum and communicate effectively across diverse learning needs.
+- Delivered English instruction to over 1,000 elementary and 500 middle school students, adapting curriculum using self-taught Japanese.
 ```
-  <!-- 207 / 2000 chars - OK -->
+  <!-- 136 / 2000 chars - OK -->
 
 ## Skills
 
@@ -80,39 +74,20 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 19. Terraform
 20. Kubernetes
 21. Git
-22. Harness CI/CD
-23. Postman
-24. Jupyter Notebook
-25. AI-Assisted Engineering Harnesses & Workflows
-26. MCP
-27. GitHub Copilot / LLM Orchestration
-28. AI Skill Authoring
-29. Prompt Engineering
-30. Context Design & Token Management
-31. API Development
-32. CI/CD
-33. Infrastructure as Code
-34. Test-Driven Development
-35. REST
-36. GraphQL
-37. Scrum
-38. Agile
+22. AI-Assisted Engineering Harnesses
+23. MCP
+24. Agentic Orchestration
+25. Prompt & Context Engineering
 
 ## Licenses & certifications
 
 - **AWS Certified Machine Learning Engineer - Associate** - AWS Training and Certification, issued 2026
 - **AWS Certified AI Practitioner** - AWS Training and Certification, issued 2025
-- **AWS Certified Developer - Associate** - AWS Training and Certification, issued 2025
-- **Google Cloud Certified: Professional Cloud Architect** - Google Cloud Certification, issued 2024
 - **AWS Certified Solutions Architect - Professional** - AWS Training and Certification, issued 2023
-- **Japanese-Language Proficiency Test (JLPT) - N2** - Japanese Language Proficiency Test, issued 2019
-- **TEFL Teaching Certification** - University of Toronto, issued 2018
 
 ## Projects
 
 - **Agentic Engineering Harness** (no link)
-  - Authored a personal AI engineering harness: 30+ composable skill files that define planning, debugging, review, and delivery workflows for coding agents, with explicit operating modes and escalation rules.
-  - Engineered scoped context and token budgets, MCP tool integration, and self-improving instruction files; the same practices I introduced to my team at Morningstar.
+  - Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.
 - **Portfolio Site & Resume Pipeline** (https://freddyshaikh.com)
-  - Built and deployed a personal site with JavaScript, SCSS, and AWS CloudFront; a Python generator cascades this LaTeX resume into the site, PDF, and job-board exports from one source of truth.
-  - Automated the release with GitHub Actions and a Playwright browser suite asserting rendering, colour contrast, and responsive layout on every push.
+  - Built and deployed a personal site (JavaScript, SCSS, AWS CloudFront); a Python generator cascades this LaTeX resume into the site, PDF, and job-board exports from one source of truth, CI-verified with Playwright.

@@ -63,10 +63,10 @@ def run(headed):
         page.wait_for_timeout(600)
 
         cats = page.locator(".skill-category")
-        check("skill categories rendered", cats.count() == 4, "found %d, expected 4" % cats.count())
+        check("skill categories rendered", cats.count() == 3, "found %d, expected 3" % cats.count())
 
         tags = page.locator(".skill-tag")
-        check("skill tags rendered", tags.count() >= 30, "found %d" % tags.count())
+        check("skill tags rendered", tags.count() >= 25, "found %d" % tags.count())
         check("skill tags visible", tags.count() > 0 and tags.first.is_visible())
 
         items = page.locator(".timeline-item")
@@ -75,7 +75,7 @@ def run(headed):
         page.click('.control[data-id="portfolio"]')
         page.wait_for_timeout(600)
         cards = page.locator(".portfolio-item")
-        check("portfolio cards rendered", cards.count() == 11, "found %d, expected 11" % cards.count())
+        check("portfolio cards rendered", cards.count() == 7, "found %d, expected 7" % cards.count())
 
         # --- every image decoded, not just requested
         broken = page.eval_on_selector_all(
