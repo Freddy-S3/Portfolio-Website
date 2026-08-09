@@ -38,9 +38,14 @@
     "icon": "fas fa-download"
   },
 
-  "Google Drive Clone": {
-    "img": "img/GoogleDriveCloneLogo.jpg",
-    "href": "https://github.com/Freddy-S3/Google-Drive-Clone",
+  "Agentic Engineering Harness": {
+    "img": "img/AIHarness.svg",
+    "href": "https://github.com/Freddy-S3",
+    "icon": "fab fa-github"
+  },
+  "Portfolio Site & Resume Pipeline": {
+    "img": "img/Website.jpg",
+    "href": "https://github.com/Freddy-S3/Portfolio-Website",
     "icon": "fab fa-github"
   }
 }
