@@ -67,9 +67,13 @@ Uses **Tectonic 0.17.0** at `%LOCALAPPDATA%\tectonic\tectonic.exe`. Single self-
 binary that fetches its own packages. Not on PATH; the build script finds it there.
 
 MiKTeX is installed but **broken** and no longer used. Every package operation fails with
-`invalid stoi argument`, including `packages list`, on a fresh `--force` reinstall. It is
-a local MiKTeX problem, not a repo problem. Uninstall it or ignore it; the build script
-prefers Tectonic and only falls back to xelatex.
+`invalid stoi argument`, including a bare `miktex packages list`, so it is a local MiKTeX
+problem rather than a repo or mirror one.
+
+Caveat on that diagnosis: a `winget install --force` repair was started but was killed
+before it finished, so the reinstall was never actually completed and tested. If you want
+MiKTeX back, finish that repair before concluding it is unfixable. Nothing here needs it -
+the build script prefers Tectonic and only falls back to xelatex.
 
 `resume/awesome-cv.cls` carries two portability patches, both needed:
 - `\FA` is redefined conditionally. `fontawesome.sty` already defines it on TeX Live, which broke CI.
