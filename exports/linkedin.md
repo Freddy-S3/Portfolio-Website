@@ -24,11 +24,11 @@ Senior Full Stack Software Engineer with 7+ years delivering cloud-native system
 Toronto, Canada | 2025-01 to Present
 
 ```
-- Pioneered the team's AI-assisted engineering harness: skill files, scoped context/token budgets, and operating-mode guardrails; mentored the team onto it as their default workflow.
+- Serving as the designated lead for AI-driven engineering acceleration: pioneered the team's AI-assisted engineering harness (skill files, scoped context/token budgets, operating-mode guardrails) and mentored senior and principal engineers onto it as their default workflow.
 - Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.
 ```
-  <!-- 478 / 2000 chars - OK -->
+  <!-- 571 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
@@ -87,7 +87,7 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 
 ## Projects
 
-- **Agentic Engineering Harness** (no link)
+- **Agentic Engineering Harness** (https://github.com/Freddy-S3/claude-harness)
   - Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.
 - **Portfolio Site & Resume Pipeline** (https://freddyshaikh.com)
   - Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright.
