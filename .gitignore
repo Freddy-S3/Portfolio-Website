@@ -9,3 +9,6 @@ resume/build/
 *.fdb_latexmk
 *.fls
 *.synctex.gz
+
+# Playwright screenshots
+.screenshots/
