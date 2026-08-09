@@ -1,0 +1,48 @@
+name: Build resume and cascade into site
+
+on:
+  push:
+    paths:
+      - 'resume/**'
+      - 'tools/resume_to_site.py'
+      - 'tools/asset-map.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  resume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile resume.tex with xelatex
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume.tex
+          working_directory: resume
+          latexmk_use_xelatex: true
+
+      - name: Publish PDF to Certificates/
+        run: cp resume/resume.pdf "Certificates/Freddy_Shaikh_Resume.pdf"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cascade resume into index.html
+        run: python tools/resume_to_site.py
+
+      - name: Commit refreshed PDF and site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "Certificates/Freddy_Shaikh_Resume.pdf" index.html resume.data.json
+          if git diff --cached --quiet; then
+            echo "No resume changes to publish."
+          else
+            git commit -m "Rebuild resume PDF and cascade into site"
+            git push
+          fi
