@@ -76,9 +76,9 @@
 % (https://github.com/posquit0/latex-fontawesome)
 % fontawesome.sty asks for "FontAwesome" by name, which is only found when the
 % font is installed system-wide; point fontspec at the bundled copy instead.
-\defaultfontfeatures{Path=fonts/}
+\defaultfontfeatures{Path=fonts/, Extension=.ttf}
 \RequirePackage{fontawesome}
-\defaultfontfeatures{Path=}
+\defaultfontfeatures{Path=, Extension=}
 \RequirePackage[default,opentype]{sourcesanspro}
 % Needed for the photo ID
 \RequirePackage[skins]{tcolorbox}
