@@ -1,0 +1,182 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Freddy Shaikh",
+    "label": "Senior Full Stack Software Engineer",
+    "email": "shaikhfh1@gmail.com",
+    "phone": "+1 (437) 267-3291",
+    "url": "https://freddyshaikh.com",
+    "summary": "Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery, including an article-to-audio platform built with AWS Bedrock, Amazon Polly, .NET, and Vue, while architecting REST APIs and Harness CI/CD. I build repeatable AI-assisted engineering workflows through skill files, scoped context, and disciplined token management. A self-directed learner who taught himself programming, Japanese, and French, I translate current AI research and documentation into practical team capability.",
+    "location": {
+      "city": "Toronto",
+      "countryCode": "CA"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "freddy-shaikh",
+        "url": "https://www.linkedin.com/in/freddy-shaikh"
+      },
+      {
+        "network": "GitHub",
+        "username": "Freddy-S3",
+        "url": "https://github.com/Freddy-S3"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Morningstar",
+      "position": "Full Stack Software Engineer",
+      "location": "Toronto, Canada",
+      "startDate": "2025-01",
+      "summary": "",
+      "highlights": [
+        "Architected RESTful APIs powering a Vue-based browser extension, enabling real-time communication between the front end and distributed .NET Lambda back-end services.",
+        "Pioneered repeatable AI-assisted engineering workflows across the team by authoring AI skill files, designing scoped LLM context and token budgets, and mentoring teammates on AI-augmented development practices.",
+        "Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%.",
+        "Led MCP (Model Context Protocol) server feature implementation as Project Manager and Subject Matter Expert, coordinating architecture, development, and production release.",
+        "Owned end-to-end delivery of an AI audio generation feature, architecting .NET services that use AWS Bedrock for LLM-driven SSML generation and Amazon Polly for audio synthesis; built the Vue browser-extension UI and shipped transcript, smart-summary, and flash-briefing formats.",
+        "Built a GraphQL API over a knowledge graph to model and query concept relationships, improving content discoverability across the platform.",
+        "Authored reusable, parameterized scripts that automated recurring administrative workflows and reduced manual effort.",
+        "Led the Asian/Pacific Islander Association (APIA) Employee Resource Group, championing inclusion and belonging across the engineering organization."
+      ]
+    },
+    {
+      "name": "Santoku Corporation / Rimm.ai",
+      "position": "Software Engineer",
+      "location": "Toronto, Canada",
+      "startDate": "2019-08",
+      "summary": "",
+      "highlights": [
+        "Rearchitected a monolithic on-premises application into AWS cloud microservices, improving uptime, scalability, and maintainability.",
+        "Designed and delivered custom haptic VR training systems end-to-end; consulted directly with enterprise clients to define requirements and iterate on software solutions.",
+        "Refactored a legacy codebase to object-oriented architecture, increasing code reuse and reducing the defect surface area."
+      ],
+      "endDate": "2025-01"
+    },
+    {
+      "name": "Japan Exchange Teaching (JET) Program",
+      "position": "English Language Teacher",
+      "location": "Tokyo, Japan",
+      "startDate": "2018-08",
+      "summary": "",
+      "highlights": [
+        "Delivered English language instruction to over 1,000 elementary and 500 middle school students; leveraged self-taught Japanese to adapt curriculum and communicate effectively across diverse learning needs."
+      ],
+      "endDate": "2019-08"
+    }
+  ],
+  "education": [
+    {
+      "institution": "McMaster University",
+      "studyType": "Bachelor of Honors Science",
+      "area": "Kinesiology",
+      "startDate": "2014-09",
+      "endDate": "2018-04"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "AWS Certified Machine Learning Engineer - Associate",
+      "issuer": "AWS Training and Certification",
+      "date": "2026"
+    },
+    {
+      "name": "AWS Certified Developer - Associate",
+      "issuer": "AWS Training and Certification",
+      "date": "2025"
+    },
+    {
+      "name": "Google Cloud Certified: Professional Cloud Architect",
+      "issuer": "Google Cloud Certification",
+      "date": "2024"
+    },
+    {
+      "name": "AWS Certified Solutions Architect - Professional",
+      "issuer": "AWS Training and Certification",
+      "date": "2023"
+    },
+    {
+      "name": "Japanese-Language Proficiency Test (JLPT) - N2",
+      "issuer": "Japanese Language Proficiency Test",
+      "date": "2019"
+    },
+    {
+      "name": "TEFL Teaching Certification",
+      "issuer": "University of Toronto",
+      "date": "2018"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Google Drive Clone",
+      "description": "Built a full-featured file manager using Laravel, PHP, Inertia.js, and Vue.js. Supports unlimited folder depth, file upload, download, sharing, search, and AWS S3-backed storage.",
+      "highlights": [
+        "Built a full-featured file manager using Laravel, PHP, Inertia.js, and Vue.js.",
+        "Supports unlimited folder depth, file upload, download, sharing, search, and AWS S3-backed storage."
+      ],
+      "url": "https://github.com/Freddy-S3/Google-Drive-Clone"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages",
+      "keywords": [
+        "Python",
+        "Go",
+        "Java",
+        "JavaScript",
+        "TypeScript",
+        "C#",
+        "SQL",
+        "PowerShell",
+        "Bash",
+        "HTML",
+        "CSS",
+        "VBA",
+        "Gremlin (Graph Query)"
+      ]
+    },
+    {
+      "name": "Frameworks & Tools",
+      "keywords": [
+        "AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly)",
+        "GCP",
+        "Vue",
+        ".NET",
+        "Docker",
+        "Terraform",
+        "Kubernetes",
+        "Git",
+        "Harness CI/CD",
+        "Postman",
+        "Jupyter Notebook"
+      ]
+    },
+    {
+      "name": "AI & Agentic",
+      "keywords": [
+        "AI-Assisted Engineering Harnesses & Workflows",
+        "MCP (Model Context Protocol)",
+        "GitHub Copilot / LLM Orchestration",
+        "AI Skill Authoring",
+        "Prompt Engineering",
+        "Context Design & Token Management"
+      ]
+    },
+    {
+      "name": "Concepts",
+      "keywords": [
+        "API Development",
+        "CI/CD",
+        "Infrastructure as Code (IaC)",
+        "Test-Driven Development",
+        "REST",
+        "GraphQL",
+        "Scrum",
+        "Agile"
+      ]
+    }
+  ]
+}

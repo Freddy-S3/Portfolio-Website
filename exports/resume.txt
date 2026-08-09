@@ -1,0 +1,70 @@
+Freddy Shaikh
+Senior Full Stack Software Engineer
+Toronto, Canada | +1 (437) 267-3291 | shaikhfh1@gmail.com
+https://freddyshaikh.com | https://www.linkedin.com/in/freddy-shaikh | https://github.com/Freddy-S3
+
+========================================================================
+SUMMARY
+========================================================================
+
+Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery, including an article-to-audio platform built with AWS Bedrock, Amazon Polly, .NET, and Vue, while architecting REST APIs and Harness CI/CD. I build repeatable AI-assisted engineering workflows through skill files, scoped context, and disciplined token management. A self-directed learner who taught himself programming, Japanese, and French, I translate current AI research and documentation into practical team capability.
+
+========================================================================
+SKILLS
+========================================================================
+
+Languages: Python, Go, Java, JavaScript, TypeScript, C#, SQL, PowerShell, Bash, HTML, CSS, VBA, Gremlin (Graph Query)
+Frameworks & Tools: AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly), GCP, Vue, .NET, Docker, Terraform, Kubernetes, Git, Harness CI/CD, Postman, Jupyter Notebook
+AI & Agentic: AI-Assisted Engineering Harnesses & Workflows, MCP (Model Context Protocol), GitHub Copilot / LLM Orchestration, AI Skill Authoring, Prompt Engineering, Context Design & Token Management
+Concepts: API Development, CI/CD, Infrastructure as Code (IaC), Test-Driven Development, REST, GraphQL, Scrum, Agile
+
+========================================================================
+EXPERIENCE
+========================================================================
+
+Full Stack Software Engineer
+Morningstar | Toronto, Canada | January 2025 - PRESENT
+- Architected RESTful APIs powering a Vue-based browser extension, enabling real-time communication between the front end and distributed .NET Lambda back-end services.
+- Pioneered repeatable AI-assisted engineering workflows across the team by authoring AI skill files, designing scoped LLM context and token budgets, and mentoring teammates on AI-augmented development practices.
+- Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%.
+- Led MCP (Model Context Protocol) server feature implementation as Project Manager and Subject Matter Expert, coordinating architecture, development, and production release.
+- Owned end-to-end delivery of an AI audio generation feature, architecting .NET services that use AWS Bedrock for LLM-driven SSML generation and Amazon Polly for audio synthesis; built the Vue browser-extension UI and shipped transcript, smart-summary, and flash-briefing formats.
+- Built a GraphQL API over a knowledge graph to model and query concept relationships, improving content discoverability across the platform.
+- Authored reusable, parameterized scripts that automated recurring administrative workflows and reduced manual effort.
+- Led the Asian/Pacific Islander Association (APIA) Employee Resource Group, championing inclusion and belonging across the engineering organization.
+
+Software Engineer
+Santoku Corporation / Rimm.ai | Toronto, Canada | August 2019 - January 2025
+- Rearchitected a monolithic on-premises application into AWS cloud microservices, improving uptime, scalability, and maintainability.
+- Designed and delivered custom haptic VR training systems end-to-end; consulted directly with enterprise clients to define requirements and iterate on software solutions.
+- Refactored a legacy codebase to object-oriented architecture, increasing code reuse and reducing the defect surface area.
+
+English Language Teacher
+Japan Exchange Teaching (JET) Program | Tokyo, Japan | August 2018 - August 2019
+- Delivered English language instruction to over 1,000 elementary and 500 middle school students; leveraged self-taught Japanese to adapt curriculum and communicate effectively across diverse learning needs.
+
+========================================================================
+PROJECTS
+========================================================================
+
+Google Drive Clone (https://github.com/Freddy-S3/Google-Drive-Clone)
+- Built a full-featured file manager using Laravel, PHP, Inertia.js, and Vue.js.
+- Supports unlimited folder depth, file upload, download, sharing, search, and AWS S3-backed storage.
+
+========================================================================
+CERTIFICATIONS
+========================================================================
+
+AWS Certified Machine Learning Engineer - Associate - AWS Training and Certification, 2026
+AWS Certified Developer - Associate - AWS Training and Certification, 2025
+Google Cloud Certified: Professional Cloud Architect - Google Cloud Certification, 2024
+AWS Certified Solutions Architect - Professional - AWS Training and Certification, 2023
+Japanese-Language Proficiency Test (JLPT) - N2 - Japanese Language Proficiency Test, 2019
+TEFL Teaching Certification - University of Toronto, 2018
+
+========================================================================
+EDUCATION
+========================================================================
+
+Bachelor of Honors Science - Kinesiology
+McMaster University | Hamilton, Canada | September 2014 - April 2018
