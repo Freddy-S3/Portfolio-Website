@@ -60,6 +60,7 @@ CERTIFICATIONS
 ========================================================================
 
 AWS Certified Machine Learning Engineer - Associate - AWS Training and Certification, 2026
+AWS Certified AI Practitioner - AWS Training and Certification, 2025
 AWS Certified Developer - Associate - AWS Training and Certification, 2025
 Google Cloud Certified: Professional Cloud Architect - Google Cloud Certification, 2024
 AWS Certified Solutions Architect - Professional - AWS Training and Certification, 2023
