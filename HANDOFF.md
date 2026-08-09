@@ -55,11 +55,24 @@ LaTeX does not carry. New certification in `awards.tex` means a new entry here.
 - Generated `.skill-*` classes all have matching CSS rules.
 - CI regenerated `index.html` and `exports/` byte-for-byte identical to the local run. Only the PDF differed, so the generators are platform-deterministic.
 
-## Not verified
+## Browser verified
 
-**Nobody has opened the page in a browser.** The Skill Areas block is new markup that
-has never been rendered. Check it in both themes first thing - the theme toggle is
-top right, and light mode is where the palette collides most easily.
+`py tools/test_site.py` renders the page in real Chromium: 20/20 checks pass. It covers
+element counts, image decoding, every nav control, the theme toggle, contrast ratios in
+both themes, horizontal overflow at three widths, console errors, and failed requests.
+Screenshots land in `.screenshots/` (gitignored).
+
+It caught one real bug, now fixed: the Skill Areas grid never stacked on mobile. Both
+responsive overrides were scoped `.about-stats .skill-categories`, but the generated
+block sits outside `.about-stats`, so neither rule matched and the page overflowed 23px
+at 390px wide.
+
+Setup, once per machine:
+
+```
+py -m pip install playwright
+py -m playwright install chromium
+```
 
 ## Local LaTeX
 
@@ -98,7 +111,6 @@ Turn off "Share profile updates" on LinkedIn before a bulk edit.
 
 ## Open items
 
-1. Render the page in a browser, both themes.
 2. **The resume is 2 pages.** `experience.tex` carries your note "Need to get rid of 5 lines to fit everything", so you probably want 1. Content call, left alone.
 3. `AWS Certified Machine Learning Engineer - Associate` has no certificate file and no credential URL. Its link in `tools/asset-map.json` is a placeholder `"#"`.
 4. `Certificates/AWS Certified AI Practitioner certificate.pdf` exists but is not in `awards.tex`, so it gets no card. Add it to the resume or delete the file.
