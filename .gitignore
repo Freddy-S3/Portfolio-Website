@@ -1,2 +1,11 @@
 # PHPStorm
 .idea
+
+# LaTeX build artifacts
+resume/build/
+*.aux
+*.log
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
