@@ -1,0 +1,29 @@
+%-------------------------------------------------------------------------------
+% Shared preamble for every rendition. Input after \documentclass, before \begin{document}.
+% Everything that is not content lives here so the renditions differ only in wording,
+% section order, and emphasis.
+%-------------------------------------------------------------------------------
+
+\geometry{left=1.4cm, top=0.9cm, right=1.4cm, bottom=0.9cm, footskip=.3cm}
+
+\fontdir[fonts/]
+
+\colorlet{awesome}{awesome-skyblue}
+\setbool{acvSectionColorHighlight}{true}
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+\makeatletter
+\patchcmd{\@sectioncolor}{\color}{\mdseries\color}{}{}
+\makeatother
+
+% Blank-entry guards and the top-aligned skills table. See resume/hardening.tex.
+\input{hardening.tex}
+
+\name{Freddy}{Shaikh}
+\address{Toronto, Canada}
+
+\mobile{+1(437) 267-3291}
+\email{shaikhfh1@gmail.com}
+\homepage{freddyshaikh.com}
+\linkedin{freddy-shaikh}
+\github{Freddy-S3}

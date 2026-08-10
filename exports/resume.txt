@@ -15,7 +15,7 @@ SKILLS
 
 Languages: Python, Go, Java, JavaScript, TypeScript, C#, SQL, PowerShell, Bash, HTML, CSS, VBA, Gremlin (Graph Query)
 Frameworks & Tools: AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly), GCP, Vue, .NET, Docker, Terraform, Kubernetes, Git
-AI & Agentic: AI-Assisted Engineering Harnesses, MCP (Model Context Protocol), Agentic Orchestration, Prompt & Context Engineering
+AI & Agentic: AI-Assisted Harnesses, MCP (Model Context Protocol), Agentic Orchestration, Prompt Engineering
 
 ========================================================================
 EXPERIENCE

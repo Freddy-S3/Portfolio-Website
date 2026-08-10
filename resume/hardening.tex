@@ -1,0 +1,74 @@
+%-------------------------------------------------------------------------------
+% HARDENING
+%
+% Local overrides on top of awesome-cv.cls. Two jobs:
+%
+%   1. Root-cause fix for the blank band in the Skills table. awesome-cv defines its
+%      L column as m{} (vertically CENTERED). The moment a skillset wraps to a second
+%      line, the right-hand label is pushed to the vertical middle of the cell and a
+%      visibly empty block opens above it, beside the orphaned wrap line. Rows are
+%      top-aligned here so a wrap never detaches the label.
+%
+%   2. Empty content must never render as blank space. \cvskill, \cvhonor and
+%      \cvitemx drop the entry entirely and raise a LaTeX warning when a required
+%      argument is blank, instead of typesetting an empty row. tools/check_resume.py
+%      turns those warnings into a failed build.
+%
+% Included by every rendition. Do not put content in this file.
+%-------------------------------------------------------------------------------
+
+\RequirePackage{etoolbox}
+
+% Top-aligned ragged-right paragraph column. Same contract as awesome-cv's L, minus
+% the vertical centering.
+\newcolumntype{T}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+% Skills table, rebuilt on T instead of L.
+\renewenvironment{cvskills}{%
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-2.0mm}
+  \begin{center}
+    \setlength\tabcolsep{1ex}
+    \setlength{\extrarowheight}{0pt}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r T{\textwidth * \real{0.79}}}
+}{%
+    \end{tabular*}
+  \end{center}
+}
+
+% Counts entries suppressed for being empty. Non-zero fails the build.
+\newcounter{acvblankentries}
+\setcounter{acvblankentries}{0}
+
+\newcommand*{\acvblank}[1]{%
+  \stepcounter{acvblankentries}%
+  \ClassWarningNoLine{awesome-cv}{BLANK ENTRY SKIPPED: #1}%
+}
+
+% \cvskill{<type>}{<skillset>} - skipped when either side is blank.
+\renewcommand*{\cvskill}[2]{%
+  \ifboolexpr{ test {\ifblank{#1}} or test {\ifblank{#2}} }{%
+    \acvblank{cvskill with empty type or skillset}%
+  }{%
+    \skilltypestyle{#1} & \skillsetstyle{#2} \\%
+  }%
+}
+
+% \cvhonor{<position>}{<title>}{<location>}{<date>} - skipped when the award is blank.
+\renewcommand*{\cvhonor}[4]{%
+  \ifblank{#1}{%
+    \acvblank{cvhonor with empty award}%
+  }{%
+    \honordatestyle{#4} & \honorpositionstyle{#1}, \honortitlestyle{#2} & \honorlocationstyle{#3} \\%
+  }%
+}
+
+% \cvitemx{<text>} - guarded replacement for a bare \item{...} inside cvitems.
+% A blank bullet renders as an orphan marker and a dead line; this drops it.
+\newcommand*{\cvitemx}[1]{%
+  \ifblank{#1}{%
+    \acvblank{empty bullet}%
+  }{%
+    \item {#1}%
+  }%
+}
