@@ -97,6 +97,14 @@
       "url": "https://github.com/Freddy-S3/claude-harness-public"
     },
     {
+      "name": "The Compounding Engineer",
+      "description": "Built and write an SEO- and ad-monetized technical blog (Astro, content collections, RSS/sitemap/OpenGraph, AdSense) covering agentic harness engineering and self-directed learning, with a tag-driven content pillar system and a documented prompt-to-article authoring workflow.",
+      "highlights": [
+        "Built and write an SEO- and ad-monetized technical blog (Astro, content collections, RSS/sitemap/OpenGraph, AdSense) covering agentic harness engineering and self-directed learning, with a tag-driven content pillar system and a documented prompt-to-article authoring workflow."
+      ],
+      "url": "https://github.com/Freddy-S3/unattended-runs"
+    },
+    {
       "name": "Portfolio Site & Resume Pipeline",
       "description": "Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright.",
       "highlights": [

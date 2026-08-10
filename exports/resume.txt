@@ -43,6 +43,9 @@ PROJECTS
 Agentic Engineering Harness (https://github.com/Freddy-S3/claude-harness-public)
 - Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.
 
+The Compounding Engineer (https://github.com/Freddy-S3/unattended-runs)
+- Built and write an SEO- and ad-monetized technical blog (Astro, content collections, RSS/sitemap/OpenGraph, AdSense) covering agentic harness engineering and self-directed learning, with a tag-driven content pillar system and a documented prompt-to-article authoring workflow.
+
 Portfolio Site & Resume Pipeline (https://freddyshaikh.com)
 - Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright.
 
