@@ -49,6 +49,12 @@
     "href": "https://github.com/Freddy-S3/claude-harness-public",
     "icon": "fab fa-github"
   },
+  "The Compounding Engineer": {
+    "img": "img/CompoundingEngineer.svg",
+    "_todo": "Point href at the live site once it's deployed and SITE_URL in unattended-runs/src/config/site.ts is set to a real domain; GitHub is the working link until then.",
+    "href": "https://github.com/Freddy-S3/unattended-runs",
+    "icon": "fab fa-github"
+  },
   "Portfolio Site & Resume Pipeline": {
     "img": "img/Website.jpg",
     "href": "https://github.com/Freddy-S3/Portfolio-Website",
