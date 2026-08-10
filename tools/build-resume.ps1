@@ -104,6 +104,13 @@ finally {
     Pop-Location
 }
 
+# Verify before publishing. An empty entry or a blank band must never reach the PDF
+# that both "Download CV" buttons point at.
+& py (Join-Path $PSScriptRoot 'check_resume.py') (Join-Path $buildDir 'resume.pdf') `
+    --sources (Join-Path $resumeDir 'resume') --log (Join-Path $buildDir 'resume.log') `
+    --allow-orphan-page
+if ($LASTEXITCODE -ne 0) { Write-Error "Resume PDF failed verification; not published." }
+
 Copy-Item (Join-Path $buildDir 'resume.pdf') $target -Force
 Write-Host "PDF written to Certificates\Freddy_Shaikh_Resume.pdf"
 
