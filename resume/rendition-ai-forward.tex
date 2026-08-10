@@ -1,0 +1,25 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+%
+% Rendition C - AI / harness-forward.
+% Reordered so the differentiator reads first: the AI & Agentic skill row leads the
+% Skills table, and a dedicated "AI & Agentic Engineering" section sits above
+% Experience, which is reduced to the non-AI platform work.
+%
+\documentclass[11pt, a4paper]{awesome-cv}
+
+\input{renditions/preamble.tex}
+
+\position{AI \& Agentic Systems Engineer{\enskip\cdotp\enskip}Senior Full Stack Software Engineer}
+
+\begin{document}
+
+\makecvheader[C]
+
+\input{renditions/ai-forward/summary.tex}
+\input{renditions/ai-forward/skills.tex}
+\input{renditions/ai-forward/agentic.tex}
+\input{renditions/ai-forward/experience.tex}
+\input{renditions/ai-forward/awards.tex}
+
+\end{document}

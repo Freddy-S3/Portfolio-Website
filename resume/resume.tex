@@ -52,6 +52,11 @@
 \patchcmd{\@sectioncolor}{\color}{\mdseries\color}{}{}
 \makeatother
 
+% Top-aligned skills rows and blank-entry guards. Without this, a skillset that wraps
+% to a second line drags its label to the vertical middle of the cell and opens a blank
+% band beside the wrap. See resume/hardening.tex.
+\input{hardening.tex}
+
 %-------------------------------------------------------------------------------
 %	PERSONAL INFORMATION
 %	Comment any of the lines below if they are not required

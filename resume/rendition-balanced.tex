@@ -1,0 +1,24 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+%
+% Rendition B - balanced, readable-first.
+% One page. Four skill rows, the strongest bullets only, and Education folded into the
+% certifications table so the page never orphans a section.
+%
+\documentclass[11pt, a4paper]{awesome-cv}
+
+\input{renditions/preamble.tex}
+
+\position{Senior Full Stack Software Engineer}
+
+\begin{document}
+
+\makecvheader[C]
+
+\input{renditions/balanced/summary.tex}
+\input{renditions/balanced/skills.tex}
+\input{renditions/balanced/experience.tex}
+\input{renditions/balanced/projects.tex}
+\input{renditions/balanced/awards.tex}
+
+\end{document}
