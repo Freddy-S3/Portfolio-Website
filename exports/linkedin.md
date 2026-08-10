@@ -74,10 +74,10 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 19. Terraform
 20. Kubernetes
 21. Git
-22. AI-Assisted Engineering Harnesses
+22. AI-Assisted Harnesses
 23. MCP
 24. Agentic Orchestration
-25. Prompt & Context Engineering
+25. Prompt Engineering
 
 ## Licenses & certifications
 
