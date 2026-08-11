@@ -130,7 +130,7 @@ When you close one here, close it there too - two lists that drift are worse tha
 Resolved since this list was written, kept short rather than deleted so the trail survives:
 ~~1. The resume is 2 pages.~~ The renditions are 1 page (PR #5, #8, #10). The canonical
    build still runs to 2 pages, because it carries a separate education section and a
-   longer certifications block that the one-page cuts drop; see open item 5.
+   longer certifications block that the one-page cuts drop; see open item 4.
 ~~4. `skills.tex` overfull hbox.~~ Fixed in PR #4.
 ~~5. Merge `resume-cascade`.~~ Merged; PRs #1-#10 are all merged as of 2026-08-11.
 ~~6. Which rendition is the default?~~ `balanced` (PR #16). Its content is migrated into
