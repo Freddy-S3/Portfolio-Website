@@ -27,9 +27,9 @@ Toronto, Canada | 2025-01 to Present
 - Serving as the designated lead for AI-driven engineering acceleration: pioneered the team's AI-assisted engineering harness (skill files, scoped context/token budgets, operating-mode guardrails) and mentored senior and principal engineers onto it as their default workflow.
 - Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.
-- Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%.
+- Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time.
 ```
-  <!-- 700 / 2000 chars - OK -->
+  <!-- 693 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
