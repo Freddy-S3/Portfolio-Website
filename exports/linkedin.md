@@ -28,9 +28,8 @@ Toronto, Canada | 2025-01 to Present
 - Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.
 - Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%.
-- Coded Python scripts for process automation to reduce repetitive tasks by 75%.
 ```
-  <!-- 781 / 2000 chars - OK -->
+  <!-- 700 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
@@ -38,10 +37,9 @@ Toronto, Canada | 2019-08 to 2025-01
 
 ```
 - Led the rearchitecture of a monolithic on-premises app into AWS cloud microservices for independent deployability and uptime.
-- Containerized the application with Docker and orchestrated it with Kubernetes for a 75% decrease in downtime.
 - Owned custom haptic VR training systems for enterprise clients end-to-end as primary technical decision-maker, from requirements through delivery.
 ```
-  <!-- 388 / 2000 chars - OK -->
+  <!-- 276 / 2000 chars - OK -->
 
 ### English Language Teacher - Japan Exchange Teaching (JET) Program
 
