@@ -28,12 +28,10 @@ Morningstar | Toronto, Canada | January 2025 - PRESENT
 - Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.
 - Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%.
-- Coded Python scripts for process automation to reduce repetitive tasks by 75%.
 
 Software Engineer
 Santoku Corporation / Rimm.ai | Toronto, Canada | August 2019 - January 2025
 - Led the rearchitecture of a monolithic on-premises app into AWS cloud microservices for independent deployability and uptime.
-- Containerized the application with Docker and orchestrated it with Kubernetes for a 75% decrease in downtime.
 - Owned custom haptic VR training systems for enterprise clients end-to-end as primary technical decision-maker, from requirements through delivery.
 
 English Language Teacher
