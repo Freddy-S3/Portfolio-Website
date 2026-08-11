@@ -1,10 +1,11 @@
 """Fail the resume build when empty content would render as blank space.
 
-Three independent checks, because each one catches a different way the bug shows up:
+Four independent checks, because each one catches a different way the bug shows up:
 
   1. Source scan   - an empty required argument in the .tex sources
-                     (\\cvskill{}{...}, \\item {}, \\cvhonor{}{...}).
-  2. Log scan      - "BLANK ENTRY SKIPPED" warnings raised by resume/hardening.tex,
+                     (\\cvskill{}{...}, \\item {}, \\cvhonor{}{...}), and any row-based
+                     table left on awesome-cv's vertically centred m{} columns.
+  2. Log scan    - "BLANK ENTRY SKIPPED" warnings raised by resume/hardening.tex,
                      which catch empties that survive a macro expansion the source
                      scan cannot see.
   3. PDF scan      - whitespace-only text blocks, oversized vertical gaps, near-empty
@@ -122,6 +123,59 @@ def check_sources(dirs: list[Path]) -> list[str]:
             line = text.count("\n", 0, m.start()) + 1
             problems.append(f"{path}:{line}: \\item has empty content")
 
+    return problems
+
+
+# Tables that must be rebuilt on top-aligned p{} columns in resume/hardening.tex.
+# awesome-cv builds both on m{} columns, which vertically centre every cell in a row
+# the moment one of them wraps. The PDF scan below only catches this once a cell
+# actually wraps, so shortening the content silently removes the regression guard;
+# this check holds the fix in place regardless of the content of the day.
+TOP_ALIGNED_TABLES = ("cvskills", "cvhonors")
+
+# awesome-cv's vertically centred column types. None may appear in a rebuilt table.
+CENTRED_COLUMN_TYPES = ("L", "C", "R")
+
+
+def check_alignment_overrides(dirs: list[Path]) -> list[str]:
+    """Verify every row-based table is rebuilt on top-aligned columns."""
+    # --sources points at a rendition's content directory; hardening.tex sits above it.
+    files = set()
+    for d in dirs:
+        for base in [d, *d.resolve().parents]:
+            found = sorted(base.glob("hardening.tex"))
+            if found:
+                files.update(found)
+                break
+    files = sorted(files)
+    if not files:
+        return ["hardening.tex not found; cannot verify row alignment overrides"]
+
+    problems = []
+    for path in files:
+        text = strip_comments(path.read_text(encoding="utf-8"))
+        for table in TOP_ALIGNED_TABLES:
+            m = re.search(
+                r"\\renewenvironment\{" + table + r"\}(.*?)\\end\{tabular\*\}",
+                text,
+                re.S,
+            )
+            if m is None:
+                problems.append(
+                    f"{path}: {table} is not rebuilt on top-aligned columns; "
+                    "awesome-cv's m{} columns centre a row whose cell wraps"
+                )
+                continue
+            spec = re.search(r"\\begin\{tabular\*\}.*?\}\{(.*?)\}\s*$", m.group(1), re.S | re.M)
+            if spec is None:
+                problems.append(f"{path}: cannot read the column spec of {table}")
+                continue
+            for col in CENTRED_COLUMN_TYPES:
+                if re.search(r"(?<![A-Za-z])" + col + r"\{", spec.group(1)):
+                    problems.append(
+                        f"{path}: {table} still uses the vertically centred "
+                        f"{col}{{}} column type"
+                    )
     return problems
 
 
@@ -255,6 +309,7 @@ def main() -> int:
     problems = []
     if args.sources:
         problems += check_sources(args.sources)
+        problems += check_alignment_overrides(args.sources)
     if args.log:
         problems += check_log(args.log)
     problems += check_pdf(args.pdf, args.max_pages, args.allow_orphan_page)

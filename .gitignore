@@ -3,6 +3,9 @@
 
 # LaTeX build artifacts
 resume/build/
+# Page previews rendered for review. Already covered by resume/build/ above; listed
+# explicitly so the intent survives if that line is ever narrowed.
+resume/build/renditions/*.png
 *.aux
 *.log
 *.out

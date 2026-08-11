@@ -3,11 +3,12 @@
 %
 % Local overrides on top of awesome-cv.cls. Two jobs:
 %
-%   1. Root-cause fix for the blank band in the Skills table. awesome-cv defines its
-%      L column as m{} (vertically CENTERED). The moment a skillset wraps to a second
-%      line, the right-hand label is pushed to the vertical middle of the cell and a
-%      visibly empty block opens above it, beside the orphaned wrap line. Rows are
-%      top-aligned here so a wrap never detaches the label.
+%   1. Root-cause fix for the blank band in the Skills and Honors tables. awesome-cv
+%      defines its L, C and R columns as m{} (vertically CENTERED). The moment a cell
+%      wraps to a second line, the neighbouring cells are pushed to the vertical middle
+%      of the row and a visibly empty block opens above them, beside the orphaned wrap
+%      line. Both tables are rebuilt here on top-aligned p{} columns so a wrap never
+%      detaches the date or the location from its entry.
 %
 %   2. Empty content must never render as blank space. \cvskill, \cvhonor and
 %      \cvitemx drop the entry entirely and raise a LaTeX warning when a required
@@ -19,9 +20,11 @@
 
 \RequirePackage{etoolbox}
 
-% Top-aligned ragged-right paragraph column. Same contract as awesome-cv's L, minus
-% the vertical centering.
+% Top-aligned paragraph columns. Same contract as awesome-cv's L, C and R, minus the
+% vertical centering. T replaces L, U replaces C, V replaces R.
 \newcolumntype{T}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{U}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{V}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
 % Skills table, rebuilt on T instead of L.
 \renewenvironment{cvskills}{%
@@ -31,6 +34,26 @@
     \setlength\tabcolsep{1ex}
     \setlength{\extrarowheight}{0pt}
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r T{\textwidth * \real{0.79}}}
+}{%
+    \end{tabular*}
+  \end{center}
+}
+
+% Honors table, rebuilt on T/U/V instead of L/C/R. Same defect as the skills table: a
+% certification name long enough to wrap left its date and location floating half a
+% line low.
+% Do not pull the leading \vspace below -2mm to save a line. The center environment
+% here is a trivlist whose \topsep is already 0, so this \vspace is the only lever on
+% the gap - and at -6mm the first row rides up into the \cvsection heading above and
+% collides with it, which the row-alignment check in tools/check_resume.py reports as
+% a 14.7pt drift. Measured on all four renditions that carry the heading.
+\renewenvironment{cvhonors}{%
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-2mm}
+  \begin{center}
+    \setlength\tabcolsep{0pt}
+    \setlength{\extrarowheight}{0pt}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} U{1.5cm} T{\textwidth - 4.0cm} V{2.5cm}}
 }{%
     \end{tabular*}
   \end{center}
