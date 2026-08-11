@@ -5,7 +5,7 @@
     "title": "Architecture Diagram Skill",
     "description": "Produce a Mermaid architecture diagram when the user asks to visualize a real system or codebase.",
     "task": "Produce a Mermaid architecture diagram",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "architecture",
@@ -26,7 +26,7 @@
     "title": "Browser Test Skill",
     "description": "Verify a web UI by actually rendering it. Use whenever a change touches HTML, CSS, or client-side JS, before claiming the work is done.",
     "task": "Verify a web UI by actually rendering it",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "actually",
@@ -51,7 +51,7 @@
     "title": "Closing Skill (Phase 6: Reflect)",
     "description": "Phase 6 of the agentic loop: end-of-session knowledge capture. Converts session signal into durable harness improvements so the next conversation starts smarter.",
     "task": "Capture session knowledge",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "agentic",
@@ -78,7 +78,7 @@
     "title": "Code Review Skill - \"The Curmudgeon\"",
     "description": "Grumpy senior engineer code review persona. Use for PR reviews, code critique, and quality gates.",
     "task": "Review code",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "code",
@@ -99,7 +99,7 @@
     "title": "Debugging Skill",
     "description": "Systematic debugging workflow. Use when investigating bugs, unexpected behavior, or errors in any codebase.",
     "task": "Debug unexpected behavior",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "behavior",
@@ -214,7 +214,7 @@
     "title": "New Feature Skill",
     "description": "New feature implementation workflow. Use when building a new endpoint, service, or UI feature.",
     "task": "Implement a new feature",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "building",
@@ -231,26 +231,27 @@
     "name": "opinions",
     "command": "/opinions",
     "title": "OPINIONS.md",
-    "description": "Use Freddy and Kun's documented viewpoints when making decisions or discussing agentic engineering, software, product, career, or organizational topics.",
+    "description": "Use Freddy's documented viewpoints, and those of a former colleague, when making decisions or discussing agentic engineering, software, product, career, or organizational topics.",
     "task": "Make decisions informed by Freddy's viewpoints",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "agentic",
       "career",
+      "colleague",
       "decisions",
       "discussing",
       "documented",
       "engineering",
-      "freddy",
+      "former",
       "freddy's",
       "informed",
-      "kun's",
       "make",
       "making",
       "organizational",
       "product",
       "software",
+      "those",
       "topics",
       "viewpoints"
     ]
@@ -261,7 +262,7 @@
     "title": "Plan Skill",
     "description": "Orient and decompose. Use at the start of any substantial task - before writing any code - to explore, understand, and plan.",
     "task": "Plan and decompose",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "before",
@@ -283,7 +284,7 @@
     "title": "PR Skill",
     "description": "Open or update a GitHub pull request for the current work. Use when the user asks to raise, open, or update a PR, or says \\\"PR this\\\", \\\"ship it to GitHub\\\", or \\\"push this up for review\\\".",
     "task": "Open or update a GitHub pull request",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "asks",
@@ -491,7 +492,7 @@
     "description": "Synthesize settled context into an agent-ready implementation spec.",
     "task": "Turn settled context into an agent-ready specification",
     "userInvocable": true,
-    "autoInvocable": false,
+    "autoInvocable": true,
     "keywords": [
       "agent-ready",
       "context",
@@ -510,7 +511,7 @@
     "description": "Turn a plan, specification, or conversation into reviewed tracer-bullet ticket drafts.",
     "task": "Break a plan into vertical-slice tracker tickets",
     "userInvocable": true,
-    "autoInvocable": false,
+    "autoInvocable": true,
     "keywords": [
       "break",
       "conversation",
@@ -533,7 +534,7 @@
     "description": "Triage a tracker request into a verified category, state recommendation, and agent-ready brief.",
     "task": "Evaluate and prepare an issue or external PR",
     "userInvocable": true,
-    "autoInvocable": false,
+    "autoInvocable": true,
     "keywords": [
       "agent-ready",
       "brief",
@@ -556,7 +557,7 @@
     "title": "Freddy's Voice Profile",
     "description": "Use when writing or speaking on behalf of Freddy, including Slack messages, tickets, docs, reviews, and other professional communication.",
     "task": "Write as Freddy",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "behalf",
@@ -600,7 +601,7 @@
     "title": "Wiki Writing Skill",
     "description": "Create or edit Confluence pages in valid storage-format HTML using Freddy's concise wiki templates and formatting rules.",
     "task": "Create or edit a Confluence page",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "concise",
@@ -625,7 +626,7 @@
     "title": "Codebase Design",
     "description": "Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, run a scoped architecture review, decide where a seam goes, make code more testable, or when another skill needs the deep-module vocabulary.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "another",
@@ -666,7 +667,7 @@
     "title": "Domain Modeling",
     "description": "Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "another",
@@ -696,7 +697,7 @@
     "title": "grill-me",
     "description": "A relentless interview to sharpen a plan or design.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": false,
     "keywords": [
       "design",
@@ -712,7 +713,7 @@
     "title": "grill-with-docs",
     "description": "A relentless interview to sharpen a plan or design, which also captures docs (ADRs and glossary) as we go.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": false,
     "keywords": [
       "adrs",
@@ -734,7 +735,7 @@
     "title": "grilling",
     "description": "Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "about",
@@ -758,7 +759,7 @@
     "title": "Research Skill",
     "description": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file. Use when the user wants a topic researched, docs or API facts gathered, or claims verified before being relied on.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "against",
@@ -792,7 +793,7 @@
     "title": "Resolving Merge Conflicts",
     "description": "Use when you need to resolve an in-progress git merge/rebase conflict.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "conflict",
@@ -810,7 +811,7 @@
     "title": "Test-Driven Development",
     "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "bugs",
@@ -834,7 +835,7 @@
     "title": "writing-for-agents",
     "description": "Writing documents for agents. Use when creating or editing a SKILL.md, an instructions file, a prompt file, an agent file, copilot-instructions.md/AGENTS.md, or a task handoff.",
     "task": "",
-    "userInvocable": false,
+    "userInvocable": true,
     "autoInvocable": true,
     "keywords": [
       "agent",
