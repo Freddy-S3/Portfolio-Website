@@ -6,7 +6,7 @@
     "email": "shaikhfh1@gmail.com",
     "phone": "+1 (437) 267-3291",
     "url": "https://freddyshaikh.com",
-    "summary": "Senior Full Stack Software Engineer with 7+ years delivering cloud-native systems on AWS and turning emerging AI capabilities into reliable engineering practice. At Morningstar, I lead end-to-end AI product delivery and built the team's AI-assisted engineering harness: skill files, scoped context, and token budgets that make agentic workflows repeatable. Self-taught in programming, Japanese, and French, I translate current AI research into practical team capability.",
+    "summary": "Senior Full Stack Software Engineer with 7+ years building cloud-native distributed systems on AWS, and the designated technical lead for AI-driven engineering acceleration at Morningstar. Owns delivery end-to-end - .NET and Python services, REST and GraphQL APIs, Vue front ends, Terraform-managed CI/CD - and built the agentic engineering harness that senior and principal engineers now use as their default workflow. AWS Certified Solutions Architect - Professional.",
     "location": {
       "city": "Toronto",
       "countryCode": "CA"
@@ -32,10 +32,11 @@
       "startDate": "2025-01",
       "summary": "",
       "highlights": [
-        "Serving as the designated lead for AI-driven engineering acceleration: pioneered the team's AI-assisted engineering harness (skill files, scoped context/token budgets, operating-mode guardrails) and mentored senior and principal engineers onto it as their default workflow.",
-        "Led MCP (Model Context Protocol) server architecture as technical SME, from proposal through production release.",
-        "Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock/Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary formats.",
-        "Designed and deployed Harness CI/CD pipelines with Infrastructure as Code, reducing AWS Lambda and ECS deployment time by 80%."
+        "Designated lead for AI-driven engineering acceleration: architected the team's AI-assisted engineering harness (skill files, scoped context and token budgets, operating-mode guardrails) and mentored senior and principal engineers onto it as their default workflow.",
+        "Technical SME for MCP (Model Context Protocol) server architecture, from proposal through production release.",
+        "Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock and Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary output.",
+        "Built a GraphQL API over a knowledge graph, improving content discoverability across the platform.",
+        "Designed Harness CI/CD pipelines with Terraform Infrastructure as Code, cutting AWS Lambda and ECS deployment time."
       ]
     },
     {
@@ -45,8 +46,8 @@
       "startDate": "2019-08",
       "summary": "",
       "highlights": [
-        "Led the rearchitecture of a monolithic on-premises app into AWS cloud microservices for independent deployability and uptime.",
-        "Owned custom haptic VR training systems for enterprise clients end-to-end as primary technical decision-maker, from requirements through delivery."
+        "Led the rearchitecture of a monolithic on-premises application into AWS microservices on Docker and Kubernetes.",
+        "Owned custom haptic VR training systems for enterprise clients end-to-end as primary technical decision-maker."
       ],
       "endDate": "2025-01"
     },
@@ -57,7 +58,7 @@
       "startDate": "2018-08",
       "summary": "",
       "highlights": [
-        "Delivered English instruction to over 1,000 elementary and 500 middle school students, adapting curriculum using self-taught Japanese."
+        "Taught 1,000+ elementary and 500 middle school students, adapting curriculum using self-taught Japanese (JLPT N2)."
       ],
       "endDate": "2019-08"
     }
@@ -96,25 +97,25 @@
   "projects": [
     {
       "name": "Agentic Engineering Harness",
-      "description": "Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets.",
+      "description": "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets.",
       "highlights": [
-        "Designed a provider-neutral harness for autonomous coding agents: operating modes for supervised vs. unattended posture, a recoverability-over-approval model for overnight runs, and a usage-limit-aware queue that resumes work after rate-limit resets."
+        "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets."
       ],
       "url": "https://github.com/Freddy-S3/claude-harness-public"
     },
     {
       "name": "The Compounding Engineer",
-      "description": "Built and write an SEO- and ad-monetized technical blog (Astro, content collections, RSS/sitemap/OpenGraph, AdSense) covering agentic harness engineering and self-directed learning, with a tag-driven content pillar system and a documented prompt-to-article authoring workflow.",
+      "description": "SEO- and ad-monetized technical blog on Astro covering agentic harness engineering and self-directed learning.",
       "highlights": [
-        "Built and write an SEO- and ad-monetized technical blog (Astro, content collections, RSS/sitemap/OpenGraph, AdSense) covering agentic harness engineering and self-directed learning, with a tag-driven content pillar system and a documented prompt-to-article authoring workflow."
+        "SEO- and ad-monetized technical blog on Astro covering agentic harness engineering and self-directed learning."
       ],
       "url": "https://github.com/Freddy-S3/unattended-runs"
     },
     {
       "name": "Portfolio Site & Resume Pipeline",
-      "description": "Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright.",
+      "description": "Single-source-of-truth pipeline: Python generators cascade one LaTeX source into the site, the PDF, and ATS / JSON Resume / LinkedIn exports, CI-verified with Playwright.",
       "highlights": [
-        "Designed a single-source-of-truth pipeline: a Python generator cascades this LaTeX resume into the site (JavaScript, SCSS, AWS CloudFront), PDF, and job-board exports, eliminating manual re-sync, CI-verified with Playwright."
+        "Single-source-of-truth pipeline: Python generators cascade one LaTeX source into the site, the PDF, and ATS / JSON Resume / LinkedIn exports, CI-verified with Playwright."
       ],
       "url": "https://freddyshaikh.com"
     }
@@ -126,43 +127,48 @@
         "Python",
         "Go",
         "Java",
-        "JavaScript",
-        "TypeScript",
         "C#",
-        "SQL"
-      ]
-    },
-    {
-      "name": "Scripting & Query",
-      "keywords": [
-        "Bash",
+        "TypeScript",
+        "JavaScript",
+        "SQL",
         "PowerShell",
-        "VBA",
-        "Gremlin (Graph Query)",
-        "HTML",
-        "CSS"
+        "Bash",
+        "Gremlin (Graph Query)"
       ]
     },
     {
-      "name": "Frameworks & Tools",
+      "name": "Cloud & Platform",
       "keywords": [
         "AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly)",
         "GCP",
-        "Kafka",
         "Docker",
         "Kubernetes",
         "Terraform",
+        "CI/CD",
+        "IaC"
+      ]
+    },
+    {
+      "name": "Application",
+      "keywords": [
+        "Microservices",
+        "Distributed Systems",
+        "REST",
+        "GraphQL",
         ".NET",
-        "Vue",
-        "Git"
+        "Spring Boot",
+        "Vue 3",
+        "Astro",
+        "Test Automation"
       ]
     },
     {
       "name": "AI & Agentic",
       "keywords": [
-        "AI-Assisted Harnesses",
+        "LLM Orchestration",
+        "Bedrock",
         "MCP (Model Context Protocol)",
-        "Agentic Orchestration",
+        "Agentic Harnesses",
         "Prompt Engineering"
       ]
     }
