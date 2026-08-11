@@ -12,3 +12,9 @@ resume/build/
 
 # Playwright screenshots
 .screenshots/
+
+# Private working notes - never published
+*.local.md
+
+# Cloned mirror used by tools/skills_to_site.py - regenerated, not committed
+.harness-cache/

@@ -643,6 +643,134 @@ section {
 }
 
 
+/*Harness skill router simulator*/
+.harness {
+    .harness-disclaimer {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        max-width: 700px;
+        margin: 1rem auto 0;
+        padding: .8rem 1.2rem;
+        border-radius: var(--br-sm-2);
+        border: 1px solid var(--color-grey-3);
+        color: var(--color-grey-2);
+        font-size: .85rem;
+        line-height: 1.4rem;
+        i { color: var(--color-secondary); }
+    }
+    .harness-simulator {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 2.5rem;
+    }
+    .simulator-controls {
+        display: flex;
+        flex-direction: column;
+        label {
+            text-transform: uppercase;
+            font-size: .75rem;
+            letter-spacing: .05rem;
+            color: var(--color-grey-2);
+            margin: 1rem 0 .5rem;
+            &:first-child { margin-top: 0; }
+        }
+        select, textarea {
+            border-radius: var(--br-sm-2);
+            font-family: inherit;
+            font-size: .95rem;
+            padding: .8rem 1.1rem;
+            outline: none;
+            border: none;
+            background-color: var(--color-grey-5);
+            color: var(--color-white);
+            resize: none;
+            width: 100%;
+        }
+        button.main-btn {
+            align-self: flex-start;
+            margin-top: 1.2rem;
+            border: none;
+            cursor: pointer;
+        }
+    }
+    .simulator-result {
+        background-color: var(--color-grey-5);
+        border-radius: var(--br-sm-2);
+        border-left: 4px solid var(--color-secondary);
+        padding: 1.5rem;
+        .result-placeholder { color: var(--color-grey-2); }
+        .result-card {
+            p { margin-bottom: .8rem; line-height: 1.5rem; }
+            &.no-match .result-command { color: var(--color-grey-2); }
+        }
+        .result-mode {
+            font-size: .85rem;
+            color: var(--color-grey-2);
+        }
+        .mode-pill {
+            display: inline-block;
+            padding: .2rem .7rem;
+            border-radius: 20px;
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: .75rem;
+            text-transform: uppercase;
+            margin-right: .3rem;
+        }
+        .result-command {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-secondary);
+        }
+        .result-keywords, .result-runner-up {
+            font-size: .8rem;
+            color: var(--color-grey-2);
+            code {
+                background-color: var(--color-grey-6);
+                padding: .1rem .4rem;
+                border-radius: 4px;
+                margin-right: .2rem;
+            }
+        }
+    }
+    .skill-catalog {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    .skill-card {
+        background-color: var(--color-grey-5);
+        border-radius: var(--br-sm-2);
+        border-left: 4px solid var(--color-secondary);
+        padding: 1.2rem 1.5rem;
+        .skill-command {
+            font-weight: 700;
+            color: var(--color-secondary);
+            margin-bottom: .5rem;
+        }
+        p { font-size: .85rem; line-height: 1.4rem; color: var(--color-white); }
+        .skill-badges { margin-top: .8rem; }
+    }
+    .badge {
+        display: inline-block;
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .03rem;
+        padding: .2rem .6rem;
+        border-radius: 20px;
+        border: 1px solid var(--color-secondary);
+        color: var(--color-secondary);
+        margin-right: .4rem;
+    }
+    .badge-muted {
+        border-color: var(--color-grey-3);
+        color: var(--color-grey-2);
+    }
+}
+
 /*Independed components*/
 .btn-con {
     display: flex;
