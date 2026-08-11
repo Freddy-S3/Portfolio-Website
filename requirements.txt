@@ -1,0 +1,22 @@
+# Python dependencies for the tools/ scripts.
+#
+# These previously existed only in tool docstrings and HANDOFF.md prose - which is
+# knowledge, not an artifact. That is exactly what broke this repo's tooling after the
+# machine migration, so they are pinned here as an installable manifest.
+#
+#   py -m pip install -r requirements.txt
+#   py -m playwright install chromium     # browser binary, not a pip package
+#
+# Minimum versions rather than exact pins: these are dev/CI tools, not a shipped
+# runtime, so a newer patch release is wanted, not feared.
+
+# tools/check_resume.py - reads the built PDF to verify page count, blank bands,
+# orphaned final pages, and table-row alignment.
+pymupdf>=1.24
+
+# tools/test_site.py - renders index.html in real Chromium.
+playwright>=1.40
+
+# tools/build_styles.py - compiles the SCSS that is the source of truth for CSS.
+# Imported as `sass`; the distribution is libsass.
+libsass>=0.22
