@@ -128,17 +128,22 @@ Items here are cross-referenced with the idea queue at `~/.claude-harness/queue/
 When you close one here, close it there too - two lists that drift are worse than one.
 
 Resolved since this list was written, kept short rather than deleted so the trail survives:
-~~1. The resume is 2 pages.~~ Now 1 page, and multiple renditions exist (PR #5, #8, #10).
+~~1. The resume is 2 pages.~~ The renditions are 1 page (PR #5, #8, #10). The canonical
+   build still runs to 2 pages, because it carries a separate education section and a
+   longer certifications block that the one-page cuts drop; see open item 4.
 ~~4. `skills.tex` overfull hbox.~~ Fixed in PR #4.
 ~~5. Merge `resume-cascade`.~~ Merged; PRs #1-#10 are all merged as of 2026-08-11.
+~~6. Which rendition is the default?~~ `balanced` (PR #16). Its content is migrated into
+   the canonical `resume/resume/*.tex`, so the site, the published PDF, and the three
+   job-board exports all cascade from it. `renditions/balanced/` is kept as the one-page
+   cut; see `resume/renditions/README.md`.
 
 Still open:
 
 1. `AWS Certified Machine Learning Engineer - Associate` has no certificate file and no credential URL. Its link in `tools/asset-map.json` is a placeholder `"#"`.
 2. `Certificates/AWS Certified AI Practitioner certificate.pdf` exists but is not in `awards.tex`, so it gets no card. Add it to the resume or delete the file.
 3. The PDF rebuilds byte-differently on each CI run, so it churns in git history. Harmless; it is already excluded from the workflow's `git add` for this reason.
-4. **Which rendition is the default?** There are now balanced, ai-forward, ats-dense, and the two Google renditions from PR #10, and nothing declares which one is THE resume - the one linked from the site and handed to recruiters. This blocks the job-board sync pass, which cannot run without knowing what it is syncing to. Needs Faruk's call; tracked as a blocked decision in `QUEUE-PHONE.md`.
-5. **Resume polish, next iteration.** Tracked in `QUEUE-PC.md` (needs tectonic + eyes on the PDF):
+4. **Resume polish, next iteration.** Tracked in `QUEUE-PC.md` (needs tectonic + eyes on the PDF):
    - The certifications row renders as "2023-2026 Certifications, Google Cloud..." - a table row pretending to be a sentence. Restructure it.
    - That row also carries location "Toronto, Canada". Meaningless for vendor certs, and it sits directly above McMaster's "Hamilton, Canada" so the two read as parallel facts. Blank it.
    - Projects has only ONE entry (Agentic Engineering Harness). Consider restoring The Compounding Engineer - it was added in PR #7 and has since been dropped, so the content is recoverable from history.
