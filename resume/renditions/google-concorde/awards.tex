@@ -1,3 +1,11 @@
+% OVERLAY over the canonical resume (resume/resume/*.tex).
+% google-concorde is a targeted cut, not an independent document. Its content must stay
+% derived from the canonical files; only the targeting differs - section order, the
+% Generative AI & Agents skills grouping, agentic/MCP work leading, conversational/voice
+% framing of the Bedrock/Polly work, matrixed cross-functional framing, and the compact
+% certifications-with-heading layout that keeps this to one page.
+% When a bullet changes in resume/resume/, re-apply it here. Do not let this file drift
+% into carrying claims the canonical resume does not make.
 \cvsection{Certifications \& Education}
 
 \begin{cvhonors}
@@ -5,7 +13,9 @@
   \cvhonor
     {Certifications} % Award
     {Google Cloud Certified Professional Cloud Architect; AWS Certified Solutions Architect - Professional; AWS Certified Machine Learning Engineer - Associate; AWS Certified AI Practitioner} % Event
-    {Toronto, Canada} % Location
+    {} % Location - deliberately blank: a location is meaningless for vendor certifications,
+       % and it sat directly above McMaster's "Hamilton, Canada", making the two read as
+       % parallel facts when they are not.
     {2023-2026} % Date(s)
 
   \cvhonor

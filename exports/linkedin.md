@@ -29,8 +29,9 @@ Toronto, Canada | 2025-01 to Present
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock and Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary output.
 - Built a GraphQL API over a knowledge graph, improving content discoverability across the platform.
 - Designed Harness CI/CD pipelines with Terraform Infrastructure as Code, cutting AWS Lambda and ECS deployment time.
+- Built an automated Playwright test suite covering smoke, unit, and integration tests.
 ```
-  <!-- 781 / 2000 chars - OK -->
+  <!-- 869 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
