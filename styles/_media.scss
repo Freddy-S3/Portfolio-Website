@@ -200,6 +200,17 @@
     .portfolios{
         grid-template-columns: repeat(1, 1fr);
     }
+    .harness .harness-simulator{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .harness .skill-catalog{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+@media screen and (max-width:1250px){
+    .harness .skill-catalog{
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media screen and (max-width:1070px){

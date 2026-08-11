@@ -754,6 +754,170 @@ section {
   justify-content: flex-start;
 }
 
+/*Harness skill router simulator*/
+.harness .harness-disclaimer {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  max-width: 700px;
+  margin: 1rem auto 0;
+  padding: .8rem 1.2rem;
+  border-radius: var(--br-sm-2);
+  border: 1px solid var(--color-grey-3);
+  color: var(--color-grey-2);
+  font-size: .85rem;
+  line-height: 1.4rem;
+}
+
+.harness .harness-disclaimer i {
+  color: var(--color-secondary);
+}
+
+.harness .harness-simulator {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.harness .simulator-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.harness .simulator-controls label {
+  text-transform: uppercase;
+  font-size: .75rem;
+  letter-spacing: .05rem;
+  color: var(--color-grey-2);
+  margin: 1rem 0 .5rem;
+}
+
+.harness .simulator-controls label:first-child {
+  margin-top: 0;
+}
+
+.harness .simulator-controls select, .harness .simulator-controls textarea {
+  border-radius: var(--br-sm-2);
+  font-family: inherit;
+  font-size: .95rem;
+  padding: .8rem 1.1rem;
+  outline: none;
+  border: none;
+  background-color: var(--color-grey-5);
+  color: var(--color-white);
+  resize: none;
+  width: 100%;
+}
+
+.harness .simulator-controls button.main-btn {
+  align-self: flex-start;
+  margin-top: 1.2rem;
+  border: none;
+  cursor: pointer;
+}
+
+.harness .simulator-result {
+  background-color: var(--color-grey-5);
+  border-radius: var(--br-sm-2);
+  border-left: 4px solid var(--color-secondary);
+  padding: 1.5rem;
+}
+
+.harness .simulator-result .result-placeholder {
+  color: var(--color-grey-2);
+}
+
+.harness .simulator-result .result-card p {
+  margin-bottom: .8rem;
+  line-height: 1.5rem;
+}
+
+.harness .simulator-result .result-card.no-match .result-command {
+  color: var(--color-grey-2);
+}
+
+.harness .simulator-result .result-mode {
+  font-size: .85rem;
+  color: var(--color-grey-2);
+}
+
+.harness .simulator-result .mode-pill {
+  display: inline-block;
+  padding: .2rem .7rem;
+  border-radius: 20px;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: .75rem;
+  text-transform: uppercase;
+  margin-right: .3rem;
+}
+
+.harness .simulator-result .result-command {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.harness .simulator-result .result-keywords, .harness .simulator-result .result-runner-up {
+  font-size: .8rem;
+  color: var(--color-grey-2);
+}
+
+.harness .simulator-result .result-keywords code, .harness .simulator-result .result-runner-up code {
+  background-color: var(--color-grey-6);
+  padding: .1rem .4rem;
+  border-radius: 4px;
+  margin-right: .2rem;
+}
+
+.harness .skill-catalog {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.harness .skill-card {
+  background-color: var(--color-grey-5);
+  border-radius: var(--br-sm-2);
+  border-left: 4px solid var(--color-secondary);
+  padding: 1.2rem 1.5rem;
+}
+
+.harness .skill-card .skill-command {
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: .5rem;
+}
+
+.harness .skill-card p {
+  font-size: .85rem;
+  line-height: 1.4rem;
+  color: var(--color-white);
+}
+
+.harness .skill-card .skill-badges {
+  margin-top: .8rem;
+}
+
+.harness .badge {
+  display: inline-block;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .03rem;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  border: 1px solid var(--color-secondary);
+  color: var(--color-secondary);
+  margin-right: .4rem;
+}
+
+.harness .badge-muted {
+  border-color: var(--color-grey-3);
+  color: var(--color-grey-2);
+}
+
 /*Independed components*/
 .btn-con {
   display: flex;
@@ -1003,6 +1167,18 @@ section {
   }
   .portfolios {
     grid-template-columns: repeat(1, 1fr);
+  }
+  .harness .harness-simulator {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .harness .skill-catalog {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .harness .skill-catalog {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

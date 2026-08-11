@@ -399,6 +399,38 @@
                 </div>
             </div>
         </section>
+        <section class="container harness" id="harness">
+            <div class="main-title">
+                <h2>Skill <span>Router Simulator</span><span class="bg-text">Harness</span></h2>
+            </div>
+            <p class="port-text">
+                A look inside my <a href="https://github.com/Freddy-S3/claude-harness-public" target="_blank">agentic engineering harness</a> &mdash;
+                the skill files and routing rules I built to make Claude Code repeatable across personal and delivery work.
+                Pick a task below and see which skill the harness's own routing table would send it to.
+            </p>
+            <p class="harness-disclaimer">
+                <i class="fas fa-circle-info"></i>
+                This is a simulation, not a live agent. It runs the same keyword matching a router skill would apply to the
+                descriptions and trigger conditions below &mdash; there's no model behind this page.
+            </p>
+            <div class="harness-simulator">
+                <div class="simulator-controls">
+                    <label for="task-select">Try an example task</label>
+                    <select id="task-select"></select>
+                    <label for="task-input">...or describe your own</label>
+                    <textarea id="task-input" rows="3" placeholder="e.g. Review this pull request like a strict senior engineer would."></textarea>
+                    <button type="button" id="route-btn" class="main-btn">
+                        <span class="btn-text">Route this task</span>
+                        <span class="btn-icon"><i class="fas fa-diagram-project"></i></span>
+                    </button>
+                </div>
+                <div class="simulator-result" id="simulator-result">
+                    <p class="result-placeholder">Pick or type a task, then hit "Route this task".</p>
+                </div>
+            </div>
+            <h4 class="stat-title">Skill Catalog</h4>
+            <div class="skill-catalog" id="skill-catalog"></div>
+        </section>
         <section class="container" id="blogs">
             <div class="blogs-content">
                 <div class="main-title">
@@ -755,6 +787,9 @@
         <div class="control" data-id="portfolio">
             <i class="fas fa-briefcase"></i>
         </div>
+        <div class="control" data-id="harness">
+            <i class="fas fa-robot"></i>
+        </div>
         <div class="control" data-id="blogs">
             <i class="far fa-newspaper"></i>
         </div>
@@ -765,6 +800,886 @@
     <div class="theme-btn">
         <i class="fas fa-adjust"></i>
     </div>
+    <!-- skills:data:start -->
+    <script id="skills-data" type="application/json">
+    [
+      {
+        "name": "architecture-diagram",
+        "command": "/architecture-diagram",
+        "title": "Architecture Diagram Skill",
+        "description": "Produce a Mermaid architecture diagram when the user asks to visualize a real system or codebase.",
+        "task": "Produce a Mermaid architecture diagram",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "architecture",
+          "asks",
+          "codebase",
+          "diagram",
+          "mermaid",
+          "produce",
+          "real",
+          "system",
+          "user",
+          "visualize"
+        ]
+      },
+      {
+        "name": "browsertest",
+        "command": "/browsertest",
+        "title": "Browser Test Skill",
+        "description": "Verify a web UI by actually rendering it. Use whenever a change touches HTML, CSS, or client-side JS, before claiming the work is done.",
+        "task": "Verify a web UI by actually rendering it",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "actually",
+          "before",
+          "change",
+          "claiming",
+          "client-side",
+          "css",
+          "done",
+          "html",
+          "rendering",
+          "touches",
+          "verify",
+          "web",
+          "whenever",
+          "work"
+        ]
+      },
+      {
+        "name": "closing",
+        "command": "/closing",
+        "title": "Closing Skill (Phase 6: Reflect)",
+        "description": "Phase 6 of the agentic loop: end-of-session knowledge capture. Converts session signal into durable harness improvements so the next conversation starts smarter.",
+        "task": "Capture session knowledge",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "agentic",
+          "capture",
+          "conversation",
+          "converts",
+          "durable",
+          "end-of-session",
+          "harness",
+          "improvements",
+          "knowledge",
+          "loop",
+          "next",
+          "phase",
+          "session",
+          "signal",
+          "smarter",
+          "starts"
+        ]
+      },
+      {
+        "name": "codereview",
+        "command": "/codereview",
+        "title": "Code Review Skill - \"The Curmudgeon\"",
+        "description": "Grumpy senior engineer code review persona. Use for PR reviews, code critique, and quality gates.",
+        "task": "Review code",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "code",
+          "critique",
+          "engineer",
+          "gates",
+          "grumpy",
+          "persona",
+          "quality",
+          "review",
+          "reviews",
+          "senior"
+        ]
+      },
+      {
+        "name": "debugging",
+        "command": "/debugging",
+        "title": "Debugging Skill",
+        "description": "Systematic debugging workflow. Use when investigating bugs, unexpected behavior, or errors in any codebase.",
+        "task": "Debug unexpected behavior",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "behavior",
+          "bugs",
+          "codebase",
+          "debug",
+          "debugging",
+          "errors",
+          "investigating",
+          "systematic",
+          "unexpected",
+          "workflow"
+        ]
+      },
+      {
+        "name": "faruk",
+        "command": "/faruk",
+        "title": "Faruk",
+        "description": "Hands-off personal-mode router. Use for personal projects and websites when Faruk is busy or on the go and wants the work done with minimal back and forth.",
+        "task": "Get personal-project work done hands-off, minimal interruption",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "back",
+          "busy",
+          "done",
+          "faruk",
+          "forth",
+          "get",
+          "hands-off",
+          "interruption",
+          "minimal",
+          "personal",
+          "personal-mode",
+          "personal-project",
+          "projects",
+          "router",
+          "wants",
+          "websites",
+          "work"
+        ]
+      },
+      {
+        "name": "freddy",
+        "command": "/freddy",
+        "title": "Freddy",
+        "description": "Select and apply the right harness workflow for a task, then show a concise operational skill trace.",
+        "task": "Select, explain, and execute the right harness workflow, enterprise-grade",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "apply",
+          "concise",
+          "enterprise-grade",
+          "execute",
+          "explain",
+          "harness",
+          "operational",
+          "right",
+          "select",
+          "show",
+          "skill",
+          "task",
+          "trace",
+          "workflow"
+        ]
+      },
+      {
+        "name": "learn",
+        "command": "/learn",
+        "title": "Learn",
+        "description": "Review real friction from queue logs, the tracker archive, and PR activity across every repo the harness has touched, then apply grounded, evidence-cited refinements to the harness's own skills. Use when Faruk wants the harness to self-improve from what actually happened, or asks to run or invoke /learn.",
+        "task": "Review real queue/tracker/PR history and apply evidence-cited refinements to the harness's own skills",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "activity",
+          "actually",
+          "apply",
+          "archive",
+          "asks",
+          "every",
+          "evidence-cited",
+          "faruk",
+          "friction",
+          "grounded",
+          "happened",
+          "harness",
+          "harness's",
+          "has",
+          "history",
+          "invoke",
+          "learn",
+          "logs",
+          "queue",
+          "real",
+          "refinements",
+          "repo",
+          "review",
+          "run",
+          "self-improve",
+          "skills",
+          "touched",
+          "tracker",
+          "wants",
+          "what"
+        ]
+      },
+      {
+        "name": "newfeature",
+        "command": "/newfeature",
+        "title": "New Feature Skill",
+        "description": "New feature implementation workflow. Use when building a new endpoint, service, or UI feature.",
+        "task": "Implement a new feature",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "building",
+          "endpoint",
+          "feature",
+          "implement",
+          "implementation",
+          "new",
+          "service",
+          "workflow"
+        ]
+      },
+      {
+        "name": "opinions",
+        "command": "/opinions",
+        "title": "OPINIONS.md",
+        "description": "Use Freddy and Kun's documented viewpoints when making decisions or discussing agentic engineering, software, product, career, or organizational topics.",
+        "task": "Make decisions informed by Freddy's viewpoints",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "agentic",
+          "career",
+          "decisions",
+          "discussing",
+          "documented",
+          "engineering",
+          "freddy",
+          "freddy's",
+          "informed",
+          "kun's",
+          "make",
+          "making",
+          "organizational",
+          "product",
+          "software",
+          "topics",
+          "viewpoints"
+        ]
+      },
+      {
+        "name": "pdev",
+        "command": "/pdev",
+        "title": "Career Document Context — Freddy Shaikh",
+        "description": "Personal career document context. Invoke when working on career materials, professional profile updates, or job search documents.",
+        "task": "Work on career materials",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "career",
+          "context",
+          "document",
+          "documents",
+          "invoke",
+          "job",
+          "materials",
+          "personal",
+          "professional",
+          "profile",
+          "search",
+          "updates",
+          "work",
+          "working"
+        ]
+      },
+      {
+        "name": "plan",
+        "command": "/plan",
+        "title": "Plan Skill",
+        "description": "Orient and decompose. Use at the start of any substantial task - before writing any code - to explore, understand, and plan.",
+        "task": "Plan and decompose",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "before",
+          "code",
+          "decompose",
+          "explore",
+          "orient",
+          "plan",
+          "start",
+          "substantial",
+          "task",
+          "understand",
+          "writing"
+        ]
+      },
+      {
+        "name": "pr",
+        "command": "/pr",
+        "title": "PR Skill",
+        "description": "Open or update a GitHub pull request for the current work. Use when the user asks to raise, open, or update a PR, or says \\\"PR this\\\", \\\"ship it to GitHub\\\", or \\\"push this up for review\\\".",
+        "task": "Open or update a GitHub pull request",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "asks",
+          "current",
+          "github",
+          "open",
+          "pull",
+          "push",
+          "raise",
+          "request",
+          "review",
+          "says",
+          "ship",
+          "update",
+          "user",
+          "work"
+        ]
+      },
+      {
+        "name": "prototype",
+        "command": "/prototype",
+        "title": "Prototype",
+        "description": "Create a throwaway runnable prototype that answers one design question.",
+        "task": "Build a throwaway design prototype",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "answers",
+          "build",
+          "create",
+          "design",
+          "prototype",
+          "question",
+          "runnable",
+          "throwaway"
+        ]
+      },
+      {
+        "name": "queue",
+        "command": "/queue",
+        "title": "Queue",
+        "description": "Work through the idea backlog in queue/QUEUE.md continuously, in personal-mode posture, resuming automatically after usage-limit resets. Use when Faruk wants to drop a larger idea into a backlog instead of running it now, or asks to run or resume the queue.",
+        "task": "Queue larger ideas and work through them continuously across usage-limit resets",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "after",
+          "asks",
+          "automatically",
+          "backlog",
+          "continuously",
+          "drop",
+          "faruk",
+          "idea",
+          "ideas",
+          "instead",
+          "larger",
+          "now",
+          "personal-mode",
+          "posture",
+          "queue",
+          "resets",
+          "resume",
+          "resuming",
+          "run",
+          "running",
+          "them",
+          "through",
+          "usage-limit",
+          "wants",
+          "work"
+        ]
+      },
+      {
+        "name": "ship",
+        "command": "/ship",
+        "title": "Ship Skill - Full Loop Orchestrator",
+        "description": "Full 6-phase loop orchestrator. Invoke with a task description to run Plan → Implement → Synthesize → Review → Reflect in a single guided conversation with only 3 human checkpoints.",
+        "task": "Complete plan through reflect cycle",
+        "userInvocable": true,
+        "autoInvocable": true,
+        "keywords": [
+          "checkpoints",
+          "complete",
+          "conversation",
+          "cycle",
+          "description",
+          "full",
+          "guided",
+          "human",
+          "implement",
+          "invoke",
+          "loop",
+          "only",
+          "orchestrator",
+          "phase",
+          "plan",
+          "reflect",
+          "review",
+          "run",
+          "single",
+          "synthesize",
+          "task",
+          "through"
+        ]
+      },
+      {
+        "name": "sleep",
+        "command": "/sleep",
+        "title": "Sleep",
+        "description": "Zero-interruption personal mode. Use when Faruk is asleep or away and the work must run to completion with no questions, no gates, and no mid-task check-ins.",
+        "task": "Run unattended overnight with zero questions",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "asleep",
+          "away",
+          "check-ins",
+          "completion",
+          "faruk",
+          "gates",
+          "mid-task",
+          "mode",
+          "must",
+          "overnight",
+          "personal",
+          "questions",
+          "run",
+          "unattended",
+          "work",
+          "zero",
+          "zero-interruption"
+        ]
+      },
+      {
+        "name": "status-report",
+        "command": "/status-report",
+        "title": "Status Report",
+        "description": "Decision-maker rundown for a short check-in. Use when Faruk wants a quick status check across queue items and unattended /sleep or /faruk runs, or asks what needs his call.",
+        "task": "Rapid-fire status check: open decisions and a brief done/next across active harness work",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "active",
+          "asks",
+          "brief",
+          "call",
+          "check",
+          "check-in",
+          "decision-maker",
+          "decisions",
+          "done",
+          "faruk",
+          "harness",
+          "his",
+          "items",
+          "needs",
+          "next",
+          "open",
+          "queue",
+          "quick",
+          "rapid-fire",
+          "rundown",
+          "runs",
+          "short",
+          "sleep",
+          "status",
+          "unattended",
+          "wants",
+          "what",
+          "work"
+        ]
+      },
+      {
+        "name": "to-questionnaire",
+        "command": "/to-questionnaire",
+        "title": "<Topic> Discovery Questionnaire",
+        "description": "Create an asynchronous discovery questionnaire for a knowledgeable recipient.",
+        "task": "Gather missing stakeholder knowledge asynchronously",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "asynchronous",
+          "asynchronously",
+          "create",
+          "discovery",
+          "gather",
+          "knowledge",
+          "knowledgeable",
+          "missing",
+          "questionnaire",
+          "recipient",
+          "stakeholder"
+        ]
+      },
+      {
+        "name": "to-spec",
+        "command": "/to-spec",
+        "title": "<Concise title>",
+        "description": "Synthesize settled context into an agent-ready implementation spec.",
+        "task": "Turn settled context into an agent-ready specification",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "agent-ready",
+          "context",
+          "implementation",
+          "settled",
+          "spec",
+          "specification",
+          "synthesize",
+          "turn"
+        ]
+      },
+      {
+        "name": "to-tickets",
+        "command": "/to-tickets",
+        "title": "To Tickets",
+        "description": "Turn a plan, specification, or conversation into reviewed tracer-bullet ticket drafts.",
+        "task": "Break a plan into vertical-slice tracker tickets",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "break",
+          "conversation",
+          "drafts",
+          "plan",
+          "reviewed",
+          "specification",
+          "ticket",
+          "tickets",
+          "tracer-bullet",
+          "tracker",
+          "turn",
+          "vertical-slice"
+        ]
+      },
+      {
+        "name": "triage",
+        "command": "/triage",
+        "title": "Triage",
+        "description": "Triage a tracker request into a verified category, state recommendation, and agent-ready brief.",
+        "task": "Evaluate and prepare an issue or external PR",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "agent-ready",
+          "brief",
+          "category",
+          "evaluate",
+          "external",
+          "issue",
+          "prepare",
+          "recommendation",
+          "request",
+          "state",
+          "tracker",
+          "triage",
+          "verified"
+        ]
+      },
+      {
+        "name": "voice",
+        "command": "/voice",
+        "title": "Freddy's Voice Profile",
+        "description": "Use when writing or speaking on behalf of Freddy, including Slack messages, tickets, docs, reviews, and other professional communication.",
+        "task": "Write as Freddy",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "behalf",
+          "communication",
+          "docs",
+          "freddy",
+          "including",
+          "messages",
+          "other",
+          "professional",
+          "reviews",
+          "slack",
+          "speaking",
+          "tickets",
+          "write",
+          "writing"
+        ]
+      },
+      {
+        "name": "wayfinder",
+        "command": "/wayfinder",
+        "title": "Wayfinder",
+        "description": "Plan a long-horizon effort as a map of decisions.",
+        "task": "Map a large, uncertain multi-session effort",
+        "userInvocable": true,
+        "autoInvocable": false,
+        "keywords": [
+          "decisions",
+          "effort",
+          "large",
+          "long-horizon",
+          "map",
+          "multi-session",
+          "plan",
+          "uncertain"
+        ]
+      },
+      {
+        "name": "wiki",
+        "command": "/wiki",
+        "title": "Wiki Writing Skill",
+        "description": "Create or edit Confluence pages in valid storage-format HTML using Freddy's concise wiki templates and formatting rules.",
+        "task": "Create or edit a Confluence page",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "concise",
+          "confluence",
+          "create",
+          "edit",
+          "formatting",
+          "freddy's",
+          "html",
+          "page",
+          "pages",
+          "rules",
+          "storage-format",
+          "templates",
+          "valid",
+          "wiki"
+        ]
+      },
+      {
+        "name": "codebase-design",
+        "command": "/codebase-design",
+        "title": "Codebase Design",
+        "description": "Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, run a scoped architecture review, decide where a seam goes, make code more testable, or when another skill needs the deep-module vocabulary.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "another",
+          "architecture",
+          "code",
+          "decide",
+          "deep",
+          "deep-module",
+          "deepening",
+          "design",
+          "designing",
+          "find",
+          "goes",
+          "improve",
+          "interface",
+          "make",
+          "module's",
+          "modules",
+          "more",
+          "needs",
+          "opportunities",
+          "review",
+          "run",
+          "scoped",
+          "seam",
+          "shared",
+          "skill",
+          "testable",
+          "user",
+          "vocabulary",
+          "wants",
+          "where"
+        ]
+      },
+      {
+        "name": "domain-modeling",
+        "command": "/domain-modeling",
+        "title": "Domain Modeling",
+        "description": "Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "another",
+          "architectural",
+          "build",
+          "decision",
+          "domain",
+          "down",
+          "language",
+          "maintain",
+          "model",
+          "needs",
+          "pin",
+          "project's",
+          "record",
+          "sharpen",
+          "skill",
+          "terminology",
+          "ubiquitous",
+          "user",
+          "wants"
+        ]
+      },
+      {
+        "name": "grill-me",
+        "command": "/grill-me",
+        "title": "grill-me",
+        "description": "A relentless interview to sharpen a plan or design.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": false,
+        "keywords": [
+          "design",
+          "interview",
+          "plan",
+          "relentless",
+          "sharpen"
+        ]
+      },
+      {
+        "name": "grill-with-docs",
+        "command": "/grill-with-docs",
+        "title": "grill-with-docs",
+        "description": "A relentless interview to sharpen a plan or design, which also captures docs (ADRs and glossary) as we go.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": false,
+        "keywords": [
+          "adrs",
+          "also",
+          "captures",
+          "design",
+          "docs",
+          "glossary",
+          "interview",
+          "plan",
+          "relentless",
+          "sharpen",
+          "which"
+        ]
+      },
+      {
+        "name": "grilling",
+        "command": "/grilling",
+        "title": "grilling",
+        "description": "Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "about",
+          "decision",
+          "grill",
+          "grill'",
+          "idea",
+          "phrases",
+          "plan",
+          "relentlessly",
+          "stress-test",
+          "thinking",
+          "trigger",
+          "user",
+          "wants"
+        ]
+      },
+      {
+        "name": "research",
+        "command": "/research",
+        "title": "Research Skill",
+        "description": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file. Use when the user wants a topic researched, docs or API facts gathered, or claims verified before being relied on.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "against",
+          "api",
+          "before",
+          "being",
+          "capture",
+          "claims",
+          "docs",
+          "facts",
+          "file",
+          "findings",
+          "gathered",
+          "high-trust",
+          "investigate",
+          "markdown",
+          "primary",
+          "question",
+          "relied",
+          "researched",
+          "sources",
+          "topic",
+          "user",
+          "verified",
+          "wants"
+        ]
+      },
+      {
+        "name": "resolving-merge-conflicts",
+        "command": "/resolving-merge-conflicts",
+        "title": "Resolving Merge Conflicts",
+        "description": "Use when you need to resolve an in-progress git merge/rebase conflict.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "conflict",
+          "git",
+          "in-progress",
+          "merge",
+          "need",
+          "rebase",
+          "resolve"
+        ]
+      },
+      {
+        "name": "tdd",
+        "command": "/tdd",
+        "title": "Test-Driven Development",
+        "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "bugs",
+          "build",
+          "development",
+          "features",
+          "fix",
+          "integration",
+          "mentions",
+          "red-green-refactor",
+          "test-driven",
+          "test-first",
+          "tests",
+          "user",
+          "wants"
+        ]
+      },
+      {
+        "name": "writing-for-agents",
+        "command": "/writing-for-agents",
+        "title": "writing-for-agents",
+        "description": "Writing documents for agents. Use when creating or editing a SKILL.md, an instructions file, a prompt file, an agent file, copilot-instructions.md/AGENTS.md, or a task handoff.",
+        "task": "",
+        "userInvocable": false,
+        "autoInvocable": true,
+        "keywords": [
+          "agent",
+          "agents",
+          "copilot-instructions",
+          "creating",
+          "documents",
+          "editing",
+          "file",
+          "handoff",
+          "instructions",
+          "prompt",
+          "skill",
+          "task",
+          "writing"
+        ]
+      }
+    ]
+    </script>
+    <!-- skills:data:end -->
     <script src="app.js"></script>
+    <script src="skills-simulator.js"></script>
 </body>
 </html>
