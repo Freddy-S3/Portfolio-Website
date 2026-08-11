@@ -53,9 +53,14 @@ LaTeX does not carry. New certification in `awards.tex` means a new entry here.
 - PDF: 2 pages, valid trailer, FontAwesome + Roboto + SourceSansPro all embedded.
 - HTML nesting parses clean; every local `href`/`src` resolves to a real file.
 - Generated `.skill-*` classes all have matching CSS rules.
-- CI regenerated `index.html` and `exports/` byte-for-byte identical to the local run. Only the PDF differed, so the generators are platform-deterministic.
+- CI regenerated `index.html` and `exports/` byte-for-byte identical to the local run. Only the PDF differed, so the generators are platform-deterministic. This is the *only* thing CI verifies - it builds the resume and cascades it, and that is the whole workflow. It does not run the browser suite; see the next section.
 
-## Browser verified
+## Browser verified (locally only - this does NOT run in CI)
+
+Read this heading literally. `.github/workflows/resume.yml` has no `pip install
+playwright`, no `playwright install chromium`, and no `test_site.py` step, so the browser
+suite has never executed in CI even once. The 20/20 result below is from a local run on a
+developer machine and says nothing about any given push. Wiring it into CI is Open item 7.
 
 `py tools/test_site.py` renders the page in real Chromium: 20/20 checks pass. It covers
 element counts, image decoding, every nav control, the theme toggle, contrast ratios in
@@ -113,12 +118,29 @@ Turn off "Share profile updates" on LinkedIn before a bulk edit.
 
 ## Open items
 
-1. **The resume is 2 pages.** `experience.tex` carries your note "Need to get rid of 5 lines to fit everything", so you probably want 1. Content call, left alone.
-2. `AWS Certified Machine Learning Engineer - Associate` has no certificate file and no credential URL. Its link in `tools/asset-map.json` is a placeholder `"#"`.
-3. `Certificates/AWS Certified AI Practitioner certificate.pdf` exists but is not in `awards.tex`, so it gets no card. Add it to the resume or delete the file.
-4. `skills.tex` throws an overfull hbox, 53pt too wide - a skills line runs past the margin in the PDF.
-5. Merge `resume-cascade` to `master`. PR #1 is open and ready for review.
-6. The PDF rebuilds byte-differently on each CI run, so it churns in git history. Harmless; drop it from the workflow's `git add` if it bothers you.
+Items here are cross-referenced with the idea queue at `~/.claude-harness/queue/`
+(`QUEUE-PC.md` for anything needing the local toolchain, `QUEUE-PHONE.md` for the rest).
+When you close one here, close it there too - two lists that drift are worse than one.
+
+Resolved since this list was written, kept short rather than deleted so the trail survives:
+~~1. The resume is 2 pages.~~ Now 1 page, and multiple renditions exist (PR #5, #8, #10).
+~~4. `skills.tex` overfull hbox.~~ Fixed in PR #4.
+~~5. Merge `resume-cascade`.~~ Merged; PRs #1-#10 are all merged as of 2026-08-11.
+
+Still open:
+
+1. `AWS Certified Machine Learning Engineer - Associate` has no certificate file and no credential URL. Its link in `tools/asset-map.json` is a placeholder `"#"`.
+2. `Certificates/AWS Certified AI Practitioner certificate.pdf` exists but is not in `awards.tex`, so it gets no card. Add it to the resume or delete the file.
+3. The PDF rebuilds byte-differently on each CI run, so it churns in git history. Harmless; it is already excluded from the workflow's `git add` for this reason.
+4. **Which rendition is the default?** There are now balanced, ai-forward, ats-dense, and the two Google renditions from PR #10, and nothing declares which one is THE resume - the one linked from the site and handed to recruiters. This blocks the job-board sync pass, which cannot run without knowing what it is syncing to. Needs Faruk's call; tracked as a blocked decision in `QUEUE-PHONE.md`.
+5. **Resume polish, next iteration.** Tracked in `QUEUE-PC.md` (needs tectonic + eyes on the PDF):
+   - The certifications row renders as "2023-2026 Certifications, Google Cloud..." - a table row pretending to be a sentence. Restructure it.
+   - That row also carries location "Toronto, Canada". Meaningless for vendor certs, and it sits directly above McMaster's "Hamilton, Canada" so the two read as parallel facts. Blank it.
+   - Projects has only ONE entry (Agentic Engineering Harness). Consider restoring The Compounding Engineer - it was added in PR #7 and has since been dropped, so the content is recoverable from history.
+   - The Santoku VR bullet ends with the dead tail "...implementation, automated unit/integration testing, launch, and five and a half years of production maintenance". Cut or rewrite it.
+6. **Commit a `requirements.txt`** pinning `pymupdf`, `playwright`, and `libsass`. These are currently documented only in tool docstrings and in this file - they are knowledge, not artifacts, which is exactly why this repo's tooling broke after the machine migration. Tracked in `QUEUE-PHONE.md`.
+7. **Wire Playwright into `resume.yml`** so `tools/test_site.py` actually runs in CI. See the "Browser verified" section above: the suite has never run in CI. Tracked in `QUEUE-PHONE.md` alongside item 6.
+8. **Supervised job-board profile pass** (LinkedIn / Indeed / ZipRecruiter / Glassdoor). Read `exports/PROFILE-SYNC.md` first. Two gotchas: turn OFF "Share profile updates" before bulk edits, and LinkedIn pins the first three skills so their order matters. None of these sites has a candidate-profile write API, so this is a supervised browser pass by necessity - do not automate around bot detection. Gated on items 4 and 5. Tracked in `QUEUE-PC.md`.
 
 ## Notes
 

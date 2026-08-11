@@ -16,6 +16,10 @@ resume/build/renditions/*.png
 # Playwright screenshots
 .screenshots/
 
+# Python bytecode from the tools/ scripts
+__pycache__/
+*.pyc
+
 # Private working notes - never published
 *.local.md
 
