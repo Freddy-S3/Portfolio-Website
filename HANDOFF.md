@@ -53,14 +53,19 @@ LaTeX does not carry. New certification in `awards.tex` means a new entry here.
 - PDF: 2 pages, valid trailer, FontAwesome + Roboto + SourceSansPro all embedded.
 - HTML nesting parses clean; every local `href`/`src` resolves to a real file.
 - Generated `.skill-*` classes all have matching CSS rules.
-- CI regenerated `index.html` and `exports/` byte-for-byte identical to the local run. Only the PDF differed, so the generators are platform-deterministic. This is the *only* thing CI verifies - it builds the resume and cascades it, and that is the whole workflow. It does not run the browser suite; see the next section.
+- CI regenerated `index.html` and `exports/` byte-for-byte identical to the local run. Only the PDF differed, so the generators are platform-deterministic.
 
-## Browser verified (locally only - this does NOT run in CI)
+## Browser verified (locally AND in CI)
 
-Read this heading literally. `.github/workflows/resume.yml` has no `pip install
-playwright`, no `playwright install chromium`, and no `test_site.py` step, so the browser
-suite has never executed in CI even once. The 20/20 result below is from a local run on a
-developer machine and says nothing about any given push. Wiring it into CI is Open item 7.
+`.github/workflows/resume.yml` installs `requirements.txt`, installs Chromium, and runs
+`tools/test_site.py` after the cascade step, so the suite checks the `index.html` that run
+just generated. A failing check fails the workflow.
+
+This was not always true. The suite had never run in CI until 2026-08-11, while this file
+claimed otherwise - and when it was finally wired up it came back **18/20**, because two
+hardcoded count assertions had gone stale as content grew (skill categories 3 -> 4,
+portfolio cards 8 -> 9). Neither was a real defect, but the stale "20/20" claim had been
+sitting here masking the fact that nothing was checking.
 
 `py tools/test_site.py` renders the page in real Chromium: 20/20 checks pass. It covers
 element counts, image decoding, every nav control, the theme toggle, contrast ratios in
