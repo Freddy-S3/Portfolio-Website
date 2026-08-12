@@ -97,7 +97,7 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 
 ## Projects
 
-- **Agentic Engineering Harness** (https://github.com/Freddy-S3/claude-harness-public)
+- **Agentic Engineering Harness** (https://github.com/Freddy-S3/agent-agnostic-harness)
   - Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets.
 - **The Compounding Engineer** (https://github.com/Freddy-S3/unattended-runs)
   - SEO- and ad-monetized technical blog on Astro covering agentic harness engineering and self-directed learning.

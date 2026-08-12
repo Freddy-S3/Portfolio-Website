@@ -303,7 +303,7 @@
             </div>
             <p class="port-text">
                 The work I'm proudest of isn't a repo, it's a system: the
-                <a href="https://github.com/Freddy-S3/claude-harness-public" target="_blank">agentic engineering harness</a>
+                <a href="https://github.com/Freddy-S3/agent-agnostic-harness" target="_blank">agentic engineering harness</a>
                 I built to make Claude Code repeatable across personal and delivery work &mdash; skill files, routing rules,
                 operating modes, and token budgets. Pick a task below and see which skill its routing table would send it to.
             </p>
@@ -360,7 +360,7 @@
                     <div class="hover-items">
                         <h3>Agentic Engineering Harness</h3>
                         <div class="icons">
-                            <a href="https://github.com/Freddy-S3/claude-harness-public" target="_blank" class="icon">
+                            <a href="https://github.com/Freddy-S3/agent-agnostic-harness" target="_blank" class="icon">
                                 <i class="fab fa-github"></i>
                             </a>
                         </div>
@@ -977,7 +977,7 @@
         "description": "Hands-off personal-mode router. Use for personal projects and websites when Faruk is busy or on the go and wants the work done with minimal back and forth.",
         "task": "Get personal-project work done hands-off, minimal interruption",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "back",
           "busy",
@@ -1002,24 +1002,36 @@
         "name": "freddy",
         "command": "/freddy",
         "title": "Freddy",
-        "description": "Select and apply the right harness workflow for a task, then show a concise operational skill trace.",
+        "description": "Delivery-mode router. Select and apply the right harness workflow for a task, then show a concise operational skill trace. Use for ticket-backed work, shared repositories, anything Faruk labels as delivery, or when the right workflow for a substantial task is unclear.",
         "task": "Select, explain, and execute the right harness workflow, enterprise-grade",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
+          "anything",
           "apply",
           "concise",
+          "delivery",
+          "delivery-mode",
           "enterprise-grade",
           "execute",
           "explain",
+          "faruk",
           "harness",
+          "labels",
           "operational",
+          "repositories",
           "right",
+          "router",
           "select",
+          "shared",
           "show",
           "skill",
+          "substantial",
           "task",
+          "ticket-backed",
           "trace",
+          "unclear",
+          "work",
           "workflow"
         ]
       },
@@ -1030,7 +1042,7 @@
         "description": "Review real friction from queue logs, the tracker archive, and PR activity across every repo the harness has touched, then apply grounded, evidence-cited refinements to the harness's own skills. Use when Faruk wants the harness to self-improve from what actually happened, or asks to run or invoke /learn.",
         "task": "Review real queue/tracker/PR history and apply evidence-cited refinements to the harness's own skills",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "activity",
           "actually",
@@ -1163,18 +1175,28 @@
         "name": "prototype",
         "command": "/prototype",
         "title": "Prototype",
-        "description": "Create a throwaway runnable prototype that answers one design question.",
+        "description": "Create a throwaway runnable prototype that answers one design question. Use when a design choice needs evidence from running code rather than reasoning, and the code is meant to be discarded afterwards.",
         "task": "Build a throwaway design prototype",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
+          "afterwards",
           "answers",
           "build",
+          "choice",
+          "code",
           "create",
           "design",
+          "discarded",
+          "evidence",
+          "meant",
+          "needs",
           "prototype",
           "question",
+          "rather",
+          "reasoning",
           "runnable",
+          "running",
           "throwaway"
         ]
       },
@@ -1185,7 +1207,7 @@
         "description": "Work through the idea backlog (split by PC-gated vs phone-gated, see queue/README.md) continuously, in personal-mode posture, resuming automatically after usage-limit resets. Use when Faruk wants to drop a larger idea into a backlog instead of running it now, or asks to run or resume the queue.",
         "task": "Queue larger ideas and work through them continuously across usage-limit resets",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "after",
           "asks",
@@ -1259,7 +1281,7 @@
         "description": "Zero-interruption personal mode. Use when Faruk is asleep or away and the work must run to completion with no questions, no gates, and no mid-task check-ins.",
         "task": "Run unattended overnight with zero questions",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "asleep",
           "away",
@@ -1287,7 +1309,7 @@
         "description": "Decision-maker rundown for a short check-in. Use when Faruk wants a quick status check across queue items and unattended /sleep or /faruk runs, or asks what needs his call.",
         "task": "Rapid-fire status check: open decisions and a brief done/next across active harness work",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "active",
           "asks",
@@ -1323,22 +1345,35 @@
         "name": "to-questionnaire",
         "command": "/to-questionnaire",
         "title": "<Topic> Discovery Questionnaire",
-        "description": "Create an asynchronous discovery questionnaire for a knowledgeable recipient.",
+        "description": "Create an asynchronous discovery questionnaire for a knowledgeable recipient. Use when the missing context is held by someone other than Faruk and has to be gathered by sending them questions rather than by reading code.",
         "task": "Gather missing stakeholder knowledge asynchronously",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "asynchronous",
           "asynchronously",
+          "code",
+          "context",
           "create",
           "discovery",
+          "faruk",
           "gather",
+          "gathered",
+          "has",
+          "held",
           "knowledge",
           "knowledgeable",
           "missing",
+          "other",
           "questionnaire",
+          "questions",
+          "rather",
+          "reading",
           "recipient",
-          "stakeholder"
+          "sending",
+          "someone",
+          "stakeholder",
+          "them"
         ]
       },
       {
@@ -1436,18 +1471,27 @@
         "name": "wayfinder",
         "command": "/wayfinder",
         "title": "Wayfinder",
-        "description": "Plan a long-horizon effort as a map of decisions.",
+        "description": "Plan a long-horizon effort as a map of decisions. Use when an effort is too foggy or too large to plan or finish in one session, and the open decisions matter more than the implementation steps.",
         "task": "Map a large, uncertain multi-session effort",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "decisions",
           "effort",
+          "finish",
+          "foggy",
+          "implementation",
           "large",
           "long-horizon",
           "map",
+          "matter",
+          "more",
           "multi-session",
+          "open",
           "plan",
+          "session",
+          "steps",
+          "too",
           "uncertain"
         ]
       },
@@ -1551,38 +1595,57 @@
         "name": "grill-me",
         "command": "/grill-me",
         "title": "grill-me",
-        "description": "A relentless interview to sharpen a plan or design.",
+        "description": "A relentless interview to sharpen a plan or design. The plain mode of the grilling workflow; prefer the grilling skill, which picks between this and grill-with-docs.",
         "task": "",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
+          "between",
           "design",
+          "grill-with-docs",
+          "grilling",
           "interview",
+          "mode",
+          "picks",
+          "plain",
           "plan",
+          "prefer",
           "relentless",
-          "sharpen"
+          "sharpen",
+          "skill",
+          "which",
+          "workflow"
         ]
       },
       {
         "name": "grill-with-docs",
         "command": "/grill-with-docs",
         "title": "grill-with-docs",
-        "description": "A relentless interview to sharpen a plan or design, which also captures docs (ADRs and glossary) as we go.",
+        "description": "A relentless interview to sharpen a plan or design, which also captures docs (ADRs and glossary) as we go. The documenting mode of the grilling workflow; prefer the grilling skill, which picks between this and grill-me.",
         "task": "",
         "userInvocable": true,
-        "autoInvocable": false,
+        "autoInvocable": true,
         "keywords": [
           "adrs",
           "also",
+          "between",
           "captures",
           "design",
           "docs",
+          "documenting",
           "glossary",
+          "grill-me",
+          "grilling",
           "interview",
+          "mode",
+          "picks",
           "plan",
+          "prefer",
           "relentless",
           "sharpen",
-          "which"
+          "skill",
+          "which",
+          "workflow"
         ]
       },
       {
