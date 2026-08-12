@@ -1,7 +1,7 @@
 """Cascade the public harness's skills into the portfolio site's harness simulator.
 
-The harness itself (~/Repo/claude-harness) is a protected location and is not read
-directly. Its public mirror (github.com/Freddy-S3/claude-harness-public) is the
+The harness itself (~/Repo/agent-agnostic-harness) is a protected location and is not read
+directly. Its public mirror (github.com/Freddy-S3/agent-agnostic-harness) is the
 single source of truth for this generator: it is the version Freddy already
 publishes, so nothing private can leak through the site.
 
@@ -25,8 +25,8 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CACHE = os.path.join(ROOT, ".harness-cache", "claude-harness-public")
-REMOTE = "https://github.com/Freddy-S3/claude-harness-public.git"
+CACHE = os.path.join(ROOT, ".harness-cache", "agent-agnostic-harness")
+REMOTE = "https://github.com/Freddy-S3/agent-agnostic-harness.git"
 SKILLS_DIR = os.path.join(CACHE, "skills")
 AGENTS_MD = os.path.join(CACHE, "instructions", "AGENTS.md")
 INDEX = os.path.join(ROOT, "index.html")

@@ -126,7 +126,7 @@
   "projects": [
     {
       "title": "Agentic Engineering Harness",
-      "url": "https://github.com/Freddy-S3/claude-harness-public",
+      "url": "https://github.com/Freddy-S3/agent-agnostic-harness",
       "bullets": [
         "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets."
       ]
