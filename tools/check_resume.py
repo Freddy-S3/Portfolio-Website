@@ -247,9 +247,37 @@ def check_row_alignment(page, pno: int, pdf: Path) -> list[str]:
     return problems
 
 
+# A lowercase letter sandwiched inside an uppercase run, e.g. "SENiOR", "ENGiNEER".
+# Headings used \scshape until 2026-08-11; Source Sans Pro's small-cap i maps back to
+# lowercase through its ToUnicode table while its other small caps map to uppercase, so
+# the text layer an ATS reads said "SENiOR FULL STACK SOFTWARE ENGiNEER" and no exact
+# keyword match on the title could ever land. The class now renders real uppercase.
+# This guard exists so the regression is caught at build time rather than by noticing
+# months of silence from recruiters.
+MIXED_CASE_RUN = re.compile(r"[A-Z]{2,}[a-z][A-Z]{2,}")
+
+
+def check_text_layer(pdf: Path, doc) -> list[str]:
+    """Fail on glyph-mapping corruption in the extracted text, not on the rendered page.
+
+    Renders identically either way, which is exactly why this needs a machine check.
+    """
+    text = "".join(page.get_text() for page in doc)
+    hits = sorted(set(MIXED_CASE_RUN.findall(text)))
+    if hits:
+        return [
+            f"{pdf}: text layer has lowercase letters inside uppercase words "
+            f"({', '.join(hits[:6])}) - a font's small-caps ToUnicode mapping is "
+            "corrupting what an ATS reads; render real uppercase instead"
+        ]
+    return []
+
+
 def check_pdf(pdf: Path, max_pages: int | None, allow_orphan_page: bool) -> list[str]:
     problems = []
     doc = pymupdf.open(pdf)
+
+    problems += check_text_layer(pdf, doc)
 
     if max_pages is not None and doc.page_count > max_pages:
         problems.append(
