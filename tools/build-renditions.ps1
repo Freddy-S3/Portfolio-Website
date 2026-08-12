@@ -73,6 +73,17 @@ try {
 
         $pages = & py -c "import pymupdf,sys; print(pymupdf.open(sys.argv[1]).page_count)" $pdf
         Write-Host "  $pdf  ($pages page(s))"
+
+        # Publish a copy next to the rendition's own sources. build/ is gitignored, so
+        # this is the copy that is committed and the one to hand to a job board.
+        $slugDir = Join-Path $resumeDir "renditions\$slug"
+        if (Test-Path $slugDir) {
+            Copy-Item $pdf (Join-Path $slugDir "$slug.pdf") -Force
+            Write-Host "  -> renditions\$slug\$slug.pdf"
+        }
+        else {
+            Write-Warning "  no renditions\$slug directory; skipped publishing the PDF"
+        }
     }
 }
 finally {

@@ -106,6 +106,17 @@ the build script prefers Tectonic and only falls back to xelatex.
 
 `exports/PROFILE-SYNC.md` is the checklist. Read it before touching LinkedIn.
 
+`.\tools\build-renditions.ps1` now publishes each rendition's PDF next to its own sources
+as `resume/renditions/<slug>/<slug>.pdf`, in addition to the `resume/build/renditions/`
+copy. `resume/build/` is gitignored, so the published copy is the committed one and the
+one to hand to a job board. Page counts as of 2026-08-11: `balanced` 1, `ai-forward` 1,
+`google-concorde` 1, `ats-dense` 2, `google-applied-ai` 2.
+
+Note `balanced.pdf` is one page and `balanced` is the default rendition, so it is a
+better board upload than the 2-page canonical `Certificates/Freddy_Shaikh_Resume.pdf`
+until open item 10 is resolved. All of them still carry the open item 11 text-layer
+defect - it comes from awesome-cv, so no rendition escapes it.
+
 Short version: none of LinkedIn, Indeed, Glassdoor, or ZipRecruiter exposes a
 candidate-profile write API, so nothing can push these headlessly. Driving your own
 logged-in Chrome session with Claude in Chrome is possible and stores no credentials,
@@ -150,7 +161,13 @@ Still open:
    - The Santoku VR bullet ends with the dead tail "...implementation, automated unit/integration testing, launch, and five and a half years of production maintenance". Cut or rewrite it.
 6. **Commit a `requirements.txt`** pinning `pymupdf`, `playwright`, and `libsass`. These are currently documented only in tool docstrings and in this file - they are knowledge, not artifacts, which is exactly why this repo's tooling broke after the machine migration. Tracked in `QUEUE-PHONE.md`.
 7. **Wire Playwright into `resume.yml`** so `tools/test_site.py` actually runs in CI. See the "Browser verified" section above: the suite has never run in CI. Tracked in `QUEUE-PHONE.md` alongside item 6.
-8. **Supervised job-board profile pass** (LinkedIn / Indeed / ZipRecruiter / Glassdoor). Read `exports/PROFILE-SYNC.md` first. Two gotchas: turn OFF "Share profile updates" before bulk edits, and LinkedIn pins the first three skills so their order matters. None of these sites has a candidate-profile write API, so this is a supervised browser pass by necessity - do not automate around bot detection. Gated on items 4 and 5. Tracked in `QUEUE-PC.md`.
+8. **Supervised job-board profile pass** (LinkedIn / Indeed / ZipRecruiter / Glassdoor). Read `exports/PROFILE-SYNC.md` first. Two gotchas: turn OFF "Share profile updates" before bulk edits, and LinkedIn pins the first three skills so their order matters. None of these sites has a candidate-profile write API, so this runs as a browser pass against the logged-in session, no stored credentials. **In progress 2026-08-11**: driven via Claude in Chrome, with logins, CAPTCHAs, and the first Save on each site left to Faruk. The risk is not uniform across the four - Indeed, Glassdoor, and ZipRecruiter are upload-and-parse flows that tolerate automation fine; LinkedIn fingerprints it and is the only one paced deliberately. Gated on items 4 and 5. Tracked in `QUEUE-PC.md`.
+
+9. **Automate job applications on Indeed, Glassdoor, and ZipRecruiter.** Follows directly from item 8: those three are upload-and-parse flows with no meaningful automation detection, so the apply path is scriptable against the logged-in session in the same way the profile path is. LinkedIn is explicitly out of scope - it is the one platform where this would put the account at risk mid-search. Wants a per-site look at what "apply" actually submits (Indeed Quick Apply and ZipRecruiter 1-Click both vary by employer, and some hand off to an external ATS, which is where automation stops being safe or useful). To be added to the top of `QUEUE-PC.md` by Faruk.
+
+10. **The published PDF is 2 pages, and that is what the job boards now hold.** `Certificates/Freddy_Shaikh_Resume.pdf` runs to 2 pages; it was uploaded to Indeed that way during the 2026-08-11 cascade because Faruk chose to roll with it rather than block. The one-page content already exists as `resume/renditions/balanced/`, which PR #16 made the default - the canonical build stays long only because it carries a separate education section and a longer certifications block that the one-page cut drops. So the work is deciding whether the canonical build adopts those omissions, or whether the boards get fed the rendition PDF instead. Overlaps open item 4; when this is done, re-upload to every board touched in the cascade. Tracked at the top of `QUEUE-PC.md`.
+
+11. **Small caps corrupt the PDF text layer, and it is ATS-breaking.** Every small-caps word in `Certificates/Freddy_Shaikh_Resume.pdf` extracts with a lowercase `i` - `SENiOR`, `ENGiNEER` (x3), `ENGLiSH`, `SCiENCE`, `KiNESiOLOGY` - confirmed by reading the text layer directly with pymupdf, so it is the document and not any one parser. A recruiter search for "Senior Software Engineer" keyword-matches that layer, and the title there reads `SENiOR FULL STACK SOFTWARE ENGiNEER`. Cause is awesome-cv's small-cap `i` glyph mapping back to lowercase through the font's ToUnicode CMap. `exports/resume.txt` is unaffected because it is generated from the LaTeX source, which is why it is the safer upload until this is fixed. Verify a fix by re-extracting and confirming zero matches for `[A-Za-z]*i[A-Z]+`, then re-upload everywhere. Tracked at the top of `QUEUE-PC.md`, above the one-page cut.
 
 ## Notes
 
