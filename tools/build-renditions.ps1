@@ -73,6 +73,21 @@ try {
 
         $pages = & py -c "import pymupdf,sys; print(pymupdf.open(sys.argv[1]).page_count)" $pdf
         Write-Host "  $pdf  ($pages page(s))"
+
+        # Publish a copy next to the rendition's own sources. build/ is gitignored, so
+        # this is the copy that is committed and the one to hand to a job board.
+        #
+        # Named for the candidate, not the rendition, because an uploaded filename is
+        # visible to whoever opens it - a recruiter should never receive "ats-dense.pdf".
+        # Each rendition owning a folder is what lets them all share the one good name.
+        $slugDir = Join-Path $resumeDir "renditions\$slug"
+        if (Test-Path $slugDir) {
+            Copy-Item $pdf (Join-Path $slugDir 'Freddy_Shaikh_Resume.pdf') -Force
+            Write-Host "  -> renditions\$slug\Freddy_Shaikh_Resume.pdf"
+        }
+        else {
+            Write-Warning "  no renditions\$slug directory; skipped publishing the PDF"
+        }
     }
 }
 finally {
