@@ -167,7 +167,27 @@ Still open:
 
 10. **The published PDF is 2 pages, and that is what the job boards now hold.** `Certificates/Freddy_Shaikh_Resume.pdf` runs to 2 pages; it was uploaded to Indeed that way during the 2026-08-11 cascade because Faruk chose to roll with it rather than block. The one-page content already exists as `resume/renditions/balanced/`, which PR #16 made the default - the canonical build stays long only because it carries a separate education section and a longer certifications block that the one-page cut drops. So the work is deciding whether the canonical build adopts those omissions, or whether the boards get fed the rendition PDF instead. Overlaps open item 4; when this is done, re-upload to every board touched in the cascade. Tracked at the top of `QUEUE-PC.md`.
 
-11. **Small caps corrupt the PDF text layer, and it is ATS-breaking.** Every small-caps word in `Certificates/Freddy_Shaikh_Resume.pdf` extracts with a lowercase `i` - `SENiOR`, `ENGiNEER` (x3), `ENGLiSH`, `SCiENCE`, `KiNESiOLOGY` - confirmed by reading the text layer directly with pymupdf, so it is the document and not any one parser. A recruiter search for "Senior Software Engineer" keyword-matches that layer, and the title there reads `SENiOR FULL STACK SOFTWARE ENGiNEER`. Cause is awesome-cv's small-cap `i` glyph mapping back to lowercase through the font's ToUnicode CMap. `exports/resume.txt` is unaffected because it is generated from the LaTeX source, which is why it is the safer upload until this is fixed. Verify a fix by re-extracting and confirming zero matches for `[A-Za-z]*i[A-Z]+`, then re-upload everywhere. Tracked at the top of `QUEUE-PC.md`, above the one-page cut.
+~~11. Small caps corrupt the PDF text layer, and it is ATS-breaking.~~ **FIXED 2026-08-11.**
+   Every small-caps word extracted with a lowercase `i` - `SENiOR`, `ENGiNEER`, `ENGLiSH`,
+   `SCiENCE`, `KiNESiOLOGY` - because Source Sans Pro's small-cap `i` maps back to lowercase
+   through its ToUnicode table while its other small caps map to uppercase. An exact-match
+   recruiter search for "Senior Software Engineer" could not hit the title. Present in all
+   five renditions plus the canonical build, so it came from the class, not from any one cut.
+
+   `awesome-cv.cls` now renders those five heading styles as real uppercase via `\acvupper`
+   instead of `\scshape`, which avoids the small-cap glyphs entirely and makes the text layer
+   correct by construction rather than by trusting a font's mapping. Visually near-identical
+   at these sizes; `balanced` is still one page.
+
+   `\XeTeXgenerateactualtext=1` was tried first and is **not viable on this toolchain** - this
+   XeTeX build emits a malformed `/ActualText` span that destroys the entire text layer
+   (extraction returned `'c\nc祢\nc祢...'`). `check_resume.py`'s vertical-hole check caught it.
+   Do not reach for it again without testing extraction.
+
+   Guarded by `check_resume.py`'s `MIXED_CASE_RUN` check, which fails any build whose text
+   layer has a lowercase letter inside an uppercase run. Verified both directions: it fails a
+   pre-fix PDF and passes a rebuilt one. The page renders identically either way, which is
+   exactly why it needs a machine check rather than an eyeball.
 
 ## Notes
 
