@@ -3,13 +3,25 @@
         document.getElementById('myForm').submit();
     }
 
+    function showSection(id) {
+        const section = document.getElementById(id);
+        const control = document.querySelector(`.control[data-id="${id}"]`);
+        if (!section || !control) return;
+        document.querySelector(".active-btn").classList.remove("active-btn");
+        control.classList.add("active-btn");
+        document.querySelector(".active").classList.remove("active");
+        section.classList.add("active");
+    }
+
     [...document.querySelectorAll(".control")].forEach(button => {
-        button.addEventListener("click", function() {
-            document.querySelector(".active-btn").classList.remove("active-btn");
-            this.classList.add("active-btn");
-            document.querySelector(".active").classList.remove("active");
-            document.getElementById(button.dataset.id).classList.add("active");
-        })
+        button.addEventListener("click", () => showSection(button.dataset.id));
+    });
+
+    [...document.querySelectorAll("[data-nav]")].forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            showSection(link.dataset.nav);
+        });
     });
     document.querySelector(".theme-btn").addEventListener("click", () => {
         document.body.classList.toggle("light-mode");

@@ -645,6 +645,34 @@ section {
 
 /*Harness skill router simulator*/
 .harness {
+    .harness-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .harness-stat {
+        background-color: var(--color-grey-5);
+        border-radius: var(--br-sm-2);
+        border-left: 4px solid var(--color-secondary);
+        padding: 1.2rem 1.5rem;
+        text-align: center;
+    }
+    .harness-stat-num {
+        display: block;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--color-secondary);
+        line-height: 2.6rem;
+    }
+    .harness-stat-label {
+        display: block;
+        font-size: .8rem;
+        text-transform: uppercase;
+        letter-spacing: .04rem;
+        color: var(--color-grey-2);
+        margin-top: .3rem;
+    }
     .harness-disclaimer {
         display: flex;
         align-items: center;
@@ -691,7 +719,8 @@ section {
         button.main-btn {
             align-self: flex-start;
             margin-top: 1.2rem;
-            border: none;
+            background-color: transparent;
+            color: var(--color-white);
             cursor: pointer;
         }
     }
@@ -774,6 +803,8 @@ section {
 /*Independed components*/
 .btn-con {
     display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
     align-self: flex-start;
 }
 .main-btn {

@@ -117,6 +117,11 @@
         }).join("");
     }
 
+    function renderSkillCount() {
+        var el = document.getElementById("harness-skill-count");
+        if (el) { el.textContent = DATA.length; }
+    }
+
     function populateExamples() {
         var select = document.getElementById("task-select");
         var placeholder = document.createElement("option");
@@ -140,6 +145,7 @@
         if (!DATA.length) { return; }
         populateExamples();
         renderCatalog();
+        renderSkillCount();
         document.getElementById("route-btn").addEventListener("click", function () {
             renderResult(document.getElementById("task-input").value);
         });

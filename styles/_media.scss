@@ -206,6 +206,9 @@
     .harness .skill-catalog{
         grid-template-columns: repeat(1, 1fr);
     }
+    .harness .harness-stats{
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 @media screen and (max-width:1250px){
     .harness .skill-catalog{
