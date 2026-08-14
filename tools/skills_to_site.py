@@ -21,6 +21,8 @@ import argparse
 import json
 import os
 import re
+import shutil
+import stat
 import subprocess
 import sys
 
@@ -41,11 +43,37 @@ STOPWORDS = {
 
 
 def refresh_cache():
-    if os.path.isdir(os.path.join(CACHE, ".git")):
+    # A cache directory that is not a checkout of REMOTE is discarded rather than reused.
+    # Testing only for a .git subdirectory answers "does this look like a clone", not "is
+    # this a clone of the repo we want", and the two differ exactly when the harness repo
+    # is renamed: the old directory survives under the old name, a fresh one is created
+    # under the new name, and any half-populated leftover makes `git clone` fail with
+    # "destination path already exists" on every subsequent run.
+    if os.path.isdir(CACHE) and _cache_tracks_remote():
         subprocess.run(["git", "-C", CACHE, "pull", "--ff-only"], check=True)
         return
+    if os.path.isdir(CACHE):
+        shutil.rmtree(CACHE, onerror=_drop_readonly)
     os.makedirs(os.path.dirname(CACHE), exist_ok=True)
     subprocess.run(["git", "clone", "--depth", "1", REMOTE, CACHE], check=True)
+
+
+def _cache_tracks_remote():
+    """True only when CACHE is a git checkout whose origin is REMOTE."""
+    try:
+        url = subprocess.run(
+            ["git", "-C", CACHE, "remote", "get-url", "origin"],
+            check=True, capture_output=True, text=True,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, OSError):
+        return False
+    return url.rstrip("/").removesuffix(".git") == REMOTE.rstrip("/").removesuffix(".git")
+
+
+def _drop_readonly(func, path, _exc):
+    """git packs files read-only on Windows, which blocks rmtree."""
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
 
 
 # ------------------------------------------------------------ frontmatter parsing
