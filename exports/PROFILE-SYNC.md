@@ -34,6 +34,7 @@ Source: `exports/linkedin.md`. Every block is sized against LinkedIn's limits.
 - [ ] Each position description
 - [ ] Skills - order matters, first three are pinned to the profile
 - [ ] Licenses & certifications - add new ones, they do not sync from anywhere
+- [ ] Education - the degree is not a certification and will not appear in the list above
 - [ ] Featured section: link `https://freddyshaikh.com`
 - [ ] Turn OFF "Share profile updates" before a bulk edit, or your network gets a notification per change
 

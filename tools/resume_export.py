@@ -251,6 +251,18 @@ def build_linkedin(data):
         out.append("- **%s** - %s, issued %s" % (award["award"], award["event"], award["date"]))
     out.append("")
 
+    # LinkedIn has a first-class Education section, and PROFILE-SYNC.md sends the paste
+    # pass to work from this file. Omitting it here meant the degree reached none of the
+    # four profiles: certifications() correctly filters it out of "Licenses &
+    # certifications" (it is a degree, not a certification), and nothing else carried it.
+    # resume.txt and jsonresume.json already had an EDUCATION section; this closes the gap.
+    out += ["## Education", ""]
+    for school in data["education"]:
+        start, end = iso_dates(school["dates"])
+        out.append("- **%s** - %s" % (school["school"], school["degree"]))
+        out.append("  - %s | %s to %s" % (school["location"], start or "?", end or "Present"))
+    out.append("")
+
     out += ["## Projects", ""]
     for project in data["projects"]:
         out.append("- **%s** (%s)" % (project["title"], project["url"] or "no link"))
@@ -297,6 +309,7 @@ Source: `exports/linkedin.md`. Every block is sized against LinkedIn's limits.
 - [ ] Each position description
 - [ ] Skills - order matters, first three are pinned to the profile
 - [ ] Licenses & certifications - add new ones, they do not sync from anywhere
+- [ ] Education - the degree is not a certification and will not appear in the list above
 - [ ] Featured section: link `https://freddyshaikh.com`
 - [ ] Turn OFF "Share profile updates" before a bulk edit, or your network gets a notification per change
 
