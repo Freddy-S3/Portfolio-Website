@@ -95,6 +95,11 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 - **Google Cloud Certified: Professional Cloud Architect** - Google Cloud Certification, issued 2024
 - **AWS Certified Solutions Architect - Professional** - AWS Training and Certification, issued 2023
 
+## Education
+
+- **McMaster University** - Bachelor of Honors Science - Kinesiology
+  - Hamilton, Canada | 2014-09 to 2018-04
+
 ## Projects
 
 - **Agentic Engineering Harness** (https://github.com/Freddy-S3/agent-agnostic-harness)
