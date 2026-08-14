@@ -90,9 +90,9 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 
 ## Licenses & certifications
 
-- **Google Cloud Certified: Professional Cloud Architect** - Google Cloud Certification, issued 2024
 - **AWS Certified Machine Learning Engineer - Associate** - AWS Training and Certification, issued 2026
 - **AWS Certified AI Practitioner** - AWS Training and Certification, issued 2025
+- **Google Cloud Certified: Professional Cloud Architect** - Google Cloud Certification, issued 2024
 - **AWS Certified Solutions Architect - Professional** - AWS Training and Certification, issued 2023
 
 ## Projects

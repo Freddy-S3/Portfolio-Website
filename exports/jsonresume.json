@@ -75,11 +75,6 @@
   ],
   "certificates": [
     {
-      "name": "Google Cloud Certified: Professional Cloud Architect",
-      "issuer": "Google Cloud Certification",
-      "date": "2024"
-    },
-    {
       "name": "AWS Certified Machine Learning Engineer - Associate",
       "issuer": "AWS Training and Certification",
       "date": "2026"
@@ -88,6 +83,11 @@
       "name": "AWS Certified AI Practitioner",
       "issuer": "AWS Training and Certification",
       "date": "2025"
+    },
+    {
+      "name": "Google Cloud Certified: Professional Cloud Architect",
+      "issuer": "Google Cloud Certification",
+      "date": "2024"
     },
     {
       "name": "AWS Certified Solutions Architect - Professional",

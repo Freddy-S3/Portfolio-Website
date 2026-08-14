@@ -323,8 +323,17 @@ def render_projects(data, assets, indent):
 
 
 def render_certifications(data, assets, indent):
+    # The resume folds Education into the honors table to save a page, so awards.tex now
+    # carries the degree as a \cvhonor row. On the site that degree already has a home in
+    # the timeline (render_timeline reads education.tex), and a degree is not a
+    # certification - rendered here it produced a duplicate card with a placeholder image
+    # and a dead "#" link. Match on the degree title so the fold stays a resume-layout
+    # decision and does not leak into the site.
+    degrees = {e["degree"] for e in data["education"]}
     lines = []
     for award in data["awards"]:
+        if award["award"] in degrees:
+            continue
         meta = asset(assets, award["award"])
         lines += render_card(
             meta.get("label", award["award"]),
@@ -409,8 +418,12 @@ def main():
     else:
         print("index.html already matches resume/")
 
+    # Degrees folded into awards.tex are not rendered as cards (see
+    # render_certifications), so they need no asset-map entry and must not warn.
+    degrees = {e["degree"] for e in data["education"]}
     unmapped = sorted(
-        {a["award"] for a in data["awards"]} | {p["title"] for p in data["projects"]}
+        ({a["award"] for a in data["awards"]} - degrees)
+        | {p["title"] for p in data["projects"]}
     )
     unmapped = [title for title in unmapped if title not in assets]
     if unmapped:
