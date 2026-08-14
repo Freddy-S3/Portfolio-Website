@@ -216,6 +216,59 @@
     }
 }
 
+/* The landing router shares the hero column, so it narrows before the hero stacks. */
+@media screen and (max-width:1250px){
+    .landing-router{
+        padding: 1rem 1.1rem;
+    }
+    .landing-router .lr-result{
+        min-height: 7.5rem;
+    }
+}
+
+@media screen and (max-width:600px){
+    /* On a phone the centred h1 alone fills the first screen, which pushed the router
+       out of sight - the one thing this landing exists to put in front of a visitor.
+       Tighten the type and lift the router above the intro paragraph, which explains
+       the console and so reads perfectly well underneath it. */
+    .header-content .right-header{
+        .name{
+            font-size: 2rem !important;
+            padding-top: 1.5rem;
+            order: 1;
+        }
+        .header-intro{
+            font-size: .92rem;
+            line-height: 1.6rem;
+            margin: .8rem 0 0;
+            order: 3;
+        }
+        .btn-con{ order: 4; margin-top: 1.4rem; }
+    }
+    .landing-router{
+        order: 2;
+        margin-top: 1.2rem;
+        margin-bottom: 0;
+    }
+    .landing-router .lr-input-row{
+        flex-direction: column;
+    }
+    .landing-router .lr-input-row button{
+        width: 100%;
+        justify-content: center;
+    }
+    .landing-router .lr-result{
+        min-height: 0;
+    }
+    .landing-router .lr-command{
+        font-size: 1.1rem;
+    }
+    .landing-router .lr-chip{
+        font-size: .74rem;
+        padding: .3rem .7rem;
+    }
+}
+
 @media screen and (max-width:1070px){
     .about-container{
         grid-template-columns: repeat(1, 1fr);

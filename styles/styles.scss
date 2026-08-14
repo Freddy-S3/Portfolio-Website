@@ -188,14 +188,179 @@ section {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-right: 18rem;
+        // The router console shares this column, so the old 18rem gutter is reclaimed.
+        padding-right: 6rem;
         .name {
-            font-size: 3rem;
+            font-size: 2.6rem;
             span { color: var(--color-secondary); }
         }
         p {
             margin: 1.5rem 0;
             line-height: 2rem;
+        }
+        .header-intro {
+            font-size: 1rem;
+            line-height: 1.8rem;
+            margin: 1rem 0 1.5rem;
+            a {
+                color: var(--color-secondary);
+                border-bottom: 1px solid currentColor;
+            }
+        }
+    }
+}
+
+/*Landing skill router console*/
+.landing-router {
+    background-color: var(--color-grey-5);
+    border-radius: var(--br-sm-2);
+    border-left: 4px solid var(--color-secondary);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.6rem;
+
+    .lr-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+    }
+    .lr-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: .3rem .8rem;
+        margin-bottom: 1rem;
+    }
+    .lr-title {
+        font-weight: 600;
+        font-size: .95rem;
+        color: var(--color-secondary);
+        i { margin-right: .4rem; }
+    }
+    .lr-note {
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: .04rem;
+        color: var(--color-grey-2);
+    }
+    .lr-chips-label {
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: .05rem;
+        color: var(--color-grey-2);
+        margin: 0 0 .5rem;
+    }
+    .lr-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-bottom: .9rem;
+    }
+    .lr-chip {
+        font-family: inherit;
+        font-size: .78rem;
+        padding: .35rem .85rem;
+        border-radius: 20px;
+        border: 1px solid var(--color-grey-3);
+        background-color: transparent;
+        color: var(--color-white);
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+        &:hover, &:focus-visible {
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+        }
+        &.is-active {
+            background-color: var(--color-secondary);
+            border-color: var(--color-secondary);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+    }
+    .lr-input-row {
+        display: flex;
+        gap: .6rem;
+        input {
+            flex: 1 1 auto;
+            min-width: 0;
+            font-family: inherit;
+            font-size: .9rem;
+            padding: .7rem 1rem;
+            border: 1px solid var(--color-grey-3);
+            border-radius: var(--br-sm-2);
+            // grey-6 is the one greyscale step light-mode does not remap, so using it
+            // here produced a dark field with dark placeholder text on the light theme.
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            outline: none;
+            &::placeholder { color: var(--color-grey-3); opacity: 1; }
+            &:focus { border-color: var(--color-secondary); }
+        }
+        button {
+            flex: 0 0 auto;
+            font-family: inherit;
+            font-size: .85rem;
+            padding: .7rem 1.2rem;
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--br-sm-2);
+            background-color: transparent;
+            color: var(--color-white);
+            cursor: pointer;
+            transition: all .3s ease-in-out;
+            .btn-icon { margin-left: .4rem; }
+            &:hover, &:focus-visible {
+                background-color: var(--color-secondary);
+                color: var(--color-primary);
+            }
+        }
+    }
+    .lr-result {
+        margin-top: 1rem;
+        min-height: 6.5rem;
+    }
+    .lr-card {
+        border-top: 1px solid var(--color-grey-4);
+        padding-top: .9rem;
+        p { margin: 0 0 .4rem; line-height: 1.4rem; }
+        &.lr-no-match .lr-command { color: var(--color-grey-2); }
+    }
+    .lr-mode { line-height: 1.6rem !important; }
+    .mode-pill {
+        display: inline-block;
+        padding: .2rem .7rem;
+        border-radius: 20px;
+        background-color: var(--color-secondary);
+        color: var(--color-primary);
+        font-weight: 600;
+        font-size: .7rem;
+        text-transform: uppercase;
+    }
+    .lr-command {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-secondary);
+    }
+    .lr-desc {
+        font-size: .85rem;
+        color: var(--color-white);
+    }
+    .lr-weak {
+        font-size: .75rem;
+        color: var(--color-grey-2);
+        font-style: italic;
+    }
+    .lr-keywords {
+        font-size: .75rem;
+        color: var(--color-grey-2);
+        code {
+            background-color: var(--color-primary);
+            padding: .1rem .4rem;
+            border-radius: 4px;
+            margin-right: .2rem;
         }
     }
 }

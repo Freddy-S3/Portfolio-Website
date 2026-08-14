@@ -34,6 +34,14 @@ AGENTS_MD = os.path.join(CACHE, "instructions", "AGENTS.md")
 INDEX = os.path.join(ROOT, "index.html")
 DATA_OUT = os.path.join(ROOT, "skills.data.json")
 
+# Skills that must never reach the public site even if they appear in the mirror.
+# The mirror is public and does not currently carry these, so today this denylist is
+# belt-and-braces - which is the point. "It is not in the source" is a fact about the
+# source on the day it was checked, not a property of this generator, and the site is
+# the artifact that would leak. Enforced by assert_no_private_skills() below, which runs
+# on every build and on --check.
+PRIVATE_SKILLS = {"job-search", "pdev"}
+
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "for", "in", "on", "with", "when",
     "use", "uses", "using", "is", "are", "it", "this", "that", "as", "at", "by",
@@ -112,9 +120,24 @@ def load_skills():
         if not os.path.isfile(skill_md):
             continue
         skill = parse_skill(skill_md)
-        if skill and skill["name"]:
+        if skill and skill["name"] and skill["name"] not in PRIVATE_SKILLS:
             skills.append(skill)
     return skills
+
+
+def assert_no_private_skills(data, page):
+    """Fail the build rather than publish a private skill.
+
+    Checks the generated payload and the rendered page separately: a name can reach
+    index.html through stale markup that this run did not write, so proving the data
+    clean does not prove the artifact clean.
+    """
+    leaked = sorted({s["name"] for s in data} & PRIVATE_SKILLS)
+    if leaked:
+        raise SystemExit("private skill(s) reached skills.data.json: %s" % ", ".join(leaked))
+    in_page = sorted(n for n in PRIVATE_SKILLS if re.search(r"\b%s\b" % re.escape(n), page))
+    if in_page:
+        raise SystemExit("private skill(s) present in index.html: %s" % ", ".join(in_page))
 
 
 def load_routing_table():
@@ -180,6 +203,22 @@ def inject(page, data):
     )
 
 
+COUNT_MARKER = re.compile(
+    r"(<!-- skills:count:start -->)(.*?)(<!-- skills:count:end -->)", re.S
+)
+
+
+def inject_count(page, data):
+    """Write the live skill count into the landing copy.
+
+    The count is skill data, so it is generated rather than typed: the landing
+    sentence and the catalog button would otherwise drift from the mirror the first
+    time a skill is added. Rendered server-side rather than by script so the number
+    is correct in the first paint and without JavaScript.
+    """
+    return COUNT_MARKER.sub(lambda m: m.group(1) + str(len(data)) + m.group(3), page)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="exit non-zero if index.html is out of date")
@@ -192,7 +231,8 @@ def main():
     data = build()
     with open(INDEX, encoding="utf-8") as handle:
         original = handle.read()
-    updated = inject(original, data)
+    updated = inject_count(inject(original, data), data)
+    assert_no_private_skills(data, updated)
 
     if args.check:
         ok = updated == original
