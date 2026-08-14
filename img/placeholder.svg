@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450" role="img" aria-label="Placeholder artwork for a card with no image of its own">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#191d2b"/>
+      <stop offset="1" stop-color="#12181b"/>
+    </linearGradient>
+    <radialGradient id="pglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#279eae" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#279eae" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="450" fill="url(#pbg)"/>
+  <circle cx="300" cy="225" r="170" fill="url(#pglow)"/>
+
+  <!-- Open frame with corner marks: reads as "no artwork yet" rather than as content. -->
+  <g fill="none" stroke="#279eae" stroke-opacity=".38" stroke-width="4" stroke-linecap="round">
+    <path d="M170 148 h-40 v-40"/>
+    <path d="M430 148 h40 v-40"/>
+    <path d="M170 302 h-40 v40"/>
+    <path d="M430 302 h40 v40"/>
+    <rect x="205" y="160" width="190" height="130" rx="10" stroke-opacity=".22"/>
+  </g>
+
+  <g fill="#279eae" fill-opacity=".30">
+    <circle cx="246" cy="199" r="13"/>
+    <path d="M215 282 l52-58 40 44 26-26 47 40z"/>
+  </g>
+</svg>

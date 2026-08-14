@@ -1,5 +1,5 @@
 {
-  "_comment": "Images and links for resume-driven cards. Keys must match the title exactly as it appears in resume/resume/awards.tex or projects.tex. 'label' overrides the displayed title; img/href/icon are optional and fall back to img/hero.png, '#', and a generic icon.",
+  "_comment": "Images and links for resume-driven cards. Keys must match the title exactly as it appears in resume/resume/awards.tex or projects.tex. 'label' overrides the displayed title; img/href/icon are optional and fall back to img/placeholder.svg, '#', and a generic icon. The image fallback is a neutral placeholder on purpose - it used to be img/hero.png, which rendered Freddy's portrait as the artwork for any card lacking its own image.",
 
   "AWS Certified Machine Learning Engineer - Associate": {
     "label": "AWS Machine Learning Engineer Associate",
