@@ -5,16 +5,18 @@
 %	Practitioner 2020, JLPT N2 2019, TEFL 2018, Dean's Honours List 2018,
 %	McMaster Honour Award Scholarship 2014, SHSM Health Care 2014) are kept in
 %	git history rather than as commented-out blocks in this file.
+%
+%	ALIGNED TO THE BALANCED RENDITION 2026-08-14. Education is folded into this
+%	honors table rather than carried as its own \cvsection, which is what buys the
+%	one-page fit: a standalone Education section costs 51.9pt, the folded honors row
+%	costs 15.5pt. The Google Cloud row is deliberately RETAINED here - the balanced
+%	rendition drops it to close the last few points, but Freddy is applying to Google
+%	Cloud roles, so the remaining space was found in page geometry instead. See
+%	resume/resume.tex for the commented-out \input{resume/education.tex}.
 %-------------------------------------------------------------------------------
-\cvsection{Certifications \& Awards}
+\cvsection{Certifications \& Education}
 
 \begin{cvhonors}
-
-  \cvhonor
-    {Google Cloud Certified: Professional Cloud Architect} % Award
-    {Google Cloud Certification} % Event
-    {Toronto, Canada} % Location
-    {2024} % Date(s)
 
   \cvhonor
     {AWS Certified Machine Learning Engineer - Associate} % Award
@@ -29,9 +31,22 @@
     {2025} % Date(s)
 
   \cvhonor
+    {Google Cloud Certified: Professional Cloud Architect} % Award
+    {Google Cloud Certification} % Event
+    {Toronto, Canada} % Location
+    {2024} % Date(s)
+
+  \cvhonor
     {AWS Certified Solutions Architect - Professional} % Award
     {AWS Training and Certification} % Event
     {Toronto, Canada} % Location
     {2023} % Date(s)
+
+  % Folded in from resume/education.tex so Education does not cost a whole \cvsection.
+  \cvhonor
+    {Bachelor of Honors Science - Kinesiology} % Degree
+    {McMaster University} % Institution
+    {Hamilton, Canada} % Location
+    {2018} % Date(s)
 
 \end{cvhonors}

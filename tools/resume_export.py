@@ -51,6 +51,20 @@ def rule(char="="):
     return char * 72
 
 
+def certifications(data):
+    """Awards minus anything that is really a degree.
+
+    The resume folds Education into the honors table to hold one page, so awards.tex
+    carries the degree as a \\cvhonor row. Every export already has a proper home for it
+    (an EDUCATION section in the text and JSON Resume outputs), so passing the raw awards
+    list through listed the degree twice in resume.txt and jsonresume.json, and filed it
+    under "Licenses & certifications" in linkedin.md, which has no education section at
+    all. The fold is a resume-layout decision and must not reach the exports.
+    """
+    degrees = {school["degree"] for school in data["education"]}
+    return [award for award in data["awards"] if award["award"] not in degrees]
+
+
 def build_txt(data):
     out = [NAME, HEADLINE, "%s | %s | %s" % (LOCATION, PHONE, EMAIL),
            "%s | %s | %s" % (SITE, LINKEDIN, GITHUB), "", rule(), "SUMMARY", rule(), "",
@@ -78,7 +92,7 @@ def build_txt(data):
             out.append("")
 
     out += [rule(), "CERTIFICATIONS", rule(), ""]
-    for award in data["awards"]:
+    for award in certifications(data):
         out.append("%s - %s, %s" % (award["award"], award["event"], award["date"]))
     out.append("")
 
@@ -175,7 +189,7 @@ def build_jsonresume(data):
             entry["endDate"] = end
         resume["education"].append(entry)
 
-    for award in data["awards"]:
+    for award in certifications(data):
         resume["certificates"].append({
             "name": award["award"],
             "issuer": award["event"],
@@ -233,7 +247,7 @@ def build_linkedin(data):
     out.append("")
 
     out += ["## Licenses & certifications", ""]
-    for award in data["awards"]:
+    for award in certifications(data):
         out.append("- **%s** - %s, issued %s" % (award["award"], award["event"], award["date"]))
     out.append("")
 
