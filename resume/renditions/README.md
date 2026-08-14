@@ -24,12 +24,13 @@ Everything else here is **reference material**, not a shipping document.
 | `ai-forward` | Leads with AI/agentic work. For roles where the reader already wants an AI engineer. | Trusted |
 | `google-concorde` | Targeted at a specific Google req. Scope-and-trade-offs framing, 1 page. | Trusted |
 | `google-applied-ai` | Google Applied AI variant. Same framing, different emphasis. | Trusted |
-| `ats-dense` | Keyword-dense for automated resume filters. Longest, 2 pages. | **Needs review - see below** |
+| `ats-dense` | Keyword-dense for automated resume filters. Longest, 2 pages. | One unreviewed clause - see below |
 
 ## `ats-dense` needs review before use
 
-**Roughly a third of `ats-dense`'s bullets originate in commented-out draft text rather
-than reviewed copy.** Review them individually before using this rendition.
+**Several of `ats-dense`'s bullets originated in commented-out draft text rather than
+reviewed copy.** Most have since been ruled on individually - see the status table below.
+One clause remains unreviewed.
 
 Background: the original resume carried a large block of commented-out `\item` lines.
 These are **draft content** - wording in progress rather than reviewed copy. The tell is
@@ -39,21 +40,29 @@ treated them as disabled-but-current and promoted several into live renditions. 
 time, "20+ emerging technologies") have all been removed. The unquantified ones have not,
 because removing them is a content judgement that needs a human review.
 
-Specifically still live in `ats-dense/experience.tex` and traceable to commented lines in
-the original:
+### Status as of 2026-08-11: four of the five are resolved
 
-| Bullet | Traces to |
-|---|---|
-| Splunk/SNS health-check automation and IAM security audits | `experience.tex:20`, `:21` |
-| RESTful microservices in Java 8 and Spring Boot | `:63` |
-| Automated unit/integration/API test suites for VR programs | `:60` |
-| Hybrid cloud solution using AWS File Gateway | `:53` |
-| "client training, and support" clause on the VR bullet | `:65`, `:66` |
+The table below was written when all five were open. Freddy has since ruled on four of
+them, so the untrusted surface is one clause, not a third of the rendition. Verified
+against the files rather than carried forward from the earlier wording.
 
-And one held back from `balanced`, therefore absent from the canonical resume, pending review: the
-"RESTful microservices in Java and Spring Boot ... with automated unit, integration, and
-API test coverage" bullet (`:63` + `:60`). It is commented out in
-`resume/resume/experience.tex` with a guard.
+| Bullet | Traces to | Status |
+|---|---|---|
+| Splunk/SNS health-check automation and IAM security audits | `experience.tex:20`, `:21` | **Accurate.** Held back on relevance, not accuracy. Commented in `ats-dense/experience.tex:25` |
+| Automated unit/integration/API test suites for VR programs | `:60` | **Accurate.** Held back on relevance. Commented at `:54` |
+| Hybrid cloud solution using AWS File Gateway | `:53` | **Accurate.** Held back on relevance. Commented at `:61` |
+| RESTful microservices in Java 8 and Spring Boot | `:63` | **Not applicable to that employer.** Removed from every rendition. The Java and Spring Boot skills rows stay - they are real, from personal projects |
+| "client training, and support" clause on the VR bullet | `:65`, `:66` | **Still unverified.** The only one outstanding. Live in `ats-dense/experience.tex:38`; the canonical bullet ends at "primary technical decision-maker" and does not carry it |
+
+The three marked accurate are **verified-true and deliberately unused**. A later pass must
+not re-flag them as suspect, and must not activate them either - "accurate" and "wanted on
+the resume" are different questions, and only the first is settled.
+
+Because they are accurate, they are the natural first candidates for the long-form CV,
+where there is no page pressure. See the CV item in `QUEUE-PC.md`.
+
+The bullet formerly held back from `balanced` was the Java/Spring Boot one, now resolved
+above. The guarded comment for it remains in `resume/resume/experience.tex`.
 
 ## The rule that came out of this
 
