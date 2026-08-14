@@ -290,6 +290,21 @@ def render_timeline(data, assets, indent):
     return lines
 
 
+# Card image used when asset-map.json has no `img` for an entry.
+#
+# This was img/hero.png - Freddy's portrait - so any card without its own artwork
+# rendered his face as the image for, say, "AWS Certified AI Practitioner". Same defect
+# class as the degree that used to render as a certification card: a fallback chosen
+# because it was a file that existed rather than because it was the right content.
+#
+# Rendering no image at all is not an option here: .portfolio-item has no height of its
+# own and .hover-items is absolutely positioned at height 100%, so the card's 300px
+# comes entirely from this <img>. Dropping it collapses the card and takes the hover
+# overlay with it. A neutral placeholder keeps the grid and the overlay intact and is
+# visibly a placeholder, which a portrait never was.
+PLACEHOLDER_IMG = "img/placeholder.svg"
+
+
 def render_card(title, image, href, icon, alt_text):
     return [
         '<div class="portfolio-item">',
@@ -314,7 +329,7 @@ def render_projects(data, assets, indent):
         meta = asset(assets, project["title"])
         lines += render_card(
             project["title"],
-            meta.get("img", "img/hero.png"),
+            meta.get("img", PLACEHOLDER_IMG),
             meta.get("href") or project["url"] or "#",
             meta.get("icon", "fab fa-github"),
             project["title"],
@@ -337,7 +352,7 @@ def render_certifications(data, assets, indent):
         meta = asset(assets, award["award"])
         lines += render_card(
             meta.get("label", award["award"]),
-            meta.get("img", "img/hero.png"),
+            meta.get("img", PLACEHOLDER_IMG),
             meta.get("href", "#"),
             meta.get("icon", "fas fa-certificate"),
             award["award"],
