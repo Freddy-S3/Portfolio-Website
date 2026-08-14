@@ -256,6 +256,31 @@ def check_row_alignment(page, pno: int, pdf: Path) -> list[str]:
 # months of silence from recruiters.
 MIXED_CASE_RUN = re.compile(r"[A-Z]{2,}[a-z][A-Z]{2,}")
 
+# Codepoints that render as an ASCII character but do not decode as one, so an exact
+# keyword match silently misses. Same failure shape as the small-caps bug above: the
+# page looks perfect and only the text layer is wrong.
+#
+# Until 2026-08-14 the PDF carried 38 of these against 3 real hyphens, because Source
+# Sans Pro's cmap maps U+002D, U+00AD, U+2010 and U+2011 onto the one `hyphen` glyph
+# and xdvipdfmx keeps the highest codepoint when it inverts that map for /ToUnicode.
+# "Solutions Architect - Professional", "end-to-end", "cloud-native" and the rest all
+# read as U+2011 to anything doing a literal match. Fixed at source by vendoring
+# cmap-patched faces - see tools/patch_font_cmap.py and resume/hardening.tex.
+#
+# En dash and em dash are deliberately NOT listed. They are intentional typography
+# rather than invisible substitutes for an ASCII character, and flagging them would
+# make this guard fire on correct output.
+ASCII_LOOKALIKES = {
+    "‐": "HYPHEN (use ASCII '-')",
+    "‑": "NON-BREAKING HYPHEN (use ASCII '-')",
+    "‒": "FIGURE DASH (use ASCII '-')",
+    "­": "SOFT HYPHEN (invisible; use ASCII '-')",
+    " ": "NO-BREAK SPACE (use a plain space)",
+}
+# Deliberately NOT listed: U+00CA. It doubles as a legacy Mac no-break space, but it is
+# also the letter E-circumflex, and failing a build over a real letter in a real name is
+# a worse outcome than the case it would catch.
+
 
 def check_text_layer(pdf: Path, doc) -> list[str]:
     """Fail on glyph-mapping corruption in the extracted text, not on the rendered page.
@@ -263,14 +288,29 @@ def check_text_layer(pdf: Path, doc) -> list[str]:
     Renders identically either way, which is exactly why this needs a machine check.
     """
     text = "".join(page.get_text() for page in doc)
+    problems = []
+
     hits = sorted(set(MIXED_CASE_RUN.findall(text)))
     if hits:
-        return [
+        problems.append(
             f"{pdf}: text layer has lowercase letters inside uppercase words "
             f"({', '.join(hits[:6])}) - a font's small-caps ToUnicode mapping is "
             "corrupting what an ATS reads; render real uppercase instead"
-        ]
-    return []
+        )
+
+    for char, label in sorted(ASCII_LOOKALIKES.items()):
+        count = text.count(char)
+        if not count:
+            continue
+        sample = sorted({w for w in text.split() if char in w})[:4]
+        problems.append(
+            f"{pdf}: text layer has {count} x U+{ord(char):04X} {label} "
+            f"{'(' + ', '.join(sample) + ') ' if sample else ''}"
+            "- renders like ASCII but will not match an exact keyword search; "
+            "regenerate the vendored fonts with tools/patch_font_cmap.py"
+        )
+
+    return problems
 
 
 def check_pdf(pdf: Path, max_pages: int | None, allow_orphan_page: bool) -> list[str]:

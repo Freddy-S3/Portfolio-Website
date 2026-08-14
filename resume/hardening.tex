@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------------
 % HARDENING
 %
-% Local overrides on top of awesome-cv.cls. Two jobs:
+% Local overrides on top of awesome-cv.cls. Three jobs:
 %
 %   1. Root-cause fix for the blank band in the Skills and Honors tables. awesome-cv
 %      defines its L, C and R columns as m{} (vertically CENTERED). The moment a cell
@@ -15,10 +15,77 @@
 %      argument is blank, instead of typesetting an empty row. tools/check_resume.py
 %      turns those warnings into a failed build.
 %
+%   3. The body text must decode as ASCII in the PDF text layer. sourcesanspro loads
+%      the upstream OTFs, whose cmap puts U+002D, U+00AD, U+2010 and U+2011 all on the
+%      one glyph named `hyphen`. xdvipdfmx builds /ToUnicode by inverting that cmap and
+%      keeps the highest codepoint of an ambiguous set, so every in-word hyphen decoded
+%      as U+2011 NON-BREAKING HYPHEN and an exact-match keyword search for
+%      "Solutions Architect - Professional", "end-to-end" or "cloud-native" missed.
+%      The body families are re-pointed below at cmap-patched copies vendored into
+%      fonts/ by tools/patch_font_cmap.py, where each glyph has exactly one codepoint
+%      and the inversion has one answer. Same remedy as the small-cap "i" in
+%      awesome-cv.cls: make the text layer correct by construction rather than trust a
+%      mapping. tools/check_resume.py fails the build if U+2011 ever returns.
+%
 % Included by every rendition. Do not put content in this file.
 %-------------------------------------------------------------------------------
 
 \RequirePackage{etoolbox}
+
+% Body fonts, re-pointed at the patched copies in fonts/. The face lists and features
+% mirror sourcesanspro.sty v2.7 exactly - Ligatures=TeX and proportional lining figures
+% are its defaults, and its Scale is 1 - so only the FILES change, not the typesetting.
+% Anything else here would move the metrics, and the resume has to hold one page.
+%
+% All three declarations are needed, and re-pointing \bodyfont alone is NOT enough. The
+% package is loaded with its sfdefault option on, so it also issues its own \setsansfont
+% and then sets \familydefault to it. That default family is what any text outside an
+% awesome-cv style macro is typeset in, and it kept three unpatched hyphens in the
+% ai-forward rendition's header line after the two families below were already correct.
+% Re-point every entry point the package creates, not just the ones awesome-cv names.
+\makeatletter
+% No Numbers feature, on purpose. sourcesanspro's own defaults are `lining,tabular`,
+% which resolve its Numbers option to the EMPTY string - i.e. the font's own default
+% figures. Passing Numbers=Proportional here instead looks like a faithful copy and is
+% not: it changes every digit's width, which shifted the honors date column enough to
+% close the gap the text extractor reads as a space, turning "2025 AWS Certified..."
+% into "2025AWS Certified...". Match the package's effective features, not its source.
+\defaultfontfeatures{
+  Path      = \@fontdir,
+  Extension = .otf,
+  Ligatures = TeX,
+}
+
+\setsansfont[
+  UprightFont    = *-Regular,
+  ItalicFont     = *-RegularIt,
+  BoldFont       = *-Bold,
+  BoldItalicFont = *-BoldIt,
+]{SourceSansPro}
+
+\renewfontfamily\sourcesanspro[
+  UprightFont    = *-Regular,
+  ItalicFont     = *-RegularIt,
+  BoldFont       = *-Bold,
+  BoldItalicFont = *-BoldIt,
+]{SourceSansPro}
+
+\renewfontfamily\sourcesansprolight[
+  UprightFont    = *-Light,
+  ItalicFont     = *-LightIt,
+  BoldFont       = *-Semibold,
+  BoldItalicFont = *-SemiboldIt,
+]{SourceSansPro}
+
+% \familydefault must be re-derived, not just left to follow \sfdefault. The package
+% sets it with \edef, which expands and FREEZES the family name it had at load time, so
+% re-issuing \setsansfont above swaps \sfdefault while \familydefault still points at
+% the old, unpatched family. That is a one-line difference no rendered page can show:
+% it surfaced only as three stray U+2011 inside \textnormal{} in a rendition header.
+\edef\familydefault{\sfdefault}
+
+\defaultfontfeatures{}
+\makeatother
 
 % Top-aligned paragraph columns. Same contract as awesome-cv's L, C and R, minus the
 % vertical centering. T replaces L, U replaces C, V replaces R.
