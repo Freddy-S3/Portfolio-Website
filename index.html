@@ -25,18 +25,36 @@
                     Hi, I'm <span>Freddy Shaikh.</span>
                     A Software Engineer.
                 </h1>
-                <p>
-                    I'm a self-taught Software Engineer who loves to create System Architectures that are 
-                    highly available, durable, and scalable! I also love to automate things
-                    and I'm a lifelong learner!
+                <p class="header-intro">
+                    I build systems that make AI agents repeatable. The one below is mine: an
+                    <a href="https://github.com/Freddy-S3/agent-agnostic-harness" target="_blank">agentic engineering harness</a>
+                    of <!-- skills:count:start -->33<!-- skills:count:end --> skill files, two operating modes and one routing table.
+                    Hand it a task and watch it pick.
                 </p>
+                <div class="landing-router" id="landing-router">
+                    <div class="lr-head">
+                        <span class="lr-title"><i class="fas fa-diagram-project" aria-hidden="true"></i> Skill router</span>
+                        <span class="lr-note">Deterministic simulation &mdash; no model runs on this page</span>
+                    </div>
+                    <p class="lr-chips-label" id="lr-chips-label">Try a task</p>
+                    <div class="lr-chips" id="lr-chips" role="group" aria-labelledby="lr-chips-label"></div>
+                    <div class="lr-input-row">
+                        <label class="lr-sr-only" for="lr-input">Describe a task to route</label>
+                        <input type="text" id="lr-input" autocomplete="off" placeholder="...or describe your own task">
+                        <button type="button" id="lr-btn">
+                            <span class="btn-text">Route</span>
+                            <span class="btn-icon"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                        </button>
+                    </div>
+                    <div class="lr-result" id="lr-result" aria-live="polite"></div>
+                </div>
                 <div class="btn-con">
                     <a href="Certificates/Freddy_Shaikh_Resume.pdf" target="_blank" class="main-btn">
                         <span class="btn-text">Download CV</span>
                         <span class="btn-icon"><i class="fas fa-download"></i></span>
                     </a>
                     <a href="#harness" data-nav="harness" class="main-btn">
-                        <span class="btn-text">Try the Skill Router</span>
+                        <span class="btn-text">All <!-- skills:count:start -->33<!-- skills:count:end --> skills</span>
                         <span class="btn-icon"><i class="fas fa-diagram-project"></i></span>
                     </a>
                 </div>
@@ -305,7 +323,8 @@
                 The work I'm proudest of isn't a repo, it's a system: the
                 <a href="https://github.com/Freddy-S3/agent-agnostic-harness" target="_blank">agentic engineering harness</a>
                 I built to make Claude Code repeatable across personal and delivery work &mdash; skill files, routing rules,
-                operating modes, and token budgets. Pick a task below and see which skill its routing table would send it to.
+                operating modes, and token budgets. The console on the landing page is the short version; this is the whole
+                catalog, with the runner-up match and the trigger conditions each skill advertises.
             </p>
             <div class="harness-stats">
                 <div class="harness-stat">
