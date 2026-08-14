@@ -13,9 +13,9 @@ Senior Full Stack Software Engineer
 ## About
 
 ```
-Senior Full Stack Software Engineer with 7+ years building cloud-native distributed systems on AWS, and the designated technical lead for AI-driven engineering acceleration at Morningstar. Owns delivery end-to-end - .NET and Python services, REST and GraphQL APIs, Vue front ends, Terraform-managed CI/CD - and built the agentic engineering harness that senior and principal engineers now use as their default workflow. AWS Certified Solutions Architect - Professional.
+Senior Full Stack Software Engineer with 7+ years building cloud-native distributed systems on AWS, and the designated technical lead for AI-driven engineering acceleration at Morningstar. Owns delivery end-to-end - .NET and Python services, REST and GraphQL APIs, Vue front ends, Harness CI/CD - and built the agentic engineering harness that senior and principal engineers now use as their default workflow. AWS Certified Solutions Architect - Professional.
 ```
-  <!-- 469 / 2600 chars - OK -->
+  <!-- 459 / 2600 chars - OK -->
 
 ## Experience
 
@@ -28,10 +28,10 @@ Toronto, Canada | 2025-01 to Present
 - Technical SME for MCP (Model Context Protocol) server architecture, from proposal through production release.
 - Owned end-to-end delivery of an AI audio feature: .NET services on AWS Bedrock and Polly for LLM-driven SSML synthesis, plus the Vue UI shipping transcript and smart-summary output.
 - Built a GraphQL API over a knowledge graph, improving content discoverability across the platform.
-- Designed Harness CI/CD pipelines with Terraform Infrastructure as Code, cutting AWS Lambda and ECS deployment time.
+- Designed Harness CI/CD pipelines in YAML for AWS Lambda and ECS deploys, cutting deployment time.
 - Built an automated Playwright test suite covering smoke, unit, and integration tests.
 ```
-  <!-- 869 / 2000 chars - OK -->
+  <!-- 851 / 2000 chars - OK -->
 
 ### Software Engineer - Santoku Corporation / Rimm.ai
 
