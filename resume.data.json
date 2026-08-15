@@ -39,7 +39,8 @@
         "Spring Boot",
         "Vue 3",
         "Astro",
-        "Test Automation"
+        "Test Automation",
+        "Graph Databases"
       ]
     },
     {
@@ -49,7 +50,9 @@
         "Bedrock",
         "MCP (Model Context Protocol)",
         "Agentic Harnesses",
-        "Prompt Engineering"
+        "Prompt Engineering",
+        "Answer Engine Optimization (AEO)",
+        "SEO"
       ]
     }
   ],

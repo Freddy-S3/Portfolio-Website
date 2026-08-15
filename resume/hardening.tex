@@ -193,3 +193,21 @@
     \item {#1}%
   }%
 }
+
+% Page balance. awesome-cv.cls sets `includehead` on its \geometry call (cls line 110),
+% and geometry keeps that flag when resume.tex later resets only the named margin keys.
+% With it on, the top margin is measured to the top of the *header band* rather than to
+% the body, so fancyhdr's reserved head plus \headsep sits between the margin and the
+% name. The band is empty - \fancyhf{} clears it and \headrulewidth is 0 - so it renders
+% as 36.96pt of whitespace above the name that no setting appears to ask for.
+%
+% Measured on the published PDF by rasterised blank-pixel-row counting: 62.16pt of white
+% above the first ink against a 25.51pt top margin, while the bottom had 27.12pt. Content
+% was pinned to the top of the page with the last section crowding the bottom edge.
+% Reported repeatedly as "empty space at the top, little space at the bottom".
+%
+% Turning the flag off makes the top margin mean what it says, and 1.1cm on both edges
+% then lands top 30.96pt against bottom 31.20pt - balanced to within a quarter point.
+% Do not measure this with PDF block bounding boxes: a block box stops at the last line's
+% descender and reported this gap as fine twice.
+\geometry{includehead=false,top=1.1cm,bottom=1.1cm}
