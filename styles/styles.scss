@@ -6,6 +6,12 @@
 }
 
 :root {
+    // Geometry of the fixed right-hand rail (theme toggle + section controls).
+    // Content columns reserve --rail-gutter so nothing can slide underneath it;
+    // the rail itself is positioned from the same tokens, so the two cannot drift.
+    --rail-inset: 3vw;
+    --rail-size: 70px;
+    --rail-gutter: calc(var(--rail-inset) + var(--rail-size) + 1.5rem);
     --color-primary: #191d2b;
     --color-secondary: #279eae;
     --color-white: #FFFFFF;
@@ -89,7 +95,7 @@ section {
     position: fixed;
     z-index: 10;
     top: 50%;
-    right: 3%;
+    right: var(--rail-inset);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,9 +128,9 @@ section {
 
 .theme-btn {
     top: 5%;
-    right: 3%;
-    width: 70px;
-    height: 70px;
+    right: var(--rail-inset);
+    width: var(--rail-size);
+    height: var(--rail-size);
     border-radius: 50%;
     background-color: var(--color-grey-4);
     cursor: pointer;
@@ -189,7 +195,8 @@ section {
         flex-direction: column;
         justify-content: center;
         // The router console shares this column, so the old 18rem gutter is reclaimed.
-        padding-right: 6rem;
+        // Never narrower than the fixed rail needs, or the console slides under it.
+        padding-right: max(6rem, var(--rail-gutter));
         .name {
             font-size: 2.6rem;
             span { color: var(--color-secondary); }
@@ -969,6 +976,7 @@ section {
 .btn-con {
     display: flex;
     flex-wrap: wrap;
+    align-items: stretch;
     gap: 1rem;
     align-self: flex-start;
 }
@@ -979,7 +987,9 @@ section {
     position: relative;
     border: 1px solid var(--color-secondary);
     display: flex;
-    align-self: flex-start;
+    // Buttons in a row share one height; sizing each to its own content leaves
+    // them visibly misaligned when their icons differ.
+    align-self: stretch;
     align-items: center;
     overflow: hidden;
     .btn-text { padding: 0 2rem; }

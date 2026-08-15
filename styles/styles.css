@@ -6,6 +6,9 @@
 }
 
 :root {
+  --rail-inset: 3vw;
+  --rail-size: 70px;
+  --rail-gutter: calc(var(--rail-inset) + var(--rail-size) + 1.5rem);
   --color-primary: #191d2b;
   --color-secondary: #279eae;
   --color-white: #FFFFFF;
@@ -91,7 +94,7 @@ section {
   position: fixed;
   z-index: 10;
   top: 50%;
-  right: 3%;
+  right: var(--rail-inset);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,9 +129,9 @@ section {
 
 .theme-btn {
   top: 5%;
-  right: 3%;
-  width: 70px;
-  height: 70px;
+  right: var(--rail-inset);
+  width: var(--rail-size);
+  height: var(--rail-size);
   border-radius: 50%;
   background-color: var(--color-grey-4);
   cursor: pointer;
@@ -193,7 +196,7 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 6rem;
+  padding-right: max(6rem, var(--rail-gutter));
 }
 .header-content .right-header .name {
   font-size: 2.6rem;
@@ -1016,6 +1019,7 @@ section {
 .btn-con {
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
   gap: 1rem;
   align-self: flex-start;
 }
@@ -1027,7 +1031,7 @@ section {
   position: relative;
   border: 1px solid var(--color-secondary);
   display: flex;
-  align-self: flex-start;
+  align-self: stretch;
   align-items: center;
   overflow: hidden;
 }
@@ -1098,6 +1102,12 @@ section {
     width: 50px;
     height: 50px;
   }
+  :root {
+    --rail-size: 50px;
+  }
+  .right-header {
+    width: 90% !important;
+  }
   .header-content {
     grid-template-columns: repeat(1, 1fr);
     padding-bottom: 6rem;
@@ -1118,7 +1128,7 @@ section {
   }
   .header-content .left-header .image {
     margin: 0 auto;
-    width: 90%;
+    width: min(90%, 100% - 2 * var(--rail-gutter));
   }
   .controls {
     top: auto;
@@ -1352,13 +1362,13 @@ section {
     display: none;
   }
   .left-header .image {
-    width: 90% !important;
+    width: min(90%, 100% - 2 * var(--rail-gutter)) !important;
     margin: 0 auto !important;
   }
   .right-header {
     grid-row: 1;
     padding-right: 0rem !important;
-    width: 90%;
+    width: min(90%, 100% - 2 * var(--rail-gutter));
     margin: 0 auto;
   }
   .right-header .name {
