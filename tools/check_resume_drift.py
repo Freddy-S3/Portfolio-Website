@@ -19,8 +19,16 @@ everyone to ignore it. Instead this compares what a reader actually sees:
                        than block bounding boxes on purpose: a block box stops at the
                        last line's descender and hides exactly this class of change.
 
+Channel 3 is opt-in via --check-geometry, and deliberately NOT used in CI. Measured on
+2026-08-14: the GitHub runner's TeX Live and the local install compile identical sources
+and identical embedded fonts into layouts that differ by 55.2pt, accumulating in steps at
+entry boundaries. Text and page count agree exactly. So geometry is only a valid signal
+when both PDFs come from the same toolchain - comparing a runner build against a locally
+built commit would fail every run and be ignored within a week. Use --check-geometry from
+tools/build-resume.ps1, where both sides are local; leave it off in the workflow.
+
 Usage:
-    py tools/check_resume_drift.py <fresh.pdf> <committed.pdf>
+    py tools/check_resume_drift.py <fresh.pdf> <committed.pdf> [--check-geometry]
 
 Exits non-zero and prints every difference. Silence means the committed copy is current.
 """
@@ -76,7 +84,7 @@ def ink_profile(page: pymupdf.Page) -> tuple[float, float, float] | None:
     return (first / scale, (rows - 1 - last) / scale, (last - first + 1) / scale)
 
 
-def compare(fresh: Path, committed: Path) -> list[str]:
+def compare(fresh: Path, committed: Path, check_geometry: bool) -> list[str]:
     problems: list[str] = []
 
     for path in (fresh, committed):
@@ -104,6 +112,9 @@ def compare(fresh: Path, committed: Path) -> list[str]:
             )
             for line in _first_difference(tb, ta):
                 problems.append(f"    {line}")
+
+        if not check_geometry:
+            continue
 
         ga, gb = ink_profile(pa), ink_profile(pb)
         if ga is None or gb is None:
@@ -142,9 +153,15 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("fresh", type=Path, help="PDF just built from resume/")
     ap.add_argument("committed", type=Path, help="tracked copy the site deploy publishes")
+    ap.add_argument(
+        "--check-geometry",
+        action="store_true",
+        help="also compare ink geometry. Only valid when both PDFs were built by the "
+        "same toolchain; see the module docstring.",
+    )
     args = ap.parse_args()
 
-    problems = compare(args.fresh, args.committed)
+    problems = compare(args.fresh, args.committed, args.check_geometry)
     if problems:
         print(f"Resume drift check FAILED ({len(problems)} finding(s)):", file=sys.stderr)
         for p in problems:
