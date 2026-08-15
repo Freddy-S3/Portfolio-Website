@@ -306,6 +306,24 @@ PLACEHOLDER_IMG = "img/placeholder.svg"
 
 
 def render_card(title, image, href, icon, alt_text):
+    # An entry with no URL used to fall back to href="#", which renders as a link, invites
+    # the click, and then does nothing - the same "control that is decorative" defect the
+    # interaction tests in tools/test_site.py exist to catch. When there is nowhere to go,
+    # emit the badge as a span so it still reads as a mark and no longer pretends to be a
+    # link. Styling is on .icon, not a.icon, so the two render identically.
+    linked = bool(href) and href.strip() not in ("#", "")
+    if linked:
+        badge = [
+            '            <a href="%s" target="_blank" class="icon">' % esc(href),
+            '                <i class="%s"></i>' % esc(icon),
+            "            </a>",
+        ]
+    else:
+        badge = [
+            '            <span class="icon">',
+            '                <i class="%s"></i>' % esc(icon),
+            "            </span>",
+        ]
     return [
         '<div class="portfolio-item">',
         '    <div class="image">',
@@ -314,9 +332,7 @@ def render_card(title, image, href, icon, alt_text):
         '    <div class="hover-items">',
         "        <h3>%s</h3>" % esc(title),
         '        <div class="icons">',
-        '            <a href="%s" target="_blank" class="icon">' % esc(href),
-        '                <i class="%s"></i>' % esc(icon),
-        "            </a>",
+    ] + badge + [
         "        </div>",
         "    </div>",
         "</div>",

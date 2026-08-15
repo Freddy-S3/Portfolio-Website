@@ -60,8 +60,22 @@
 
     function renderResult(text) {
         var out = document.getElementById("simulator-result");
+        if (!out) { return; }
         if (!text || !text.trim()) {
-            out.innerHTML = '<p class="result-placeholder">Pick or type a task, then hit "Route this task".</p>';
+            // The empty case is the state every visitor arrives in, so it is the one that
+            // decides whether this button looks alive. Re-printing the idle placeholder here
+            // is indistinguishable from a dead control: the handler runs, nothing on screen
+            // moves, and the reasonable conclusion is that the button is broken. Answer the
+            // click with a different, visibly changed state and put the caret where the
+            // input is meant to go.
+            out.innerHTML =
+                '<div class="result-card result-empty" role="status">' +
+                '<p class="result-command">Nothing to route yet</p>' +
+                "<p>Pick an example above or describe a task in your own words, then press " +
+                "<strong>Route this task</strong> and the matched skill appears here.</p>" +
+                "</div>";
+            var input = document.getElementById("task-input");
+            if (input) { input.focus(); }
             return;
         }
         var routed = routeTask(text);
@@ -221,6 +235,9 @@
         select.addEventListener("change", function () {
             if (select.value) {
                 document.getElementById("task-input").value = select.value;
+                // The landing chips route on click; picking an example here filled the box
+                // and then waited, which reads as the same non-response. Match the chips.
+                renderResult(select.value);
             }
         });
     }
@@ -240,10 +257,24 @@
         // nobody is waiting on, so it waits for idle rather than competing with first paint.
         initLanding();
         renderSkillCount();
-        // Wiring is cheap and must not be racy - only the rendering waits.
-        document.getElementById("route-btn").addEventListener("click", function () {
-            renderResult(document.getElementById("task-input").value);
-        });
+        // Wiring is cheap and must not be racy - only the rendering waits. Guarded because
+        // an unguarded lookup here throws before whenIdle() is reached, which would take
+        // the example list and the whole catalog down with it if this section ever moves.
+        var routeBtn = document.getElementById("route-btn");
+        var taskInput = document.getElementById("task-input");
+        if (routeBtn && taskInput) {
+            routeBtn.addEventListener("click", function () {
+                renderResult(taskInput.value);
+            });
+            // Plain Enter has to keep inserting newlines in a textarea, so the shortcut is
+            // the usual modifier form rather than the landing input's bare Enter.
+            taskInput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+                    event.preventDefault();
+                    renderResult(taskInput.value);
+                }
+            });
+        }
         whenIdle(function () {
             populateExamples();
             renderCatalog();
