@@ -39,6 +39,212 @@ def check(name, ok, detail=""):
     return ok
 
 
+# --------------------------------------------------------------------------- interaction
+# A control that renders and does nothing is invisible to every other check in this file.
+# The suite passed 37/37 while the harness simulator's "Route this task" button produced no
+# observable change at all, because presence and wiring were asserted and *effect* never was.
+# An addEventListener that runs and writes back the same DOM is, to a visitor, a dead button.
+#
+# So: click the real control, fingerprint the page before and after, and demand a difference.
+
+# Everything a visitor could actually perceive changing. Deliberately broad - a control is
+# allowed to prove itself through any of these, and a control that moves none of them has
+# no observable effect by definition.
+OBSERVABLE = """() => {
+    const active = document.querySelector('section.active, header.active');
+    const txt = el => (el ? el.innerText : '').replace(/\\s+/g, ' ').trim();
+    return JSON.stringify({
+        bodyClass: document.body.className,
+        activeSection: active ? active.id : null,
+        activeNav: [...document.querySelectorAll('.control')].map(c => c.className).join('|'),
+        hash: location.hash,
+        activeText: txt(active).slice(0, 4000),
+        landingResult: txt(document.querySelector('#lr-result')),
+        simResult: txt(document.querySelector('#simulator-result')),
+        chipState: [...document.querySelectorAll('.lr-chip')].map(c => c.className).join('|'),
+        fieldValues: [...document.querySelectorAll('input, textarea, select')]
+            .map(e => e.id + '=' + e.value).join('|'),
+    });
+}"""
+# Deliberately NOT part of the fingerprint: document.activeElement. Clicking a button moves
+# focus to it by definition, so including it made every click look like it had an effect and
+# quietly defeated the whole detector - the dead Route button passed this check while doing
+# nothing. A control has to prove itself by changing something a visitor can read.
+
+
+def click_must_change(page, console_errors, name, selector, setup=None, index=0):
+    """Click a real control and fail loudly unless the page observably changed.
+
+    Also fails if the interaction logged a console error, since a silent exception in a
+    handler is exactly how a button becomes decorative while still looking wired up.
+    """
+    target = page.locator(selector).nth(index)
+    if target.count() == 0:
+        return check("interaction: %s" % name, False, "control not found: %s" % selector)
+    if not target.is_visible():
+        return check("interaction: %s" % name, False, "control present but not visible: %s" % selector)
+
+    if setup:
+        setup()
+        page.wait_for_timeout(150)
+
+    errors_before = len(console_errors)
+    before = page.evaluate(OBSERVABLE)
+    target.click()
+    page.wait_for_timeout(450)
+    after = page.evaluate(OBSERVABLE)
+    new_errors = console_errors[errors_before:]
+
+    if new_errors:
+        return check("interaction: %s" % name, False,
+                     "console error during interaction: %s" % new_errors[0][:160])
+    return check("interaction: %s" % name, before != after,
+                 "clicked, but nothing observable changed - the control is decorative"
+                 if before == after else "")
+
+
+def run_interaction_suite(page, console_errors):
+    """Click every interactive control on the page and assert each one does something."""
+    # The harness simulator is where the dead button lived. Its empty state is the state
+    # every visitor arrives in, so it is tested first and explicitly.
+    #
+    # This has to run against a FRESH load. Clicking Route on an empty box after some
+    # earlier result is on screen replaces that result with the placeholder, which is a
+    # real change and passes a generic before/after diff - so the generic check alone
+    # cannot see this bug. The failing path is the arrival path: land, click, and the
+    # placeholder is already what is showing, so nothing moves. Reload to reproduce it.
+    page.reload()
+    page.wait_for_load_state("networkidle")
+    page.click('.control[data-id="harness"]')
+    # The catalog and the example list render on requestIdleCallback. Until they settle,
+    # every snapshot differs from the last for reasons that have nothing to do with the
+    # control under test, which is enough to mask a genuinely dead button. Wait for the
+    # async work to finish so a detected change is attributable to the click.
+    page.wait_for_selector("#skill-catalog .skill-card", timeout=5000)
+    page.wait_for_function(
+        "() => document.querySelectorAll('#task-select option').length > 1", timeout=5000)
+    page.wait_for_timeout(400)
+
+    click_must_change(
+        page, console_errors,
+        "Route this task from a cold arrival state (empty box, untouched page)",
+        "#route-btn",
+    )
+    # The regression in its own words: the empty-state response must not be the idle
+    # placeholder text, or the button is back to looking broken.
+    empty_state = page.locator("#simulator-result").inner_text().strip()
+    check("empty-state response differs from the idle placeholder",
+          "Pick or type a task" not in empty_state, empty_state[:80])
+
+    click_must_change(
+        page, console_errors,
+        "Route this task with a typed task",
+        "#route-btn",
+        setup=lambda: page.fill("#task-input", "Draft a Confluence page documenting our new auth flow."),
+    )
+    check("typed task routes to a named skill",
+          page.locator("#simulator-result .result-command").inner_text().startswith("/"),
+          page.locator("#simulator-result .result-command").inner_text())
+
+    # Choosing an example is a control too, and it silently filled a box before.
+    errors_before = len(console_errors)
+    before = page.evaluate(OBSERVABLE)
+    page.select_option("#task-select", index=3)
+    page.wait_for_timeout(400)
+    check("interaction: example select routes on change",
+          page.evaluate(OBSERVABLE) != before and not console_errors[errors_before:])
+
+    # --- the landing console, the first thing anyone touches
+    page.click('.control[data-id="home"]')
+    page.wait_for_timeout(500)
+
+    # Each chip is checked from a state it is not already in - chip 0 is pre-selected on
+    # load, so clicking it first would correctly change nothing and read as a dead control.
+    # "Already in the target state" is not the same defect as "does nothing", and the suite
+    # has to be able to tell them apart or it will cry wolf.
+    chip_count = page.locator(".lr-chip").count()
+    check("landing chips rendered", chip_count > 0, "found %d" % chip_count)
+    for i in range(chip_count):
+        label = page.locator(".lr-chip").nth(i).inner_text().strip()
+        other = (i + 1) % chip_count
+        click_must_change(page, console_errors,
+                          'landing chip "%s"' % label, ".lr-chip", index=i,
+                          setup=lambda o=other: page.locator(".lr-chip").nth(o).click())
+
+    click_must_change(
+        page, console_errors,
+        "landing Route button with typed input",
+        "#lr-btn",
+        setup=lambda: page.fill("#lr-input", "Turn this rough plan into vertical-slice tracker tickets."),
+    )
+    click_must_change(
+        page, console_errors,
+        "landing Route button with an empty input",
+        "#lr-btn",
+        setup=lambda: page.fill("#lr-input", ""),
+    )
+
+    # --- navigation: every nav control must actually swap the section. Each is approached
+    # from a different section for the same reason as the chips above.
+    for section in SECTIONS:
+        away = "about" if section != "about" else "contact"
+        click_must_change(page, console_errors,
+                          "nav control -> #%s" % section,
+                          '.control[data-id="%s"]' % section,
+                          setup=lambda a=away: page.click('.control[data-id="%s"]' % a))
+        check("nav control -> #%s activates the right section" % section,
+              "active" in (page.locator("#%s" % section).get_attribute("class") or ""))
+
+    # --- theme toggle, both directions, since only one may be wired
+    click_must_change(page, console_errors, "theme toggle (first press)", ".theme-btn")
+    click_must_change(page, console_errors, "theme toggle (press back)", ".theme-btn")
+
+    # --- anything with an in-page target: it must move the document, not sit there
+    page.click('.control[data-id="home"]')
+    page.wait_for_timeout(400)
+    anchors = page.locator('a[href^="#"]:not([href="#"])')
+    for i in range(anchors.count()):
+        href = anchors.nth(i).get_attribute("href")
+        if anchors.nth(i).is_visible():
+            click_must_change(page, console_errors,
+                              'in-page link %s' % href, 'a[href^="#"]:not([href="#"])', index=i)
+
+    # --- a link with no destination is a control that invites a click and does nothing.
+    # Clicking it cannot be fingerprinted (a real link navigates away), so this is asserted
+    # statically. "javascript:" hrefs are judged by the handler check below instead.
+    dead = page.eval_on_selector_all(
+        "a[href]",
+        """els => els.filter(e => {
+            const h = (e.getAttribute('href') || '').trim();
+            return h === '' || h === '#';
+        }).map(e => {
+            const card = e.closest('.portfolio-item');
+            const label = card ? card.innerText.split('\\n')[0] : (e.innerText || e.className);
+            return (label || e.tagName).trim().slice(0, 50);
+        })""",
+    )
+    check("no links that go nowhere", not dead, ", ".join(dead))
+
+    # --- an inline on* attribute that names a function which is not actually reachable
+    # throws on every press. The click may still work through a separate addEventListener,
+    # which is what makes this survive review: the button behaves, and quietly logs a
+    # ReferenceError each time. Run each inline handler and require it to resolve.
+    broken_inline = page.eval_on_selector_all(
+        "[onclick]",
+        """els => els.map(e => {
+            const src = e.getAttribute('onclick');
+            try { new Function(src).call(e); return null; }
+            catch (err) {
+                if (err instanceof ReferenceError || err instanceof TypeError) {
+                    return ((e.innerText || e.tagName).trim().slice(0, 30)) + ' -> ' + src + ' (' + err.message + ')';
+                }
+                return null;
+            }
+        }).filter(Boolean)""",
+    )
+    check("inline handlers resolve to real functions", not broken_inline, "; ".join(broken_inline))
+
+
 def run(headed):
     from playwright.sync_api import sync_playwright
 
@@ -52,6 +258,9 @@ def run(headed):
         browser = p.chromium.launch(headless=not headed)
         page = browser.new_page(viewport={"width": 1440, "height": 900})
         page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+        # An uncaught exception in a click handler never reaches page.on("console"), so
+        # without this a handler could throw on every press and the suite would stay green.
+        page.on("pageerror", lambda e: console_errors.append("uncaught: %s" % e))
         page.on("requestfailed", lambda r: failed_requests.append(r.url))
 
         page.goto("file:///" + INDEX.replace("\\", "/"))
@@ -252,6 +461,25 @@ def run(headed):
         check("router reachable without scrolling at 375px", 0 < chips_bottom <= nav_top,
               "example chips end at y=%d, nav bar starts at y=%d" % (chips_bottom, nav_top))
         page.screenshot(path=os.path.join(SHOTS, "landing-375.png"))
+
+        # --- every control, clicked for real, at a normal desktop size
+        page.set_viewport_size({"width": 1440, "height": 900})
+        page.wait_for_timeout(400)
+        run_interaction_suite(page, console_errors)
+
+        # Evidence the repaired button actually responds, kept next to the other shots.
+        page.click('.control[data-id="harness"]')
+        page.wait_for_timeout(700)
+        page.fill("#task-input", "")
+        page.click("#route-btn")
+        page.wait_for_timeout(400)
+        page.locator(".harness-simulator").screenshot(
+            path=os.path.join(SHOTS, "route-button-empty-state.png"))
+        page.fill("#task-input", "Review this pull request like a strict senior engineer would.")
+        page.click("#route-btn")
+        page.wait_for_timeout(400)
+        page.locator(".harness-simulator").screenshot(
+            path=os.path.join(SHOTS, "route-button-routed.png"))
 
         browser.close()
 

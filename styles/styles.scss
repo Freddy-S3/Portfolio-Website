@@ -905,6 +905,7 @@ section {
         .result-card {
             p { margin-bottom: .8rem; line-height: 1.5rem; }
             &.no-match .result-command { color: var(--color-grey-2); }
+            &.result-empty .result-command { color: var(--color-grey-2); }
         }
         .result-mode {
             font-size: .85rem;

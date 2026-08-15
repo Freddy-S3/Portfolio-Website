@@ -945,6 +945,9 @@ section {
 .harness .simulator-result .result-card.no-match .result-command {
   color: var(--color-grey-2);
 }
+.harness .simulator-result .result-card.result-empty .result-command {
+  color: var(--color-grey-2);
+}
 .harness .simulator-result .result-mode {
   font-size: 0.85rem;
   color: var(--color-grey-2);
