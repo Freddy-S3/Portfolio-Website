@@ -185,6 +185,127 @@ FREEZE_ANIMATION = """() => {
 }"""
 
 
+# --------------------------------------------------------------------- text-flow crowding
+# The overlap check above compares element boxes, and there is a whole class of collision it
+# cannot see. In the contact rows the label and its value sat in a flex row with no gap: the
+# two boxes were adjacent, never intersecting, so every bounding-box predicate scored them
+# clean while "Languages" visually ran into its list of languages on the rendered page.
+#
+# The difference is that a box is not where the glyphs are. An element can be wider than its
+# text, or narrower than its text, and only the second one is a defect you can see. So this
+# measures the text itself with a Range, which reports the rectangles the glyphs actually
+# occupy, and asserts two things a box comparison cannot:
+#   1. a label and its value sharing a visual line keep a real horizontal gap between glyphs;
+#   2. no text is painted outside the box that is supposed to contain it.
+# Proven to fail before it was trusted: run against the pre-fix markup it reported the
+# Location, Email, Mobile Number, Education and Languages rows at 0px of clearance.
+TEXT_CROWDING = """(args) => {
+    const [rowSel, labelSel, valueSel, minGap] = args;
+    const visible = (e) => {
+        const r = e.getBoundingClientRect(), cs = getComputedStyle(e);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none';
+    };
+    // Where the glyphs land, as opposed to where the element's box is.
+    const textBox = (e) => {
+        const range = document.createRange();
+        range.selectNodeContents(e);
+        const rects = [...range.getClientRects()].filter(r => r.width > 0 && r.height > 0);
+        if (!rects.length) return null;
+        return {
+            left: Math.min(...rects.map(r => r.left)),
+            right: Math.max(...rects.map(r => r.right)),
+            top: Math.min(...rects.map(r => r.top)),
+            bottom: Math.max(...rects.map(r => r.bottom)),
+        };
+    };
+    const hits = [];
+    let measured = 0;
+    for (const row of document.querySelectorAll(rowSel)) {
+        const label = row.querySelector(labelSel), value = row.querySelector(valueSel);
+        if (!label || !value || !visible(label) || !visible(value)) continue;
+        measured++;
+        const lt = textBox(label), vt = textBox(value);
+        if (!lt || !vt) continue;
+        const name = (label.innerText || '').trim().slice(0, 24) || '(unlabelled)';
+
+        // Sharing vertical space means they are on the same visual line and are therefore
+        // competing for the same horizontal run. Stacked rows are not a collision.
+        if (Math.min(lt.bottom, vt.bottom) - Math.max(lt.top, vt.top) > 1) {
+            const gap = Math.round(vt.left - lt.right);
+            if (gap < minGap) hits.push(name + ': label/value only ' + gap + 'px apart');
+        }
+
+        // Text wider than its own container has escaped the column and is being painted
+        // over whatever sits next to it, which is exactly the reported symptom.
+        for (const [el, tb, what] of [[label, lt, 'label'], [value, vt, 'value']]) {
+            const box = el.getBoundingClientRect(), cs = getComputedStyle(el);
+            const spill = Math.round(Math.max(
+                (box.left + (parseFloat(cs.paddingLeft) || 0)) - tb.left,
+                tb.right - (box.right - (parseFloat(cs.paddingRight) || 0))));
+            if (spill > 1) hits.push(name + ': ' + what + ' text spills ' + spill + 'px past its box');
+        }
+    }
+    return { measured: measured, hits: hits };
+}"""
+
+# Rows built as "label, then its value", and the clearance the glyphs must keep.
+TEXT_CROWDING_GROUPS = [
+    (".contact-item", ".icon span", "p", 12),
+]
+
+
+def check_no_text_crowding(page, label):
+    for row_sel, label_sel, value_sel, gap in TEXT_CROWDING_GROUPS:
+        res = page.evaluate(TEXT_CROWDING, [row_sel, label_sel, value_sel, gap])
+        # A section that does not contain these rows would otherwise report a green tick for
+        # having measured nothing, and a vacuous pass is worse than no check at all.
+        if not res["measured"]:
+            continue
+        check("no label/value crowding in %s (%s)" % (row_sel, label),
+              not res["hits"], "; ".join(res["hits"][:3]))
+
+
+# A badge on a certification card has exactly two legitimate states, and the difference
+# matters: a link that goes somewhere, or a mark that is visibly and audibly not a link
+# yet. The state that must never exist is the middle one - something that looks clickable,
+# invites the click, and does nothing. href="#" produced precisely that, which is why
+# render_card now emits a span instead. A span alone is not enough though: .icon carries a
+# pointer cursor and a hover response, so an unstyled span still reads as clickable to a
+# sighted visitor and as nothing at all to a screen reader. This asserts the whole contract
+# rather than the markup choice, so a deliberately inert badge passes and a broken one does
+# not.
+BADGE_STATES = """() => {
+    const bad = [];
+    for (const item of document.querySelectorAll('#portfolio .portfolio-item')) {
+        const title = (item.querySelector('h3') || {}).innerText || '(untitled)';
+        for (const badge of item.querySelectorAll('.icons > *')) {
+            const tag = badge.tagName.toLowerCase();
+            if (tag === 'a') {
+                const href = (badge.getAttribute('href') || '').trim();
+                if (!href || href === '#') bad.push(title + ': anchor with a dead href');
+                continue;
+            }
+            // Not an anchor, so it must declare itself pending rather than merely be inert.
+            if (!badge.classList.contains('icon-pending')) {
+                bad.push(title + ': non-link badge not marked pending');
+                continue;
+            }
+            const sr = badge.querySelector('.sr-only');
+            if (!sr || sr.textContent.trim().length < 10) {
+                bad.push(title + ': pending badge carries no text for assistive tech');
+            }
+            if (!(badge.getAttribute('title') || '').trim()) {
+                bad.push(title + ': pending badge has no hover title');
+            }
+            if (getComputedStyle(badge).cursor === 'pointer') {
+                bad.push(title + ': pending badge still shows a clickable cursor');
+            }
+        }
+    }
+    return bad;
+}"""
+
+
 def check_no_overlap(page, label):
     for selector, gap in OVERLAP_GROUPS:
         if page.locator(selector).count() < 2:
@@ -208,6 +329,7 @@ def run_quality_pass(page, console_errors, label):
                 pass
             page.wait_for_timeout(400)
         check_no_overlap(page, "%s/#%s" % (label, section))
+        check_no_text_crowding(page, "%s/#%s" % (label, section))
 
     # Images: decoded, and carrying alt text that says something. An empty alt on a
     # meaningful image is invisible to a screen reader and to anyone whose images fail.
@@ -640,6 +762,30 @@ def run(headed):
                 missing.append(href)
         check("every local link resolves to a real file", not missing,
               "missing: %s" % "; ".join(missing[:4]))
+
+        # --- certification badges: linked, or explicitly pending, never dead-but-clickable.
+        page.click('.control[data-id="portfolio"]')
+        page.wait_for_timeout(400)
+        bad_badges = page.evaluate(BADGE_STATES)
+        check("catalog badges are linked or marked pending", not bad_badges,
+              "; ".join(bad_badges[:4]))
+
+        # The pending state has to actually be in use, or the check above is satisfied by a
+        # page that simply has no pending badges and would pass just as well if the feature
+        # were deleted.
+        pending = page.locator("#portfolio .icon-pending")
+        check("the pending badge state is exercised by a real card", pending.count() >= 1,
+              "%d pending badges" % pending.count())
+
+        # The GCP card links at the certificate PDF rather than the issuer badge page, and
+        # the file is really there - it was untracked on disk before this change, so the
+        # href resolved locally for whoever added it and 404'd for everyone else.
+        gcp = page.locator('#portfolio a[href$="GCPCloudArchitectCertification.pdf"]')
+        check("GCP card links to the certificate PDF", gcp.count() == 1,
+              "%d matching anchors" % gcp.count())
+        check("the GCP certificate PDF exists on disk",
+              os.path.exists(os.path.join(ROOT, "Certificates",
+                                          "GCPCloudArchitectCertification.pdf")))
 
         # Evidence the repaired button actually responds, kept next to the other shots.
         page.click('.control[data-id="harness"]')

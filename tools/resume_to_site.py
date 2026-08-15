@@ -319,9 +319,18 @@ def render_card(title, image, href, icon, alt_text):
             "            </a>",
         ]
     else:
+        # Emitting a plain span stops it pretending to be a link, but on its own it leaves
+        # the badge looking identical to a working one: a sighted visitor cannot tell the
+        # link is pending rather than missing, and a screen reader is handed an icon font
+        # with no text at all. So the pending state is marked in three ways - a class the
+        # stylesheet dims, a title for the hover, and real text for assistive technology.
+        # aria-label on a bare span is not reliably announced, so the text is a visually
+        # hidden child instead of an attribute.
+        pending = "Credential link pending"
         badge = [
-            '            <span class="icon">',
-            '                <i class="%s"></i>' % esc(icon),
+            '            <span class="icon icon-pending" title="%s">' % pending,
+            '                <i class="%s" aria-hidden="true"></i>' % esc(icon),
+            '                <span class="sr-only">%s: %s</span>' % (esc(title), pending),
             "            </span>",
         ]
     return [

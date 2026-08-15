@@ -4,7 +4,7 @@
   "AWS Certified Machine Learning Engineer - Associate": {
     "label": "AWS Machine Learning Engineer Associate",
     "img": "img/AWSMLEA.jpg",
-    "_todo": "No certificate file or credential URL found in the repo. Replace href with the real credential URL (e.g. Credly/AWS badge link) once available.",
+    "_todo": "No certificate file or credential URL found in the repo. Freddy is supplying the link later. Until then href stays '#', which render_card emits as a non-interactive badge marked as pending rather than as a link that does nothing. Replace href with the real credential URL once available.",
     "href": "#",
     "icon": "fab fa-aws"
   },
@@ -22,7 +22,9 @@
   "Google Cloud Certified: Professional Cloud Architect": {
     "label": "GCP Professional Cloud Architect",
     "img": "img/GCPCloudArchitectLogo.jpg",
-    "href": "https://google.accredible.com/3259369f-c575-4640-bd46-8c4b2d3b93a2",
+    "href": "Certificates/GCPCloudArchitectCertification.pdf",
+    "_verify": "https://google.accredible.com/3259369f-c575-4640-bd46-8c4b2d3b93a2",
+    "_verify_note": "The card links to the PDF above by request. This is the issuer-hosted badge that was previously the href, kept because it is the only independently verifiable credential link in this file: it proves the certification is genuine and current in a way a downloaded PDF cannot. The generator reads only label/img/href/icon, so this field renders nowhere. Swap it back into href to restore the verifiable link.",
     "icon": "fab fa-google"
   },
   "AWS Certified Solutions Architect - Professional": {
