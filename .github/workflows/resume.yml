@@ -5,7 +5,22 @@ on:
     paths:
       - 'resume/**'
       - 'tools/resume_to_site.py'
+      - 'tools/check_resume.py'
+      - 'tools/check_resume_drift.py'
       - 'tools/asset-map.json'
+      - 'Certificates/Freddy_Shaikh_Resume.pdf'
+      - 'requirements.txt'
+      - '.github/workflows/resume.yml'
+  pull_request:
+    paths:
+      - 'resume/**'
+      - 'tools/resume_to_site.py'
+      - 'tools/check_resume.py'
+      - 'tools/check_resume_drift.py'
+      - 'tools/asset-map.json'
+      - 'Certificates/Freddy_Shaikh_Resume.pdf'
+      - 'requirements.txt'
+      - '.github/workflows/resume.yml'
   workflow_dispatch:
 
 permissions:
@@ -24,6 +39,9 @@ jobs:
           echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct -- resume/)" >> "$GITHUB_ENV"
           echo "FORCE_SOURCE_DATE=1" >> "$GITHUB_ENV"
 
+      # Fonts are vendored under resume/fonts/ and \fontdir points at them, so the
+      # container needs no system font install. xelatex (not tectonic) is the compiler:
+      # awesome-cv.cls depends on fontspec against those vendored OTFs.
       - name: Compile resume.tex with xelatex
         uses: xu-cheng/latex-action@v3
         with:
@@ -31,13 +49,50 @@ jobs:
           working_directory: resume
           latexmk_use_xelatex: true
 
-      - name: Publish PDF to Certificates/
-        run: cp resume/resume.pdf "Certificates/Freddy_Shaikh_Resume.pdf"
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: pip
+
+      # Installed before any check runs, not after: check_resume.py needs pymupdf, and
+      # an ad-hoc install later in the job would leave the gates below unrunnable.
+      - name: Install Python tooling
+        run: python -m pip install -r requirements.txt
+
+      # Gate 1: the freshly built PDF is itself sound - one page, no blank bands, no
+      # misaligned table rows, ASCII hyphens in the text layer.
+      - name: Check the freshly built PDF
+        run: |
+          python tools/check_resume.py resume/resume.pdf \
+            --sources resume/resume \
+            --log resume/resume.log \
+            --allow-orphan-page \
+            --max-pages 1
+
+      # Gate 2: the tracked copy the site actually serves matches that fresh build.
+      #
+      # Certificates/Freddy_Shaikh_Resume.pdf stays tracked because the site deploy
+      # syncs the git tree to S3 and never compiles LaTeX - untracking it would 404
+      # https://www.freddyshaikh.com/Certificates/Freddy_Shaikh_Resume.pdf, which is
+      # linked from the live portfolio and from job applications. So drift is detected
+      # rather than eliminated: this step fails the build when the committed PDF has
+      # fallen behind resume/, instead of the gap being noticed weeks later.
+      - name: Fail if the published PDF has drifted from source
+        run: |
+          python tools/check_resume_drift.py \
+            resume/resume.pdf \
+            Certificates/Freddy_Shaikh_Resume.pdf
+
+      # Kept for download off the run summary, so a reviewer can read the build that
+      # the gates above just judged without compiling anything locally.
+      - name: Upload the built PDF as a run artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdf
+          path: resume/resume.pdf
+          if-no-files-found: error
 
       - name: Cascade resume into index.html
         run: python tools/resume_to_site.py
@@ -45,28 +100,26 @@ jobs:
       - name: Regenerate job-board exports
         run: python tools/resume_export.py
 
-      # The browser suite runs AFTER the cascade above, so it checks the index.html this
-      # run just generated rather than the one committed last time. test_site.py loads the
-      # page over file:// and needs no server.
-      - name: Install Python tooling
-        run: python -m pip install -r requirements.txt
-
       - name: Install Chromium for Playwright
         run: python -m playwright install --with-deps chromium
 
+      # The browser suite runs AFTER the cascade above, so it checks the index.html this
+      # run just generated rather than the one committed last time. test_site.py loads the
+      # page over file:// and needs no server.
       - name: Render index.html in Chromium and check it
         run: python tools/test_site.py
 
       - name: Commit refreshed site
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # The PDF is still built and published to Certificates/ above (so this run's
-          # artifacts and any local copy stay usable), but it is deliberately left out of
-          # this commit: even with the clock pinned above, xelatex still produces a
-          # byte-different PDF on every run, so committing it churns git history for no
-          # reason. Run tools/build-resume.ps1 locally when you want the checked-in PDF
-          # to catch up.
+          # The PDF is deliberately left out of this commit: even with the clock pinned
+          # above, xelatex still produces a byte-different PDF on every run, so
+          # committing it churns git history for no reason. It does not go stale
+          # unnoticed any more either - the drift gate above fails the build when the
+          # committed copy falls behind. Run tools/build-resume.ps1 locally to refresh
+          # it when that gate fires.
           git add index.html resume.data.json exports/
           if git diff --cached --quiet; then
             echo "No resume changes to publish."
