@@ -382,6 +382,10 @@ section {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 2rem;
+        // With four cards the rows filled this column and stretching was invisible. Two
+        // cards stretched to the full height of the biography beside them read as two
+        // empty towers, so the row is sized to its content and held at the top.
+        align-content: start;
         .about-item {
             border: 1px solid var(--color-grey-5);
             border-radius: 5px;
@@ -733,21 +737,47 @@ section {
         }
 
         .contact-info {
+            // A flex row with space-between put each label directly against its own value:
+            // the two boxes never intersected, so every bounding-box check scored the row
+            // clean, while the glyphs of a long label such as "Languages" ran into the list
+            // beside it. A grid with a declared label track and a real column-gap makes that
+            // impossible at any width - neither side can grow into the other's column, and
+            // both wrap inside their own track instead of into each other.
             .contact-item {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+                // Label above value, one column, at every width. The previous flex row put
+                // each label directly against its own value with nothing between them: the
+                // boxes never intersected, so bounding-box checks scored the row clean while
+                // the glyphs of a long label such as "Languages" ran into the list beside it.
+                // Side-by-side is not recoverable here - this column is around 330px wide, so
+                // any label track wide enough for "Mobile Number" starves the value into
+                // wrapping every second word. Stacking removes the shared horizontal run the
+                // collision needed, and cannot reappear as the column narrows.
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                row-gap: .1rem;
+                margin: 1.4rem 0;
+                line-height: 1.9rem;
                 p {
-                    margin: .3rem 0 !important;
-                    padding: 0 !important;
+                    margin: 0 !important;
+                    // Indented to the label's text so the pair reads as one unit rather
+                    // than as two unrelated lines.
+                    padding: 0 0 0 2.5rem !important;
+                    min-width: 0;
+                    overflow-wrap: break-word;
                 }
                 .icon {
                     display: grid;
-                    grid-template-columns: 40px 1fr;
+                    grid-template-columns: 2.5rem minmax(0, 1fr);
+                    align-items: center;
+                    min-width: 0;
                     i {
                         display: flex;
                         align-items: center;
                         font-size: 1.3rem;
+                    }
+                    span {
+                        overflow-wrap: break-word;
+                        color: var(--color-grey-1);
                     }
                 }
             }

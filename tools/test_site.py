@@ -185,6 +185,86 @@ FREEZE_ANIMATION = """() => {
 }"""
 
 
+# --------------------------------------------------------------------- text-flow crowding
+# The overlap check above compares element boxes, and there is a whole class of collision it
+# cannot see. In the contact rows the label and its value sat in a flex row with no gap: the
+# two boxes were adjacent, never intersecting, so every bounding-box predicate scored them
+# clean while "Languages" visually ran into its list of languages on the rendered page.
+#
+# The difference is that a box is not where the glyphs are. An element can be wider than its
+# text, or narrower than its text, and only the second one is a defect you can see. So this
+# measures the text itself with a Range, which reports the rectangles the glyphs actually
+# occupy, and asserts two things a box comparison cannot:
+#   1. a label and its value sharing a visual line keep a real horizontal gap between glyphs;
+#   2. no text is painted outside the box that is supposed to contain it.
+# Proven to fail before it was trusted: run against the pre-fix markup it reported the
+# Location, Email, Mobile Number, Education and Languages rows at 0px of clearance.
+TEXT_CROWDING = """(args) => {
+    const [rowSel, labelSel, valueSel, minGap] = args;
+    const visible = (e) => {
+        const r = e.getBoundingClientRect(), cs = getComputedStyle(e);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none';
+    };
+    // Where the glyphs land, as opposed to where the element's box is.
+    const textBox = (e) => {
+        const range = document.createRange();
+        range.selectNodeContents(e);
+        const rects = [...range.getClientRects()].filter(r => r.width > 0 && r.height > 0);
+        if (!rects.length) return null;
+        return {
+            left: Math.min(...rects.map(r => r.left)),
+            right: Math.max(...rects.map(r => r.right)),
+            top: Math.min(...rects.map(r => r.top)),
+            bottom: Math.max(...rects.map(r => r.bottom)),
+        };
+    };
+    const hits = [];
+    let measured = 0;
+    for (const row of document.querySelectorAll(rowSel)) {
+        const label = row.querySelector(labelSel), value = row.querySelector(valueSel);
+        if (!label || !value || !visible(label) || !visible(value)) continue;
+        measured++;
+        const lt = textBox(label), vt = textBox(value);
+        if (!lt || !vt) continue;
+        const name = (label.innerText || '').trim().slice(0, 24) || '(unlabelled)';
+
+        // Sharing vertical space means they are on the same visual line and are therefore
+        // competing for the same horizontal run. Stacked rows are not a collision.
+        if (Math.min(lt.bottom, vt.bottom) - Math.max(lt.top, vt.top) > 1) {
+            const gap = Math.round(vt.left - lt.right);
+            if (gap < minGap) hits.push(name + ': label/value only ' + gap + 'px apart');
+        }
+
+        // Text wider than its own container has escaped the column and is being painted
+        // over whatever sits next to it, which is exactly the reported symptom.
+        for (const [el, tb, what] of [[label, lt, 'label'], [value, vt, 'value']]) {
+            const box = el.getBoundingClientRect(), cs = getComputedStyle(el);
+            const spill = Math.round(Math.max(
+                (box.left + (parseFloat(cs.paddingLeft) || 0)) - tb.left,
+                tb.right - (box.right - (parseFloat(cs.paddingRight) || 0))));
+            if (spill > 1) hits.push(name + ': ' + what + ' text spills ' + spill + 'px past its box');
+        }
+    }
+    return { measured: measured, hits: hits };
+}"""
+
+# Rows built as "label, then its value", and the clearance the glyphs must keep.
+TEXT_CROWDING_GROUPS = [
+    (".contact-item", ".icon span", "p", 12),
+]
+
+
+def check_no_text_crowding(page, label):
+    for row_sel, label_sel, value_sel, gap in TEXT_CROWDING_GROUPS:
+        res = page.evaluate(TEXT_CROWDING, [row_sel, label_sel, value_sel, gap])
+        # A section that does not contain these rows would otherwise report a green tick for
+        # having measured nothing, and a vacuous pass is worse than no check at all.
+        if not res["measured"]:
+            continue
+        check("no label/value crowding in %s (%s)" % (row_sel, label),
+              not res["hits"], "; ".join(res["hits"][:3]))
+
+
 def check_no_overlap(page, label):
     for selector, gap in OVERLAP_GROUPS:
         if page.locator(selector).count() < 2:
@@ -208,6 +288,7 @@ def run_quality_pass(page, console_errors, label):
                 pass
             page.wait_for_timeout(400)
         check_no_overlap(page, "%s/#%s" % (label, section))
+        check_no_text_crowding(page, "%s/#%s" % (label, section))
 
     # Images: decoded, and carrying alt text that says something. An empty alt on a
     # meaningful image is invisible to a screen reader and to anyone whose images fail.
