@@ -265,6 +265,47 @@ def check_no_text_crowding(page, label):
               not res["hits"], "; ".join(res["hits"][:3]))
 
 
+# A badge on a certification card has exactly two legitimate states, and the difference
+# matters: a link that goes somewhere, or a mark that is visibly and audibly not a link
+# yet. The state that must never exist is the middle one - something that looks clickable,
+# invites the click, and does nothing. href="#" produced precisely that, which is why
+# render_card now emits a span instead. A span alone is not enough though: .icon carries a
+# pointer cursor and a hover response, so an unstyled span still reads as clickable to a
+# sighted visitor and as nothing at all to a screen reader. This asserts the whole contract
+# rather than the markup choice, so a deliberately inert badge passes and a broken one does
+# not.
+BADGE_STATES = """() => {
+    const bad = [];
+    for (const item of document.querySelectorAll('#portfolio .portfolio-item')) {
+        const title = (item.querySelector('h3') || {}).innerText || '(untitled)';
+        for (const badge of item.querySelectorAll('.icons > *')) {
+            const tag = badge.tagName.toLowerCase();
+            if (tag === 'a') {
+                const href = (badge.getAttribute('href') || '').trim();
+                if (!href || href === '#') bad.push(title + ': anchor with a dead href');
+                continue;
+            }
+            // Not an anchor, so it must declare itself pending rather than merely be inert.
+            if (!badge.classList.contains('icon-pending')) {
+                bad.push(title + ': non-link badge not marked pending');
+                continue;
+            }
+            const sr = badge.querySelector('.sr-only');
+            if (!sr || sr.textContent.trim().length < 10) {
+                bad.push(title + ': pending badge carries no text for assistive tech');
+            }
+            if (!(badge.getAttribute('title') || '').trim()) {
+                bad.push(title + ': pending badge has no hover title');
+            }
+            if (getComputedStyle(badge).cursor === 'pointer') {
+                bad.push(title + ': pending badge still shows a clickable cursor');
+            }
+        }
+    }
+    return bad;
+}"""
+
+
 def check_no_overlap(page, label):
     for selector, gap in OVERLAP_GROUPS:
         if page.locator(selector).count() < 2:
@@ -721,6 +762,30 @@ def run(headed):
                 missing.append(href)
         check("every local link resolves to a real file", not missing,
               "missing: %s" % "; ".join(missing[:4]))
+
+        # --- certification badges: linked, or explicitly pending, never dead-but-clickable.
+        page.click('.control[data-id="portfolio"]')
+        page.wait_for_timeout(400)
+        bad_badges = page.evaluate(BADGE_STATES)
+        check("catalog badges are linked or marked pending", not bad_badges,
+              "; ".join(bad_badges[:4]))
+
+        # The pending state has to actually be in use, or the check above is satisfied by a
+        # page that simply has no pending badges and would pass just as well if the feature
+        # were deleted.
+        pending = page.locator("#portfolio .icon-pending")
+        check("the pending badge state is exercised by a real card", pending.count() >= 1,
+              "%d pending badges" % pending.count())
+
+        # The GCP card links at the certificate PDF rather than the issuer badge page, and
+        # the file is really there - it was untracked on disk before this change, so the
+        # href resolved locally for whoever added it and 404'd for everyone else.
+        gcp = page.locator('#portfolio a[href$="GCPCloudArchitectCertification.pdf"]')
+        check("GCP card links to the certificate PDF", gcp.count() == 1,
+              "%d matching anchors" % gcp.count())
+        check("the GCP certificate PDF exists on disk",
+              os.path.exists(os.path.join(ROOT, "Certificates",
+                                          "GCPCloudArchitectCertification.pdf")))
 
         # Evidence the repaired button actually responds, kept next to the other shots.
         page.click('.control[data-id="harness"]')

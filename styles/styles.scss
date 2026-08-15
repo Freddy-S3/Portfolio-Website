@@ -372,6 +372,20 @@ section {
     }
 }
 
+// Text carried for assistive technology only. The router has its own scoped .lr-sr-only;
+// this is the page-level one, used by badges whose meaning is otherwise only an icon font.
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /*About*/
 .about-container {
     display: grid;
@@ -656,6 +670,18 @@ section {
                     &:hover {
                         background-color: var(--color-white);
                         i { color: var(--color-primary); }
+                    }
+                }
+                // A badge with nowhere to go is already emitted as a span rather than an
+                // anchor, but .icon above gives it a pointer cursor and a hover response,
+                // so it still invited the click it cannot answer. Pending badges drop both
+                // and sit dimmed, so "link not supplied yet" is visible rather than implied.
+                .icon-pending {
+                    cursor: default;
+                    opacity: .45;
+                    &:hover {
+                        background-color: var(--color-primary);
+                        i { color: var(--color-white); }
                     }
                 }
             }
