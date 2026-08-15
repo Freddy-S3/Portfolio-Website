@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------------
 % HARDENING
 %
-% Local overrides on top of awesome-cv.cls. Three jobs:
+% Local overrides on top of awesome-cv.cls. Four jobs:
 %
 %   1. Root-cause fix for the blank band in the Skills and Honors tables. awesome-cv
 %      defines its L, C and R columns as m{} (vertically CENTERED). The moment a cell
@@ -26,6 +26,26 @@
 %      and the inversion has one answer. Same remedy as the small-cap "i" in
 %      awesome-cv.cls: make the text layer correct by construction rather than trust a
 %      mapping. tools/check_resume.py fails the build if U+2011 ever returns.
+%
+%   4. Even section spacing under a paragraph section. awesome-cv closes cvparagraph
+%      with a POSITIVE \vspace{2mm}, while cvitems and cventries both close with
+%      -4mm. Every other section therefore pulls its successor up and Summary alone
+%      pushes it down, so the band above the heading that follows Summary measured
+%      17.8pt against 13.2pt above Experience and 15.6pt above Projects and
+%      Certifications. Trimmed to 1mm below, which lands that band inside the range
+%      the rest of the page already uses instead of making Summary a special case.
+%
+%      Measured, not estimated: the block bounding boxes report this gap as 14.6pt
+%      versus 14.2pt elsewhere and look almost even, because a block box stops at the
+%      last line's descender and hides the extra lead. Rasterise the page and count
+%      the fully blank pixel rows if this ever needs re-checking; that is the number
+%      that matches what the eye sees.
+%
+%      Do not chase this by deleting the blank lines inside a summary.tex
+%      cvparagraph. They read like paragraph breaks under parskip and are not: TeX
+%      discards the \par of an empty paragraph in vertical mode, so removing them
+%      moved the gap by 0.00pt when it was tried. The trailing skip here is the whole
+%      effect.
 %
 % Included by every rendition. Do not put content in this file.
 %-------------------------------------------------------------------------------
@@ -92,6 +112,17 @@
 \newcolumntype{T}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 \newcolumntype{U}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 \newcolumntype{V}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+% Paragraph section, re-closed on 1mm instead of awesome-cv's 2mm. Opening skips are
+% copied from the class verbatim; only the trailing one moves. See job 4 above.
+\renewenvironment{cvparagraph}{%
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-3mm}
+  \paragraphstyle
+}{%
+  \par
+  \vspace{1mm}
+}
 
 % Skills table, rebuilt on T instead of L.
 \renewenvironment{cvskills}{%
