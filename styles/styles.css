@@ -818,31 +818,11 @@ section {
   flex: 3;
   margin-left: 3rem;
 }
-.contact-content-con .right-contact .input-control {
-  margin: 1.5rem 0;
+.contact-content-con .right-contact p {
+  margin-top: 0.8rem;
 }
-.contact-content-con .right-contact .input-control input, .contact-content-con .right-contact .input-control textarea {
-  border-radius: 30px;
-  font-weight: inherit;
-  font-size: inherit;
-  font-family: inherit;
-  padding: 0.8rem 1.1rem;
-  outline: none;
-  border: none;
-  background-color: var(--color-grey-5);
-  width: 100%;
-  color: var(--color-white);
-  resize: none;
-}
-.contact-content-con .right-contact .i-c-2 {
-  display: flex;
-}
-.contact-content-con .right-contact .i-c-2 :last-child {
-  margin-left: 1.5rem;
-}
-.contact-content-con .right-contact .submit-btn {
-  display: flex;
-  justify-content: flex-start;
+.contact-content-con .right-contact .btn-con {
+  margin-top: 1.6rem;
 }
 
 /*Harness skill router simulator*/
@@ -1001,6 +981,12 @@ section {
 }
 .harness .skill-card .skill-badges {
   margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.harness .skill-card .skill-badges .badge {
+  margin-right: 0;
 }
 .harness .badge {
   display: inline-block;
@@ -1012,6 +998,7 @@ section {
   border: 1px solid var(--color-secondary);
   color: var(--color-secondary);
   margin-right: 0.4rem;
+  margin-bottom: 0.3rem;
 }
 .harness .badge-muted {
   border-color: var(--color-grey-3);

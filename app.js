@@ -1,8 +1,4 @@
 (function () {
-    function submitForm() {
-        document.getElementById('myForm').submit();
-    }
-
     function showSection(id) {
         const section = document.getElementById(id);
         const control = document.querySelector(`.control[data-id="${id}"]`);
@@ -23,9 +19,14 @@
             showSection(link.dataset.nav);
         });
     });
-    document.querySelector(".theme-btn").addEventListener("click", () => {
-        document.body.classList.toggle("light-mode");
-    })
-
-    document.querySelector(".submit-btn a").addEventListener("click", submitForm);
+    // Guarded because an unguarded querySelector that returns null throws here and takes the
+    // rest of this file down with it. That is not hypothetical: the contact form's submit
+    // handler was wired on the line below this one, and removing the form without removing
+    // the listener would have thrown on every page load.
+    const themeBtn = document.querySelector(".theme-btn");
+    if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+            document.body.classList.toggle("light-mode");
+        });
+    }
 })();

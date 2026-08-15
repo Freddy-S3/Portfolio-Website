@@ -16,6 +16,7 @@ Usage:
 import argparse
 import os
 import sys
+from urllib.parse import unquote
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX = os.path.join(ROOT, "index.html")
@@ -101,6 +102,129 @@ def click_must_change(page, console_errors, name, selector, setup=None, index=0)
     return check("interaction: %s" % name, before != after,
                  "clicked, but nothing observable changed - the control is decorative"
                  if before == after else "")
+
+
+# ------------------------------------------------------------------------------- overlap
+# Two elements whose boxes intersect, or two pills that butt together with no gap, are a
+# defect no assertion in this file could see before: every element is present, visible, and
+# correctly styled in isolation. The skill catalog's "user-invocable" and "auto-triggers"
+# badges wrapped onto consecutive lines with zero vertical separation and read as one
+# collided blob; Faruk reported it from the live site.
+#
+# Bounding-box intersection is the cheap reliable test. Ancestors are skipped (a parent
+# always contains its child) and so are absolutely positioned and fixed elements, which are
+# meant to sit on top of things - the fixed rail already has its own check.
+OVERLAP = """(args) => {
+    const [sel, minGap] = args;
+    const els = [...document.querySelectorAll(sel)].filter(e => {
+        const r = e.getBoundingClientRect();
+        const cs = getComputedStyle(e);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' &&
+               cs.display !== 'none' && cs.position !== 'absolute' && cs.position !== 'fixed';
+    });
+    const hits = [];
+    for (let i = 0; i < els.length; i++) {
+        for (let j = i + 1; j < els.length; j++) {
+            const a = els[i], b = els[j];
+            if (a.contains(b) || b.contains(a)) continue;
+            const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+            // Positive means the ranges overlap on that axis; negative is the clear gap.
+            const ox = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
+            const oy = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+
+            // Strict intersection is NOT enough. The defect this was written for - the two
+            // catalog badges - had a vertical gap of exactly 0: the pills touched, borders
+            // flush, which reads as one collided blob and is what got reported. An
+            // intersection-only predicate scored that as clean, and was verified to miss it.
+            // So flag two things: boxes that genuinely overlap, and boxes that are stacked
+            // along one axis with less than minGap of clearance on it.
+            let reason = null, gap = 0;
+            if (ox > 1 && oy > 1) {
+                reason = 'overlap'; gap = Math.round(Math.min(ox, oy));
+            } else if (ox > 1 && oy <= 1 && oy > -minGap) {
+                reason = 'stacked, only ' + Math.round(-oy) + 'px apart'; gap = Math.round(-oy);
+            } else if (oy > 1 && ox <= 1 && ox > -minGap) {
+                reason = 'side by side, only ' + Math.round(-ox) + 'px apart'; gap = Math.round(-ox);
+            }
+            if (reason) {
+                hits.push({ a: (a.innerText || a.className).trim().slice(0, 26),
+                            b: (b.innerText || b.className).trim().slice(0, 26),
+                            reason: reason, gap: gap });
+            }
+        }
+    }
+    return hits;
+}"""
+
+# Groups of siblings that must never collide, and the clearance each needs.
+OVERLAP_GROUPS = [
+    ("#skill-catalog .skill-card .badge", 2),
+    ("#simulator-result .badge", 2),
+    (".skill-card", 2),
+    (".portfolio-item", 2),
+    (".lr-chip", 2),
+    (".btn-con .main-btn", 2),
+    (".harness-stat", 2),
+]
+# Deliberately NOT listed: .contact-item. Those are full-width rows in a vertical list, and
+# adjacent rows in a list abut by design - flagging them reports a defect that is not one,
+# and a check that cries wolf gets muted, which costs more than it saves.
+
+# CSS transitions are the other source of false positives here. The theme toggle animates
+# colour and position, so a measurement taken while a transition is in flight reads a box
+# that is on its way somewhere - .lr-chip measured 2px of clearance mid-transition against a
+# declared 8px gap. Geometry assertions need the page to hold still.
+FREEZE_ANIMATION = """() => {
+    const style = document.createElement('style');
+    style.id = 'test-freeze';
+    style.textContent = `*, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }`;
+    document.head.appendChild(style);
+}"""
+
+
+def check_no_overlap(page, label):
+    for selector, gap in OVERLAP_GROUPS:
+        if page.locator(selector).count() < 2:
+            continue
+        hits = page.evaluate(OVERLAP, [selector, gap])
+        detail = ""
+        if hits:
+            detail = "; ".join("%r/%r %s" % (h["a"], h["b"], h["reason"]) for h in hits[:3])
+        check("no overlap in %s (%s)" % (selector, label), not hits, detail)
+
+
+def run_quality_pass(page, console_errors, label):
+    """Whole-site checks that must hold at every width and in every theme."""
+    for section in SECTIONS:
+        page.click('.control[data-id="%s"]' % section)
+        page.wait_for_timeout(350)
+        if section == "harness":
+            try:
+                page.wait_for_selector("#skill-catalog .skill-card", timeout=6000)
+            except Exception:
+                pass
+            page.wait_for_timeout(400)
+        check_no_overlap(page, "%s/#%s" % (label, section))
+
+    # Images: decoded, and carrying alt text that says something. An empty alt on a
+    # meaningful image is invisible to a screen reader and to anyone whose images fail.
+    bad = page.eval_on_selector_all(
+        "img",
+        """els => els.map(e => {
+            const alt = e.getAttribute('alt');
+            const broken = !e.complete || e.naturalWidth === 0;
+            const src = (e.getAttribute('src') || '').split('/').pop();
+            if (broken) return src + ' (did not decode)';
+            if (alt === null) return src + ' (no alt attribute)';
+            if (alt.trim() === '') return src + ' (empty alt)';
+            if (alt.trim().length < 4) return src + ' (alt too short: ' + alt + ')';
+            return null;
+        }).filter(Boolean)""",
+    )
+    check("images decode and carry meaningful alt (%s)" % label, not bad, "; ".join(bad[:4]))
 
 
 def run_interaction_suite(page, console_errors):
@@ -243,6 +367,26 @@ def run_interaction_suite(page, console_errors):
         }).filter(Boolean)""",
     )
     check("inline handlers resolve to real functions", not broken_inline, "; ".join(broken_inline))
+
+    # --- the contact route. The form that used to live here never had a backend: from the
+    # initial commit its action was empty, later a mailto:, so a submitted message was either
+    # discarded by a page reload or handed to a mail client the visitor might not have. It was
+    # removed on 2026-08-15. These assertions stop it, or anything like it, coming back.
+    page.click('.control[data-id="contact"]')
+    page.wait_for_timeout(500)
+    forms = page.locator("form").count()
+    check("no form posts to a backend that does not exist", forms == 0,
+          "%d form(s) still on the page" % forms)
+
+    mailtos = page.eval_on_selector_all(
+        'a[href^="mailto:"]', "els => els.map(e => e.getAttribute('href'))")
+    check("a working mailto route exists", len(mailtos) >= 1, ", ".join(mailtos[:2]))
+    check("contact section offers a reachable route",
+          page.locator('#contact a[href^="mailto:"], #contact a[href*="linkedin"], '
+                       '#contact a[href*="github"]').count() >= 3,
+          "found %d direct contact links" % page.locator(
+              '#contact a[href^="mailto:"], #contact a[href*="linkedin"], '
+              '#contact a[href*="github"]').count())
 
 
 def run(headed):
@@ -466,6 +610,36 @@ def run(headed):
         page.set_viewport_size({"width": 1440, "height": 900})
         page.wait_for_timeout(400)
         run_interaction_suite(page, console_errors)
+
+        # --- whole-site quality pass: overlap and images, at both widths and in both themes.
+        # Each of these has to hold independently - a collision that only appears at 375px, or
+        # only in light mode, is still a collision a visitor sees.
+        page.evaluate(FREEZE_ANIMATION)
+        for width, height, wlabel in [(1440, 900, "desktop"), (375, 812, "375px")]:
+            page.set_viewport_size({"width": width, "height": height})
+            page.wait_for_timeout(400)
+            run_quality_pass(page, console_errors, "%s dark" % wlabel)
+            page.click(".theme-btn")
+            page.wait_for_timeout(500)
+            run_quality_pass(page, console_errors, "%s light" % wlabel)
+            page.click(".theme-btn")
+            page.wait_for_timeout(400)
+
+        # --- every local file a link points at must actually exist on disk. A 404 on a
+        # certificate PDF is invisible in a diff and only shows up as a broken tab.
+        page.set_viewport_size({"width": 1440, "height": 900})
+        local_hrefs = page.eval_on_selector_all(
+            "a[href]",
+            """els => els.map(e => e.getAttribute('href'))
+                .filter(h => h && !/^(https?:|mailto:|tel:|#|javascript:)/i.test(h))""",
+        )
+        missing = []
+        for href in sorted(set(local_hrefs)):
+            target = os.path.join(ROOT, unquote(href.split("#")[0].split("?")[0]))
+            if not os.path.exists(target):
+                missing.append(href)
+        check("every local link resolves to a real file", not missing,
+              "missing: %s" % "; ".join(missing[:4]))
 
         # Evidence the repaired button actually responds, kept next to the other shots.
         page.click('.control[data-id="harness"]')
