@@ -785,32 +785,10 @@ section {
     .right-contact {
         flex: 3;
         margin-left: 3rem;
-        .input-control {
-            margin: 1.5rem 0;
-            input, textarea {
-                border-radius: 30px;
-                font-weight: inherit;
-                font-size: inherit;
-                font-family: inherit;
-                padding: .8rem 1.1rem;
-                outline: none;
-                border: none;
-                background-color: var(--color-grey-5);
-                width: 100%;
-                color: var(--color-white);
-                resize: none;
-            }
-        }
-        .i-c-2 {
-            display: flex;
-            :last-child{
-                margin-left: 1.5rem;
-            }
-        }
-        .submit-btn {
-            display: flex;
-            justify-content: flex-start;
-        }
+        // .input-control, .i-c-2 and .submit-btn were removed with the contact form on
+        // 2026-08-15. They styled the form's fields and its submit row and now match nothing.
+        p { margin-top: .8rem; }
+        .btn-con { margin-top: 1.6rem; }
     }
 }
 
@@ -954,7 +932,18 @@ section {
             margin-bottom: .5rem;
         }
         p { font-size: .85rem; line-height: 1.4rem; color: var(--color-white); }
-        .skill-badges { margin-top: .8rem; }
+        // Badges are inline-block with only a right margin, so when the row wraps - which it
+        // does at every width the catalog is actually read at - the two pills land on
+        // consecutive lines with no vertical separation and their borders touch. A wrapping
+        // flex row with a real gap separates them on both axes. The margin is cleared here
+        // only, so the badges rendered inline in the simulator result keep their spacing.
+        .skill-badges {
+            margin-top: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            .badge { margin-right: 0; }
+        }
     }
     .badge {
         display: inline-block;
@@ -966,6 +955,11 @@ section {
         border: 1px solid var(--color-secondary);
         color: var(--color-secondary);
         margin-right: .4rem;
+        // The result card renders these inline inside a <p>, so when the line wraps - which
+        // it does at narrow widths - the pills land on consecutive lines and their borders
+        // touch, exactly as they did in the catalog. The catalog is handled by the flex gap
+        // above; this covers the inline case, where there is no flex container to gap.
+        margin-bottom: .3rem;
     }
     .badge-muted {
         border-color: var(--color-grey-3);
