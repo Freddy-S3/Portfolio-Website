@@ -879,6 +879,95 @@ section {
         color: var(--color-grey-2);
         margin-top: .3rem;
     }
+    .harness-operations {
+        margin-top: 2.5rem;
+        padding: 2rem;
+        border: 1px solid var(--color-grey-3);
+        border-radius: var(--br-sm-2);
+        background-color: var(--color-grey-6);
+    }
+    .harness-operations-intro {
+        max-width: 760px;
+        h3 {
+            font-size: 2rem;
+            margin: .35rem 0 .8rem;
+            color: var(--color-white);
+        }
+        p:not(.harness-kicker) {
+            line-height: 1.7rem;
+            color: var(--color-grey-1);
+        }
+    }
+    .harness-kicker {
+        color: var(--color-secondary);
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .08rem;
+        text-transform: uppercase;
+    }
+    .harness-link {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        margin-top: 1rem;
+        color: var(--color-secondary);
+        font-weight: 600;
+        &:hover { color: var(--color-white); }
+    }
+    .harness-ops-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.7rem;
+    }
+    .harness-ops-stat {
+        padding: 1rem;
+        border-radius: var(--br-sm-2);
+        background-color: var(--color-grey-5);
+        border-top: 3px solid var(--color-secondary);
+        text-align: center;
+    }
+    .harness-ops-stat-num {
+        display: block;
+        color: var(--color-secondary);
+        font-size: 1.9rem;
+        font-weight: 700;
+        line-height: 2.2rem;
+    }
+    .harness-ops-stat-label {
+        display: block;
+        color: var(--color-grey-2);
+        font-size: .72rem;
+        line-height: 1.1rem;
+        margin-top: .3rem;
+        text-transform: uppercase;
+    }
+    .harness-flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-top: 1.8rem;
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: .65rem;
+            color: var(--color-grey-2);
+            font-size: .8rem;
+            line-height: 1.3rem;
+            strong {
+                display: block;
+                color: var(--color-white);
+                font-size: .9rem;
+            }
+        }
+    }
+    .harness-flow-num {
+        color: var(--color-secondary);
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .04rem;
+        line-height: 1.3rem;
+    }
     .harness-disclaimer {
         display: flex;
         align-items: center;
