@@ -111,7 +111,7 @@ jobs:
       # closes the stale-artifact gap after a source PR merges; the resulting bot commit
       # cannot publish recursively because source_changes is false on that run.
       - name: Refresh the published PDF after source changes
-        if: github.event_name == 'push' && steps.source_changes.outputs.changed == 'true'
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && steps.source_changes.outputs.changed == 'true'
         run: cp resume/resume.pdf Certificates/Freddy_Shaikh_Resume.pdf
 
       - name: Check the published PDF
