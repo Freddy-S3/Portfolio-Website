@@ -37,8 +37,7 @@ commits the results back. On a source push it also rebuilds and commits
 from pull-request path filters so it cannot create an approval-required GitHub Actions
 run. Pull requests that touch resume sources still fail the drift gate when the
 committed PDF is stale. CI uses the pinned Tectonic 0.17.0 binary so its layout matches
-the local publishing path, caches its bundle, and retries transient package-download
-failures.
+the local publishing path and retries transient package-download failures.
 **Verified green** - run 31298163570.
 
 Commented-out LaTeX is skipped everywhere. A `%` in front of a bullet removes it from

@@ -23,7 +23,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: resume-${{ github.head_ref || github.ref }}
+  group: "resume-${{ github.head_ref || github.ref }}"
   cancel-in-progress: false
 
 permissions:
@@ -32,18 +32,10 @@ permissions:
 jobs:
   resume:
     runs-on: ubuntu-latest
-    env:
-      TECTONIC_CACHE_DIR: ${{ runner.temp }}/tectonic-cache
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Cache Tectonic bundle
-        uses: actions/cache@v4
-        with:
-          path: ${{ runner.temp }}/tectonic-cache
-          key: tectonic-0.17.0-${{ runner.os }}
 
       # The source path controls automatic publication. The PDF remains a push trigger
       # for direct-commit validation, but is excluded from pull_request paths because
