@@ -33,8 +33,9 @@ resume/resume/*.tex
 
 `.github/workflows/resume.yml` runs all three on any push touching `resume/**` and
 commits the results back. On a source push it also rebuilds and commits
-`Certificates/Freddy_Shaikh_Resume.pdf`; the PDF-only bot commit triggers only a
-validation-only follow-up run. Pull requests still fail the drift gate when the
+`Certificates/Freddy_Shaikh_Resume.pdf`; the generated PDF-only bot commit is excluded
+from pull-request path filters so it cannot create an approval-required GitHub Actions
+run. Pull requests that touch resume sources still fail the drift gate when the
 committed PDF is stale. CI uses the pinned Tectonic 0.17.0 binary so its layout matches
 the local publishing path.
 **Verified green** - run 31298163570.

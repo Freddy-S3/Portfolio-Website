@@ -18,7 +18,6 @@ on:
       - 'tools/check_resume.py'
       - 'tools/check_resume_drift.py'
       - 'tools/asset-map.json'
-      - 'Certificates/Freddy_Shaikh_Resume.pdf'
       - 'requirements.txt'
       - '.github/workflows/resume.yml'
   workflow_dispatch:
@@ -38,9 +37,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      # The source path controls automatic publication. PDF-only changes remain in the
-      # trigger set so direct edits are validated; a bot PDF commit gets one no-op
-      # validation run because source_changes is false.
+      # The source path controls automatic publication. The PDF remains a push trigger
+      # for direct-commit validation, but is excluded from pull_request paths because
+      # the bot commit uses GITHUB_TOKEN and would create an approval-required run.
       - name: Detect resume source changes
         id: source_changes
         if: github.event_name != 'pull_request'
@@ -173,8 +172,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # The PDF is refreshed only when resume/ changed. Byte-level churn is
-          # acceptable here because the commit is tied to a real source change. A
-          # PDF-only bot commit gets a validation-only follow-up run.
+          # acceptable here because the commit is tied to a real source change. The
+          # generated PDF-only bot commit is excluded from pull-request path filters.
           git add Certificates/Freddy_Shaikh_Resume.pdf index.html resume.data.json exports/
           if git diff --cached --quiet; then
             echo "No resume changes to publish."
