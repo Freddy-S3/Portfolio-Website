@@ -18,10 +18,13 @@ on:
       - 'tools/check_resume.py'
       - 'tools/check_resume_drift.py'
       - 'tools/asset-map.json'
-      - 'Certificates/Freddy_Shaikh_Resume.pdf'
       - 'requirements.txt'
       - '.github/workflows/resume.yml'
   workflow_dispatch:
+
+concurrency:
+  group: "resume-${{ github.head_ref || github.ref_name }}"
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -31,6 +34,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # The source path controls automatic publication. The PDF remains a push trigger
+      # for direct-commit validation, but is excluded from pull_request paths because
+      # the bot commit uses GITHUB_TOKEN and would create an approval-required run.
+      - name: Detect resume source changes
+        id: source_changes
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          before="${{ github.event.before }}"
+          if [[ -z "$before" || "$before" =~ ^0+$ ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$before" "${{ github.sha }}" -- resume/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       # Without a pinned clock the PDF gets a fresh timestamp and /ID each run, so the
       # committed file churns and conflicts with any open branch.
@@ -39,15 +66,34 @@ jobs:
           echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct -- resume/)" >> "$GITHUB_ENV"
           echo "FORCE_SOURCE_DATE=1" >> "$GITHUB_ENV"
 
-      # Fonts are vendored under resume/fonts/ and \fontdir points at them, so the
-      # container needs no system font install. xelatex (not tectonic) is the compiler:
-      # awesome-cv.cls depends on fontspec against those vendored OTFs.
-      - name: Compile resume.tex with xelatex
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: resume.tex
-          working_directory: resume
-          latexmk_use_xelatex: true
+      # Use the same pinned self-contained engine as tools/build-resume.ps1. The
+      # runner's TeX Live layout differs from the local artifact and fails the resume's
+      # row-alignment guard, so publishing a different CI rendering is unsafe.
+      - name: Install Tectonic 0.17.0
+        shell: bash
+        run: |
+          curl --fail --location --silent --show-error \
+            'https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.17.0/tectonic-0.17.0-x86_64-unknown-linux-gnu.tar.gz' \
+            --output "$RUNNER_TEMP/tectonic.tar.gz"
+          echo '1a715688baf591e650c8aeb160ae934e181685eecbb38b317de30b269ac5d606  '"$RUNNER_TEMP/tectonic.tar.gz" | sha256sum --check --status
+          tar -xzf "$RUNNER_TEMP/tectonic.tar.gz" -C "$RUNNER_TEMP"
+          chmod +x "$RUNNER_TEMP/tectonic"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/tectonic" --version
+
+      - name: Compile resume.tex with Tectonic
+        working-directory: resume
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            if tectonic -X compile resume.tex --outdir . --keep-logs; then
+              exit 0
+            fi
+            if [[ "$attempt" -lt 3 ]]; then
+              sleep "$((attempt * 30))"
+            fi
+          done
+          exit 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,15 +106,23 @@ jobs:
       - name: Install Python tooling
         run: python -m pip install -r requirements.txt
 
-      # Gate 1: the PDF that actually ships is sound - one page, no blank bands, no
-      # misaligned table rows, ASCII hyphens in the text layer.
-      #
-      # This judges the committed copy, not the runner's build, because the committed
-      # copy is the file the deploy publishes and the file recruiters open. It is also
-      # the only one of the two whose geometry means anything: the runner's TeX Live
-      # lays these sources out 55.2pt shorter than the local install does, which trips
-      # the row-alignment guard on the runner build alone. Checking the artifact that
-      # ships avoids gating on a layout nobody will ever see.
+      # Gate 1: the fresh CI build is sound before it can replace the published copy -
+      # one page, no blank bands, no misaligned table rows, ASCII hyphens in the text
+      # layer.
+      - name: Check the freshly built PDF
+        run: |
+          python tools/check_resume.py resume/resume.pdf \
+            --sources resume/resume \
+            --allow-orphan-page \
+            --max-pages 1
+
+      # Source changes are the only event that should rewrite the tracked PDF. This
+      # closes the stale-artifact gap after a source PR merges; the resulting bot commit
+      # cannot publish recursively because source_changes is false on that run.
+      - name: Refresh the published PDF after source changes
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && steps.source_changes.outputs.changed == 'true'
+        run: cp resume/resume.pdf Certificates/Freddy_Shaikh_Resume.pdf
+
       - name: Check the published PDF
         run: |
           python tools/check_resume.py Certificates/Freddy_Shaikh_Resume.pdf \
@@ -76,7 +130,10 @@ jobs:
             --allow-orphan-page \
             --max-pages 1
 
-      # Gate 2: that published copy still carries the current sources.
+      # Gate 2: that published copy still carries the current sources. On a push after
+      # resume/ changes, the refresh step above updates it first. On a pull request,
+      # this remains a blocking check so a reviewer can see a stale artifact before
+      # merge even if branch protection is not enabled.
       #
       # Certificates/Freddy_Shaikh_Resume.pdf stays tracked because the site deploy
       # syncs the git tree to S3 and never compiles LaTeX - untracking it would 404
@@ -124,13 +181,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # The PDF is deliberately left out of this commit: even with the clock pinned
-          # above, xelatex still produces a byte-different PDF on every run, so
-          # committing it churns git history for no reason. It does not go stale
-          # unnoticed any more either - the drift gate above fails the build when the
-          # committed copy falls behind. Run tools/build-resume.ps1 locally to refresh
-          # it when that gate fires.
-          git add index.html resume.data.json exports/
+          # The PDF is refreshed only when resume/ changed. Byte-level churn is
+          # acceptable here because the commit is tied to a real source change. The
+          # generated PDF-only bot commit is excluded from pull-request path filters.
+          git add Certificates/Freddy_Shaikh_Resume.pdf index.html resume.data.json exports/
           if git diff --cached --quiet; then
             echo "No resume changes to publish."
           else

@@ -32,7 +32,13 @@ resume/resume/*.tex
 ```
 
 `.github/workflows/resume.yml` runs all three on any push touching `resume/**` and
-commits the results back. **Verified green** - run 31298163570.
+commits the results back. On a source push it also rebuilds and commits
+`Certificates/Freddy_Shaikh_Resume.pdf`; the generated PDF-only bot commit is excluded
+from pull-request path filters so it cannot create an approval-required GitHub Actions
+run. Pull requests that touch resume sources still fail the drift gate when the
+committed PDF is stale. CI uses the pinned Tectonic 0.17.0 binary so its layout matches
+the local publishing path and retries transient package-download failures.
+**Verified green** - run 31298163570.
 
 Commented-out LaTeX is skipped everywhere. A `%` in front of a bullet removes it from
 the PDF, the website, and every export in one edit. That is the whole point.
@@ -50,10 +56,10 @@ LaTeX does not carry. New certification in `awards.tex` means a new entry here.
 
 - One-line edit to `skills.tex` propagated to `index.html` and all four exports; reverting removed it cleanly.
 - `resume_to_site.py` is idempotent; `--check` exits non-zero on drift.
-- PDF: 2 pages, valid trailer, FontAwesome + Roboto + SourceSansPro all embedded.
+- PDF: 1 page, valid trailer, FontAwesome + Roboto + SourceSansPro all embedded.
 - HTML nesting parses clean; every local `href`/`src` resolves to a real file.
 - Generated `.skill-*` classes all have matching CSS rules.
-- CI regenerated `index.html` and `exports/` byte-for-byte identical to the local run. Only the PDF differed, so the generators are platform-deterministic.
+- CI regenerates `index.html` and `exports/` byte-for-byte identical to the local run. The PDF is rebuilt and committed by CI after source changes because its binary bytes vary by toolchain.
 
 ## Browser verified (locally AND in CI)
 
@@ -165,7 +171,7 @@ Still open:
 
 9. **Automate job applications on Indeed, Glassdoor, and ZipRecruiter.** Follows directly from item 8: those three are upload-and-parse flows with no meaningful automation detection, so the apply path is scriptable against the logged-in session in the same way the profile path is. LinkedIn is explicitly out of scope - it is the one platform where this would put the account at risk mid-search. Wants a per-site look at what "apply" actually submits (Indeed Quick Apply and ZipRecruiter 1-Click both vary by employer, and some hand off to an external ATS, which is where automation stops being safe or useful). To be added to the top of `QUEUE-PC.md` by Faruk.
 
-10. **The published PDF is 2 pages, and that is what the job boards now hold.** `Certificates/Freddy_Shaikh_Resume.pdf` runs to 2 pages; it was uploaded to Indeed that way during the 2026-08-11 cascade because Faruk chose to roll with it rather than block. The one-page content already exists as `resume/renditions/balanced/`, which PR #16 made the default - the canonical build stays long only because it carries a separate education section and a longer certifications block that the one-page cut drops. So the work is deciding whether the canonical build adopts those omissions, or whether the boards get fed the rendition PDF instead. Overlaps open item 4; when this is done, re-upload to every board touched in the cascade. Tracked at the top of `QUEUE-PC.md`.
+~~10. **The published PDF is 2 pages, and that is what the job boards now hold.**~~ **RESOLVED 2026-08-16.** The canonical PDF is now the approved one-page build, and PR #43 publishes the refreshed artifact. CI now rebuilds and commits the PDF automatically whenever `resume/` changes, so source/PDF drift cannot persist after a merge. Re-upload the refreshed one-page file to every job board touched in the earlier cascade.
 
 ~~11. Small caps corrupt the PDF text layer, and it is ATS-breaking.~~ **FIXED 2026-08-11.**
    Every small-caps word extracted with a lowercase `i` - `SENiOR`, `ENGiNEER`, `ENGLiSH`,
