@@ -23,7 +23,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: resume-${{ github.ref }}
+  group: resume-${{ github.head_ref || github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -32,10 +32,18 @@ permissions:
 jobs:
   resume:
     runs-on: ubuntu-latest
+    env:
+      TECTONIC_CACHE_DIR: ${{ runner.temp }}/tectonic-cache
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Cache Tectonic bundle
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/tectonic-cache
+          key: tectonic-0.17.0-${{ runner.os }}
 
       # The source path controls automatic publication. The PDF remains a push trigger
       # for direct-commit validation, but is excluded from pull_request paths because
@@ -83,7 +91,17 @@ jobs:
 
       - name: Compile resume.tex with Tectonic
         working-directory: resume
-        run: tectonic -X compile resume.tex --outdir . --keep-logs
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            if tectonic -X compile resume.tex --outdir . --keep-logs; then
+              exit 0
+            fi
+            if [[ "$attempt" -lt 3 ]]; then
+              sleep "$((attempt * 30))"
+            fi
+          done
+          exit 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
