@@ -306,6 +306,33 @@ PLACEHOLDER_IMG = "img/placeholder.svg"
 
 
 def render_card(title, image, href, icon, alt_text):
+    # An entry with no URL used to fall back to href="#", which renders as a link, invites
+    # the click, and then does nothing - the same "control that is decorative" defect the
+    # interaction tests in tools/test_site.py exist to catch. When there is nowhere to go,
+    # emit the badge as a span so it still reads as a mark and no longer pretends to be a
+    # link. Styling is on .icon, not a.icon, so the two render identically.
+    linked = bool(href) and href.strip() not in ("#", "")
+    if linked:
+        badge = [
+            '            <a href="%s" target="_blank" class="icon">' % esc(href),
+            '                <i class="%s"></i>' % esc(icon),
+            "            </a>",
+        ]
+    else:
+        # Emitting a plain span stops it pretending to be a link, but on its own it leaves
+        # the badge looking identical to a working one: a sighted visitor cannot tell the
+        # link is pending rather than missing, and a screen reader is handed an icon font
+        # with no text at all. So the pending state is marked in three ways - a class the
+        # stylesheet dims, a title for the hover, and real text for assistive technology.
+        # aria-label on a bare span is not reliably announced, so the text is a visually
+        # hidden child instead of an attribute.
+        pending = "Credential link pending"
+        badge = [
+            '            <span class="icon icon-pending" title="%s">' % pending,
+            '                <i class="%s" aria-hidden="true"></i>' % esc(icon),
+            '                <span class="sr-only">%s: %s</span>' % (esc(title), pending),
+            "            </span>",
+        ]
     return [
         '<div class="portfolio-item">',
         '    <div class="image">',
@@ -314,9 +341,7 @@ def render_card(title, image, href, icon, alt_text):
         '    <div class="hover-items">',
         "        <h3>%s</h3>" % esc(title),
         '        <div class="icons">',
-        '            <a href="%s" target="_blank" class="icon">' % esc(href),
-        '                <i class="%s"></i>' % esc(icon),
-        "            </a>",
+    ] + badge + [
         "        </div>",
         "    </div>",
         "</div>",

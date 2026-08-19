@@ -6,6 +6,12 @@
 }
 
 :root {
+    // Geometry of the fixed right-hand rail (theme toggle + section controls).
+    // Content columns reserve --rail-gutter so nothing can slide underneath it;
+    // the rail itself is positioned from the same tokens, so the two cannot drift.
+    --rail-inset: 3vw;
+    --rail-size: 70px;
+    --rail-gutter: calc(var(--rail-inset) + var(--rail-size) + 1.5rem);
     --color-primary: #191d2b;
     --color-secondary: #279eae;
     --color-white: #FFFFFF;
@@ -89,7 +95,7 @@ section {
     position: fixed;
     z-index: 10;
     top: 50%;
-    right: 3%;
+    right: var(--rail-inset);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,9 +128,9 @@ section {
 
 .theme-btn {
     top: 5%;
-    right: 3%;
-    width: 70px;
-    height: 70px;
+    right: var(--rail-inset);
+    width: var(--rail-size);
+    height: var(--rail-size);
     border-radius: 50%;
     background-color: var(--color-grey-4);
     cursor: pointer;
@@ -189,7 +195,8 @@ section {
         flex-direction: column;
         justify-content: center;
         // The router console shares this column, so the old 18rem gutter is reclaimed.
-        padding-right: 6rem;
+        // Never narrower than the fixed rail needs, or the console slides under it.
+        padding-right: max(6rem, var(--rail-gutter));
         .name {
             font-size: 2.6rem;
             span { color: var(--color-secondary); }
@@ -365,6 +372,20 @@ section {
     }
 }
 
+// Text carried for assistive technology only. The router has its own scoped .lr-sr-only;
+// this is the page-level one, used by badges whose meaning is otherwise only an icon font.
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /*About*/
 .about-container {
     display: grid;
@@ -375,6 +396,10 @@ section {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 2rem;
+        // With four cards the rows filled this column and stretching was invisible. Two
+        // cards stretched to the full height of the biography beside them read as two
+        // empty towers, so the row is sized to its content and held at the top.
+        align-content: start;
         .about-item {
             border: 1px solid var(--color-grey-5);
             border-radius: 5px;
@@ -647,6 +672,18 @@ section {
                         i { color: var(--color-primary); }
                     }
                 }
+                // A badge with nowhere to go is already emitted as a span rather than an
+                // anchor, but .icon above gives it a pointer cursor and a hover response,
+                // so it still invited the click it cannot answer. Pending badges drop both
+                // and sit dimmed, so "link not supplied yet" is visible rather than implied.
+                .icon-pending {
+                    cursor: default;
+                    opacity: .45;
+                    &:hover {
+                        background-color: var(--color-primary);
+                        i { color: var(--color-white); }
+                    }
+                }
             }
         }
     }
@@ -726,21 +763,47 @@ section {
         }
 
         .contact-info {
+            // A flex row with space-between put each label directly against its own value:
+            // the two boxes never intersected, so every bounding-box check scored the row
+            // clean, while the glyphs of a long label such as "Languages" ran into the list
+            // beside it. A grid with a declared label track and a real column-gap makes that
+            // impossible at any width - neither side can grow into the other's column, and
+            // both wrap inside their own track instead of into each other.
             .contact-item {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+                // Label above value, one column, at every width. The previous flex row put
+                // each label directly against its own value with nothing between them: the
+                // boxes never intersected, so bounding-box checks scored the row clean while
+                // the glyphs of a long label such as "Languages" ran into the list beside it.
+                // Side-by-side is not recoverable here - this column is around 330px wide, so
+                // any label track wide enough for "Mobile Number" starves the value into
+                // wrapping every second word. Stacking removes the shared horizontal run the
+                // collision needed, and cannot reappear as the column narrows.
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                row-gap: .1rem;
+                margin: 1.4rem 0;
+                line-height: 1.9rem;
                 p {
-                    margin: .3rem 0 !important;
-                    padding: 0 !important;
+                    margin: 0 !important;
+                    // Indented to the label's text so the pair reads as one unit rather
+                    // than as two unrelated lines.
+                    padding: 0 0 0 2.5rem !important;
+                    min-width: 0;
+                    overflow-wrap: break-word;
                 }
                 .icon {
                     display: grid;
-                    grid-template-columns: 40px 1fr;
+                    grid-template-columns: 2.5rem minmax(0, 1fr);
+                    align-items: center;
+                    min-width: 0;
                     i {
                         display: flex;
                         align-items: center;
                         font-size: 1.3rem;
+                    }
+                    span {
+                        overflow-wrap: break-word;
+                        color: var(--color-grey-1);
                     }
                 }
             }
@@ -778,32 +841,10 @@ section {
     .right-contact {
         flex: 3;
         margin-left: 3rem;
-        .input-control {
-            margin: 1.5rem 0;
-            input, textarea {
-                border-radius: 30px;
-                font-weight: inherit;
-                font-size: inherit;
-                font-family: inherit;
-                padding: .8rem 1.1rem;
-                outline: none;
-                border: none;
-                background-color: var(--color-grey-5);
-                width: 100%;
-                color: var(--color-white);
-                resize: none;
-            }
-        }
-        .i-c-2 {
-            display: flex;
-            :last-child{
-                margin-left: 1.5rem;
-            }
-        }
-        .submit-btn {
-            display: flex;
-            justify-content: flex-start;
-        }
+        // .input-control, .i-c-2 and .submit-btn were removed with the contact form on
+        // 2026-08-15. They styled the form's fields and its submit row and now match nothing.
+        p { margin-top: .8rem; }
+        .btn-con { margin-top: 1.6rem; }
     }
 }
 
@@ -837,6 +878,95 @@ section {
         letter-spacing: .04rem;
         color: var(--color-grey-2);
         margin-top: .3rem;
+    }
+    .harness-operations {
+        margin-top: 2.5rem;
+        padding: 2rem;
+        border: 1px solid var(--color-grey-3);
+        border-radius: var(--br-sm-2);
+        background-color: var(--color-grey-6);
+    }
+    .harness-operations-intro {
+        max-width: 760px;
+        h3 {
+            font-size: 2rem;
+            margin: .35rem 0 .8rem;
+            color: var(--color-white);
+        }
+        p:not(.harness-kicker) {
+            line-height: 1.7rem;
+            color: var(--color-grey-1);
+        }
+    }
+    .harness-kicker {
+        color: var(--color-secondary);
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .08rem;
+        text-transform: uppercase;
+    }
+    .harness-link {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        margin-top: 1rem;
+        color: var(--color-secondary);
+        font-weight: 600;
+        &:hover { color: var(--color-white); }
+    }
+    .harness-ops-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.7rem;
+    }
+    .harness-ops-stat {
+        padding: 1rem;
+        border-radius: var(--br-sm-2);
+        background-color: var(--color-grey-5);
+        border-top: 3px solid var(--color-secondary);
+        text-align: center;
+    }
+    .harness-ops-stat-num {
+        display: block;
+        color: var(--color-secondary);
+        font-size: 1.9rem;
+        font-weight: 700;
+        line-height: 2.2rem;
+    }
+    .harness-ops-stat-label {
+        display: block;
+        color: var(--color-grey-2);
+        font-size: .72rem;
+        line-height: 1.1rem;
+        margin-top: .3rem;
+        text-transform: uppercase;
+    }
+    .harness-flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-top: 1.8rem;
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: .65rem;
+            color: var(--color-grey-2);
+            font-size: .8rem;
+            line-height: 1.3rem;
+            strong {
+                display: block;
+                color: var(--color-white);
+                font-size: .9rem;
+            }
+        }
+    }
+    .harness-flow-num {
+        color: var(--color-secondary);
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .04rem;
+        line-height: 1.3rem;
     }
     .harness-disclaimer {
         display: flex;
@@ -898,6 +1028,7 @@ section {
         .result-card {
             p { margin-bottom: .8rem; line-height: 1.5rem; }
             &.no-match .result-command { color: var(--color-grey-2); }
+            &.result-empty .result-command { color: var(--color-grey-2); }
         }
         .result-mode {
             font-size: .85rem;
@@ -946,7 +1077,18 @@ section {
             margin-bottom: .5rem;
         }
         p { font-size: .85rem; line-height: 1.4rem; color: var(--color-white); }
-        .skill-badges { margin-top: .8rem; }
+        // Badges are inline-block with only a right margin, so when the row wraps - which it
+        // does at every width the catalog is actually read at - the two pills land on
+        // consecutive lines with no vertical separation and their borders touch. A wrapping
+        // flex row with a real gap separates them on both axes. The margin is cleared here
+        // only, so the badges rendered inline in the simulator result keep their spacing.
+        .skill-badges {
+            margin-top: .8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            .badge { margin-right: 0; }
+        }
     }
     .badge {
         display: inline-block;
@@ -958,6 +1100,11 @@ section {
         border: 1px solid var(--color-secondary);
         color: var(--color-secondary);
         margin-right: .4rem;
+        // The result card renders these inline inside a <p>, so when the line wraps - which
+        // it does at narrow widths - the pills land on consecutive lines and their borders
+        // touch, exactly as they did in the catalog. The catalog is handled by the flex gap
+        // above; this covers the inline case, where there is no flex container to gap.
+        margin-bottom: .3rem;
     }
     .badge-muted {
         border-color: var(--color-grey-3);
@@ -969,6 +1116,7 @@ section {
 .btn-con {
     display: flex;
     flex-wrap: wrap;
+    align-items: stretch;
     gap: 1rem;
     align-self: flex-start;
 }
@@ -979,7 +1127,9 @@ section {
     position: relative;
     border: 1px solid var(--color-secondary);
     display: flex;
-    align-self: flex-start;
+    // Buttons in a row share one height; sizing each to its own content leaves
+    // them visibly misaligned when their icons differ.
+    align-self: stretch;
     align-items: center;
     overflow: hidden;
     .btn-text { padding: 0 2rem; }

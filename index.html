@@ -33,7 +33,7 @@
                 </p>
                 <div class="landing-router" id="landing-router">
                     <div class="lr-head">
-                        <span class="lr-title"><i class="fas fa-diagram-project" aria-hidden="true"></i> Skill router</span>
+                        <span class="lr-title"><i class="fas fa-project-diagram" aria-hidden="true"></i> Skill router</span>
                         <span class="lr-note">Deterministic simulation &mdash; no model runs on this page</span>
                     </div>
                     <p class="lr-chips-label" id="lr-chips-label">Try a task</p>
@@ -55,7 +55,7 @@
                     </a>
                     <a href="#harness" data-nav="harness" class="main-btn">
                         <span class="btn-text">All <!-- skills:count:start -->33<!-- skills:count:end --> skills</span>
-                        <span class="btn-icon"><i class="fas fa-diagram-project"></i></span>
+                        <span class="btn-icon"><i class="fas fa-project-diagram"></i></span>
                     </a>
                 </div>
             </div>
@@ -95,22 +95,18 @@
                     </div>
                 </div>
                 <div class="right-about">
-                    <div class="about-item">
-                        <div class="abt-text">
-                            <p class="large-text">30+</p>
-                            <p class="small-text">Projects <br /> Completed</p>
-                        </div>
-                    </div>
+                    <!--
+                        Two counters stood here, "30+ Projects Completed" and "20+ Happy
+                        Clients". They were placeholder figures carried over from the theme
+                        this page started from and were never measurements of anything, so
+                        they are removed rather than restated. The remaining items are
+                        figures with a source: years of experience matches the resume, and
+                        the commit count is a countable property of the public repositories.
+                    -->
                     <div class="about-item">
                         <div class="abt-text">
                             <p class="large-text">7+</p>
                             <p class="small-text">Years of <br /> experience</p>
-                        </div>
-                    </div>
-                    <div class="about-item">
-                        <div class="abt-text">
-                            <p class="large-text">20+</p>
-                            <p class="small-text">Happy <br /> Clients</p>
                         </div>
                     </div>
                     <div class="about-item">
@@ -240,6 +236,7 @@
                         <li class="skill-tag">Vue 3</li>
                         <li class="skill-tag">Astro</li>
                         <li class="skill-tag">Test Automation</li>
+                        <li class="skill-tag">Graph Databases</li>
                     </ul>
                 </div>
                 <div class="skill-category">
@@ -250,6 +247,8 @@
                         <li class="skill-tag">MCP (Model Context Protocol)</li>
                         <li class="skill-tag">Agentic Harnesses</li>
                         <li class="skill-tag">Prompt Engineering</li>
+                        <li class="skill-tag">Answer Engine Optimization (AEO)</li>
+                        <li class="skill-tag">SEO</li>
                     </ul>
                 </div>
             </div>
@@ -340,8 +339,56 @@
                     <span class="harness-stat-label">Operating modes, personal and delivery</span>
                 </div>
             </div>
+            <div class="harness-operations" id="harness-operations">
+                <div class="harness-operations-intro">
+                    <p class="harness-kicker">Portable project model</p>
+                    <h3>One operating model, every host</h3>
+                    <p>
+                        The same harness runs across ChatGPT, Claude Code, and Codex.
+                        I keep context narrow: one control center, one Project per business,
+                        one coordination chat, and one chat per distinct outcome.
+                        Work stays grounded in the repository, queue, and pull request;
+                        bounded parallelism uses isolated worktrees.
+                    </p>
+                    <a class="harness-link" href="https://github.com/Freddy-S3/agent-agnostic-harness" target="_blank" rel="noopener noreferrer">
+                        Explore the harness <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="harness-ops-stats">
+                    <div class="harness-ops-stat">
+                        <span class="harness-ops-stat-num">1</span>
+                        <span class="harness-ops-stat-label">Default writing agent per worktree</span>
+                    </div>
+                    <div class="harness-ops-stat">
+                        <span class="harness-ops-stat-num">3</span>
+                        <span class="harness-ops-stat-label">Maximum parallel agents when justified</span>
+                    </div>
+                    <div class="harness-ops-stat">
+                        <span class="harness-ops-stat-num">1</span>
+                        <span class="harness-ops-stat-label">Coordination chat per Project</span>
+                    </div>
+                </div>
+                <ol class="harness-flow" aria-label="Outcome workflow">
+                    <li>
+                        <span class="harness-flow-num">01</span>
+                        <span><strong>Project</strong> stable business context</span>
+                    </li>
+                    <li>
+                        <span class="harness-flow-num">02</span>
+                        <span><strong>Main chat</strong> current coordination</span>
+                    </li>
+                    <li>
+                        <span class="harness-flow-num">03</span>
+                        <span><strong>Outcome chat</strong> one result at a time</span>
+                    </li>
+                    <li>
+                        <span class="harness-flow-num">04</span>
+                        <span><strong>Repo and PR</strong> durable handoff</span>
+                    </li>
+                </ol>
+            </div>
             <p class="harness-disclaimer">
-                <i class="fas fa-circle-info"></i>
+                <i class="fas fa-info-circle"></i>
                 This is a simulation, not a live agent. It runs the same keyword matching a router skill would apply to the
                 descriptions and trigger conditions below &mdash; there's no model behind this page.
             </p>
@@ -353,7 +400,7 @@
                     <textarea id="task-input" rows="3" placeholder="e.g. Review this pull request like a strict senior engineer would."></textarea>
                     <button type="button" id="route-btn" class="main-btn">
                         <span class="btn-text">Route this task</span>
-                        <span class="btn-icon"><i class="fas fa-diagram-project"></i></span>
+                        <span class="btn-icon"><i class="fas fa-project-diagram"></i></span>
                     </button>
                 </div>
                 <div class="simulator-result" id="simulator-result">
@@ -420,9 +467,10 @@
                     <div class="hover-items">
                         <h3>AWS Machine Learning Engineer Associate</h3>
                         <div class="icons">
-                            <a href="#" target="_blank" class="icon">
-                                <i class="fab fa-aws"></i>
-                            </a>
+                            <span class="icon icon-pending" title="Credential link pending">
+                                <i class="fab fa-aws" aria-hidden="true"></i>
+                                <span class="sr-only">AWS Machine Learning Engineer Associate: Credential link pending</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -446,7 +494,7 @@
                     <div class="hover-items">
                         <h3>GCP Professional Cloud Architect</h3>
                         <div class="icons">
-                            <a href="https://google.accredible.com/3259369f-c575-4640-bd46-8c4b2d3b93a2" target="_blank" class="icon">
+                            <a href="Certificates/GCPCloudArchitectCertification.pdf" target="_blank" class="icon">
                                 <i class="fab fa-google"></i>
                             </a>
                         </div>
@@ -513,7 +561,7 @@
                 <div class="blogs">
                     <div class="blog">
                         <a href="https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882" target="_blank">
-                            <img src="img/CC.jpg" alt="">
+                            <img src="img/CC.jpg" alt="Cover of Clean Code by Robert C. Martin">
                             <div class="blog-text">
                                 <h4>
                                     Clean Code: A Handbook of Agile Software Craftsmanship
@@ -535,7 +583,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://www.amazon.ca/Effective-Java-3rd-Joshua-Bloch/dp/0134685997" target="_blank">
-                            <img src="img/EJ.jpg" alt="">
+                            <img src="img/EJ.jpg" alt="Cover of Effective Java by Joshua Bloch">
                             <div class="blog-text">
                                 <h4>
                                     Effective Java
@@ -552,7 +600,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://www.goodreads.com/book/show/10284614-the-clean-coder" target="_blank">
-                            <img src="img/TCC.jpg" alt="">
+                            <img src="img/TCC.jpg" alt="Cover of The Clean Coder by Robert C. Martin">
                             <div class="blog-text">
                                 <h4>
                                     The Clean Coder: A Code of Conduct for Professional Programmers
@@ -569,7 +617,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://www.amazon.ca/Core-Java-Fundamentals-Cay-Horstmann/dp/0137673620/ref=sr_1_1?crid=17V1CYYBWPT9Q&keywords=core+java&qid=1701383980&s=books&sprefix=core+java%2Cstripbooks%2C98&sr=1-1" target="_blank">
-                            <img src="img/CJ.jpg" alt="">
+                            <img src="img/CJ.jpg" alt="Cover of Core Java Fundamentals by Cay Horstmann">
                             <div class="blog-text">
                                 <h4>
                                     Core Java
@@ -587,7 +635,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://www.cloudskillsboost.google/paths/12" target="_blank">
-                            <img src="img/GCPCloudArchitectLogo.jpg" alt="">
+                            <img src="img/GCPCloudArchitectLogo.jpg" alt="Google Cloud Professional Cloud Architect certification badge">
                             <div class="blog-text">
                                 <h4>
                                     GCP Cloud Architect Course
@@ -605,7 +653,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://explore.skillbuilder.aws/learn/public/learning_plan/view/1046/solutions-architect-knowledge-badge-readiness-path-includes-labs" target="_blank">
-                            <img src="img/AWSSAP.jpg" alt="">
+                            <img src="img/AWSSAP.jpg" alt="AWS Certified Solutions Architect - Professional certification badge">
                             <div class="blog-text">
                                 <h4>
                                     AWS Solutions Architect Course
@@ -623,7 +671,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://www.amazon.ca/Fluent-Python-Concise-Effective-Programming/dp/1492056359/ref=sr_1_1?crid=2NT0NO8AX35MA&keywords=fluent+python&qid=1701383726&s=books&sprefix=fluent+python%2Cstripbooks%2C101&sr=1-1" target="_blank">
-                            <img src="img/FP.jpg" alt="">
+                            <img src="img/FP.jpg" alt="Cover of The Pragmatic Programmer">
                             <div class="blog-text">
                                 <h4>
                                     Fluent Python
@@ -640,7 +688,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://inventwithpython.com/beyond/" target="_blank">
-                            <img src="img/BTBS.jpg" alt="">
+                            <img src="img/BTBS.jpg" alt="Cover of Beyond the Basic Stuff with Python">
                             <div class="blog-text">
                                 <h4>
                                     Beyond the Basic Stuff with Python
@@ -659,7 +707,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://automatetheboringstuff.com/" target="_blank">
-                            <img src="img/ATBS.jpg" alt="">
+                            <img src="img/ATBS.jpg" alt="Cover of Automate the Boring Stuff with Python">
                             <div class="blog-text">
                                 <h4>
                                     Automate the Boring Stuff with Python
@@ -676,7 +724,7 @@
                     </div>
                     <div class="blog">
                         <a href="https://learn.microsoft.com/en-us/training/courses/az-040t00?source=learn#course-syllabus" target="_blank">
-                            <img src="img/MSLLogo.jpg" alt="">
+                            <img src="img/MSLLogo.jpg" alt="Microsoft Learn certification badge">
                             <div class="blog-text">
                                 <h4>
                                     Microsoft Learn: Powershell Automation
@@ -695,7 +743,7 @@
                     </div> 
                     <div class="blog">
                         <a href="https://www.amazon.ca/Designing-Data-Intensive-Applications-Reliable-Maintainable/dp/1449373321" target="_blank">
-                            <img src="img/DDIA.jpg" alt="">
+                            <img src="img/DDIA.jpg" alt="Cover of Designing Data-Intensive Applications by Martin Kleppmann">
                             <div class="blog-text">
                                 <h4>
                                     Designing Data-Intensive Applications
@@ -733,7 +781,7 @@
                                     <span>Location</span>
                                 </div>
                                 <p>
-                                    : Toronto, Canada
+                                    Toronto, Canada
                                 </p>
                             </div>
                             <div class="contact-item">
@@ -742,7 +790,7 @@
                                     <span>Email</span>
                                 </div>
                                 <p>
-                                    <span>: shaikhfh1@gmail.com</span>
+                                    <span>shaikhfh1@gmail.com</span>
                                 </p>
                             </div>
                             <div class="contact-item">
@@ -751,7 +799,7 @@
                                     <span>Mobile Number</span>
                                 </div>
                                 <p>
-                                    <span>: +1 (437) 267-3291</span>
+                                    <span>+1 (437) 267-3291</span>
                                 </p>
                             </div>
                             <div class="contact-item">
@@ -760,7 +808,7 @@
                                     <span>Education</span>
                                 </div>
                                 <p>
-                                    <span>: McMaster University, Hamilton</span>
+                                    <span>McMaster University, Hamilton</span>
                                 </p>
                             </div>
                             <div class="contact-item">
@@ -769,7 +817,7 @@
                                     <span>Languages</span>
                                 </div>
                                 <p>
-                                    <span>: English, Japanese, Bengali, French, Mandarin</span>
+                                    <span>English, Japanese, Bengali, French, Mandarin</span>
                                 </p>
                             </div>
                         </div>
@@ -797,51 +845,35 @@
                         </div>
                     </div>
                     <!--
-                    <div id="emailForm">
-                        <form id="myForm">
-                          <label for="email">Email:</label>
-                          <input type="email" id="email" name="email" required>
-                    
-                          <label for="message">Message:</label>
-                          <textarea id="message" name="message" rows="4" required></textarea>
-                    
-                          <button type="button" onclick="submitForm()">Submit</button>
-                        </form>
-                      </div>
-                    
-                      <script>
-                        function submitForm() {
-                          // Get values from the form
-                          var email = document.getElementById("email").value;
-                          var message = document.getElementById("message").value;
-                    
-                          // Construct the mailto link
-                          var mailtoLink = "mailto:" + encodeURIComponent(email) + "?subject=Message from your website&body=" + encodeURIComponent(message);
-                    
-                          // Open the default email client with the pre-populated email
-                          window.location.href = mailtoLink;
-                        }
-                      </script>
-                      -->
+                        The contact form that stood here was removed on 2026-08-15. It never had
+                        a backend: from the initial commit in November 2023 its action was empty,
+                        and later a mailto: action, so a submitted message was either discarded by
+                        a page reload or handed to a mail client the visitor may not have had.
+                        Nothing was ever posted to a service. Anyone filling it in and waiting for
+                        a reply was waiting on a message that was never sent. These direct routes
+                        are deliberately used instead of wiring a form service, because a link that
+                        opens the visitor's own mail client cannot silently swallow a message.
+                    -->
                     <div class="right-contact">
-                        <form method="get" action="mailto:shaikhfh1@gmail.com" enctype="multipart/form-data" class="contact-form" id="myForm">
-                            <div class="input-control i-c-2">
-                                <input type="text" required placeholder="YOUR NAME" name="EmailerName">
-                                <input type="email" required placeholder="YOUR EMAIL" name="email">
-                            </div>
-                            <div class="input-control">
-                                <input type="text" required placeholder="ENTER SUBJECT" name="subject">
-                            </div>
-                            <div class="input-control">
-                                <textarea name="body" id="" cols="15" rows="8" placeholder="Message Here..."></textarea>
-                            </div>
-                            <div class="submit-btn">
-                                <a href="javascript:void(0);" class="main-btn" onclick="submitForm()">
-                                    <span class="btn-text">Send Message</span>
-                                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
-                                </a>
-                            </div>
-                        </form>
+                        <h4>Get in touch</h4>
+                        <p>
+                            Email is the surest way to reach me and it goes straight to my inbox.
+                            LinkedIn and GitHub work just as well if that is easier.
+                        </p>
+                        <div class="btn-con">
+                            <a href="mailto:shaikhfh1@gmail.com?subject=Hello%20from%20your%20portfolio" class="main-btn">
+                                <span class="btn-text">Email me</span>
+                                <span class="btn-icon"><i class="fas fa-envelope"></i></span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/freddy-shaikh/" target="_blank" rel="noopener" class="main-btn">
+                                <span class="btn-text">LinkedIn</span>
+                                <span class="btn-icon"><i class="fab fa-linkedin"></i></span>
+                            </a>
+                            <a href="https://github.com/Freddy-S3" target="_blank" rel="noopener" class="main-btn">
+                                <span class="btn-text">GitHub</span>
+                                <span class="btn-icon"><i class="fab fa-github"></i></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

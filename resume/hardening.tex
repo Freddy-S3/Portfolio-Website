@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------------
 % HARDENING
 %
-% Local overrides on top of awesome-cv.cls. Three jobs:
+% Local overrides on top of awesome-cv.cls. Four jobs:
 %
 %   1. Root-cause fix for the blank band in the Skills and Honors tables. awesome-cv
 %      defines its L, C and R columns as m{} (vertically CENTERED). The moment a cell
@@ -26,6 +26,28 @@
 %      and the inversion has one answer. Same remedy as the small-cap "i" in
 %      awesome-cv.cls: make the text layer correct by construction rather than trust a
 %      mapping. tools/check_resume.py fails the build if U+2011 ever returns.
+%
+%   4. Even section spacing at EVERY boundary, and a balanced page. Two separate
+%      whitespace defects, fixed together below because they compete for the same
+%      vertical space: the band above each section heading was too wide everywhere,
+%      and an empty header band was pinning the content to the top of the page.
+%      See SECTION BOUNDARY SPACING and Page balance further down for the full
+%      derivation and the measured numbers.
+%
+%      An earlier pass trimmed only cvparagraph's trailing skip, on the reading that
+%      Summary was a special case. It was not - Summary was merely the worst of five,
+%      and fixing it alone left the other four untouched. Treat a spacing complaint as
+%      systemic until measurement says otherwise.
+%
+%      Do not chase any of this by deleting the blank lines inside a summary.tex
+%      cvparagraph. They read like paragraph breaks under parskip and are not: TeX
+%      discards the \par of an empty paragraph in vertical mode, so removing them
+%      moved the gap by 0.00pt when it was tried. The trailing skips are the whole
+%      effect.
+%
+%      Rasterise the page and count fully blank pixel rows if any of this needs
+%      re-checking. Block bounding boxes stop at the last line's descender and have
+%      reported a real gap as even twice.
 %
 % Included by every rendition. Do not put content in this file.
 %-------------------------------------------------------------------------------
@@ -93,6 +115,55 @@
 \newcolumntype{U}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 \newcolumntype{V}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
+% ---------------------------------------------------------------------------
+% SECTION BOUNDARY SPACING
+%
+% One deliberate value for the band between the last line of a section and the
+% next section heading, applied to all four boundaries rather than patched per
+% section. Job 4 above fixed only the Summary boundary; the gap is systemic -
+% "that gap applies to all sections" - and it was.
+%
+% The band is the sum of two unrelated things: whatever trailing skip the content
+% environment happens to close with, and \acvSectionTopSkip on the heading that
+% follows. Those trailing skips disagree with each other, so the boundaries cannot
+% be equalised by moving either one alone. Measured by rasterised blank-pixel-row
+% counting, with \acvSectionTopSkip at 0 and cvparagraph's trailing skip removed,
+% the residual each environment contributes on its own is:
+%
+%     cvparagraph (below Summary)               3.84pt
+%     cvskills    (below Skills)                4.80pt
+%     cventries   (below Experience, Projects)  7.20pt
+%
+% cventries is the widest, so it is the reference: \acvSectionTopSkip carries the
+% shared part of the gap and the two narrower environments are padded up to match
+% cventries. Every boundary then lands on the same number, and the design value is
+% edited in one place instead of three.
+%
+% The value: 1mm of shared top skip over a 7.20pt residual gives about 10pt, which
+% is roughly three quarters of the 13.2pt body leading. A boundary narrower than one
+% line of text reads as belonging to the section that follows it, which is what a
+% heading should do; the previous 13.2-15.6pt read as a floating block. Do not raise
+% this past the leading without re-measuring - beyond that the heading stops looking
+% attached to its own section.
+%
+% Block bounding boxes cannot check any of this. They stop at the last line's
+% descender and have reported a real gap as even twice.
+% ---------------------------------------------------------------------------
+\renewcommand{\acvSectionTopSkip}{1mm}
+\newcommand{\acvBoundaryParagraphPad}{1.18mm}
+\newcommand{\acvBoundarySkillsPad}{0.85mm}
+
+% Paragraph section. Opening skips are copied from the class verbatim; the trailing
+% one is the boundary pad above.
+\renewenvironment{cvparagraph}{%
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-3mm}
+  \paragraphstyle
+}{%
+  \par
+  \vspace{\acvBoundaryParagraphPad}
+}
+
 % Skills table, rebuilt on T instead of L.
 \renewenvironment{cvskills}{%
   \vspace{\acvSectionContentTopSkip}
@@ -104,6 +175,7 @@
 }{%
     \end{tabular*}
   \end{center}
+  \vspace{\acvBoundarySkillsPad}
 }
 
 % Honors table, rebuilt on T/U/V instead of L/C/R. Same defect as the skills table: a
@@ -162,3 +234,27 @@
     \item {#1}%
   }%
 }
+
+% Page balance. awesome-cv.cls sets `includehead` on its \geometry call (cls line 110),
+% and geometry keeps that flag when resume.tex later resets only the named margin keys.
+% With it on, the top margin is measured to the top of the *header band* rather than to
+% the body, so fancyhdr's reserved head plus \headsep sits between the margin and the
+% name. The band is empty - \fancyhf{} clears it and \headrulewidth is 0 - so it renders
+% as 36.96pt of whitespace above the name that no setting appears to ask for.
+%
+% Measured on the published PDF by rasterised blank-pixel-row counting: 62.16pt of white
+% above the first ink against a 25.51pt top margin, while the bottom had 27.12pt. Content
+% was pinned to the top of the page with the last section crowding the bottom edge.
+% Reported repeatedly as "empty space at the top, little space at the bottom".
+%
+% Turning the flag off makes the top margin mean what it says. The two values are not
+% equal because they are not measuring the same thing: with the flag off, the top margin
+% lands the first ink almost exactly where it says, while the bottom is whatever the
+% content leaves over, and the content does not fill the column to the millimetre. 1.55cm
+% and 1.1cm are the pair that render equal - top 43.68pt against bottom 43.92pt. Read
+% those two numbers, not the two lengths, and re-measure after any change to the section
+% boundary skips above, since tightening those hands ~25pt back to the bottom.
+%
+% Do not measure this with PDF block bounding boxes: a block box stops at the last line's
+% descender and reported this gap as fine twice.
+\geometry{includehead=false,top=1.55cm,bottom=1.1cm}

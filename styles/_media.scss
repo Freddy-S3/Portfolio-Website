@@ -10,6 +10,13 @@
         width: 50px;
         height: 50px;
     }
+    :root{
+        --rail-size: 50px;
+    }
+    // The rail relocates to a bottom bar here, freeing the right gutter.
+    .right-header{
+        width: 90% !important;
+    }
     .header-content{
         grid-template-columns: repeat(1, 1fr);
         padding-bottom: 6rem;
@@ -33,7 +40,9 @@
     }
     .header-content .left-header .image{
         margin: 0 auto;
-        width: 90%;
+        // The controls become a bottom bar here, but the theme toggle stays pinned
+        // top-right, so keep clearing it.
+        width: min(90%, calc(100% - 2 * var(--rail-gutter)));
     }
 
     .controls{
@@ -114,7 +123,6 @@
     }
 
     .contact-item{
-        flex-direction: column;
         margin: 1rem 0;
         p{
             font-size: 15px;
@@ -207,6 +215,10 @@
         grid-template-columns: repeat(1, 1fr);
     }
     .harness .harness-stats{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .harness .harness-ops-stats,
+    .harness .harness-flow{
         grid-template-columns: repeat(1, 1fr);
     }
 }
@@ -306,15 +318,17 @@
             display: none;
         }
         .image{
-            width: 90% !important;
+            // Same reserve as the text column: the rail is still pinned right here.
+            width: min(90%, calc(100% - 2 * var(--rail-gutter))) !important;
             margin: 0 auto !important;
-            
         }
     }
     .right-header{
         grid-row: 1;
         padding-right: 0rem !important;
-        width: 90%;
+        // Stacked, but the rail is still pinned right until 600px, so stay
+        // symmetrically inside it rather than running the full 90%.
+        width: min(90%, calc(100% - 2 * var(--rail-gutter)));
         margin: 0 auto;
         .name{
             font-size: 2.5rem !important;

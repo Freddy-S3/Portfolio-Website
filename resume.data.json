@@ -39,7 +39,8 @@
         "Spring Boot",
         "Vue 3",
         "Astro",
-        "Test Automation"
+        "Test Automation",
+        "Graph Databases"
       ]
     },
     {
@@ -49,7 +50,9 @@
         "Bedrock",
         "MCP (Model Context Protocol)",
         "Agentic Harnesses",
-        "Prompt Engineering"
+        "Prompt Engineering",
+        "Answer Engine Optimization (AEO)",
+        "SEO"
       ]
     }
   ],
@@ -101,25 +104,25 @@
     {
       "award": "AWS Certified Machine Learning Engineer - Associate",
       "event": "AWS Training and Certification",
-      "location": "Toronto, Canada",
+      "location": "",
       "date": "2026"
     },
     {
       "award": "AWS Certified AI Practitioner",
       "event": "AWS Training and Certification",
-      "location": "Toronto, Canada",
+      "location": "",
       "date": "2025"
     },
     {
       "award": "Google Cloud Certified: Professional Cloud Architect",
       "event": "Google Cloud Certification",
-      "location": "Toronto, Canada",
+      "location": "",
       "date": "2024"
     },
     {
       "award": "AWS Certified Solutions Architect - Professional",
       "event": "AWS Training and Certification",
-      "location": "Toronto, Canada",
+      "location": "",
       "date": "2023"
     },
     {
