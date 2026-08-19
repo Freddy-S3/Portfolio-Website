@@ -165,6 +165,7 @@ OVERLAP_GROUPS = [
     (".lr-chip", 2),
     (".btn-con .main-btn", 2),
     (".harness-stat", 2),
+    (".harness-ops-stat", 2),
 ]
 # Deliberately NOT listed: .contact-item. Those are full-width rows in a vertical list, and
 # adjacent rows in a list abut by design - flagging them reports a defect that is not one,
@@ -603,6 +604,12 @@ def run(headed):
         check("full skill catalog rendered", catalog.count() >= 30, "found %d" % catalog.count())
         check("harness disclaimer still present",
               "simulation, not a live agent" in page.locator(".harness-disclaimer").inner_text())
+        operations = page.locator("#harness-operations")
+        check("portable project model rendered", operations.count() == 1 and operations.is_visible())
+        check("portable project model explains host reuse",
+              "ChatGPT, Claude Code, and Codex" in operations.inner_text())
+        flow = operations.locator(".harness-flow li")
+        check("portable project workflow rendered", flow.count() == 4, "found %d, expected 4" % flow.count())
 
         page.click('.control[data-id="portfolio"]')
         page.wait_for_timeout(600)
