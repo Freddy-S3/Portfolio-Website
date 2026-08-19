@@ -15,7 +15,7 @@ SKILLS
 
 Languages: Python, Go, Java, C#, TypeScript, JavaScript, SQL, PowerShell, Bash, Gremlin (Graph Query)
 Cloud & Platform: AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly), GCP, Docker, Kubernetes, Terraform, CI/CD, IaC
-Application: Microservices, Distributed Systems, REST, GraphQL, .NET, Spring Boot, Vue 3, Astro, Test Automation, Graph Databases
+Application: Microservices, Distributed Systems, REST, GraphQL, .NET, Spring Boot, Vue 3, Astro, Test Automation, Tableau, Graph Databases
 AI & Agentic: LLM Orchestration, Bedrock, MCP (Model Context Protocol), Agentic Harnesses, Prompt Engineering, Answer Engine Optimization (AEO), SEO
 
 ========================================================================

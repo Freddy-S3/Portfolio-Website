@@ -82,14 +82,15 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 24. Vue 3
 25. Astro
 26. Test Automation
-27. Graph Databases
-28. LLM Orchestration
-29. Bedrock
-30. MCP
-31. Agentic Harnesses
-32. Prompt Engineering
-33. Answer Engine Optimization
-34. SEO
+27. Tableau
+28. Graph Databases
+29. LLM Orchestration
+30. Bedrock
+31. MCP
+32. Agentic Harnesses
+33. Prompt Engineering
+34. Answer Engine Optimization
+35. SEO
 
 ## Licenses & certifications
 
