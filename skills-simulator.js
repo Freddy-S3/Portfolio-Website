@@ -128,6 +128,14 @@
     function renderLandingResult(text) {
         var out = document.getElementById("lr-result");
         if (!out) { return; }
+        if (!text || !text.trim()) {
+            out.innerHTML =
+                '<div class="lr-card lr-empty">' +
+                '<p class="lr-command">Nothing to route yet</p>' +
+                "<p>Choose an example or describe a task to route it here, or use All skills to open the full AI skill catalog.</p>" +
+                "</div>";
+            return;
+        }
         var routed = routeTask(text);
         var top = routed.top;
         if (!top || top.score === 0) {
@@ -186,6 +194,13 @@
 
         function routeTyped() {
             [].forEach.call(chips.children, function (c) { c.classList.remove("is-active"); });
+            if (!input.value.trim()) {
+                var catalogLink = document.querySelector('[data-nav="harness"]');
+                if (catalogLink) {
+                    catalogLink.click();
+                    return;
+                }
+            }
             renderLandingResult(input.value);
         }
         button.addEventListener("click", routeTyped);
@@ -193,8 +208,8 @@
             if (event.key === "Enter") { event.preventDefault(); routeTyped(); }
         });
 
-        // Show the system already working, so arriving is enough to see a routed result.
-        routeFromLanding(LANDING_CHIPS[0].task);
+        // Leave the arrival state empty so the Route button has a visible first action.
+        // With no task, it opens the full AI skill catalog; typed tasks route here.
     }
 
     function renderCatalog() {
