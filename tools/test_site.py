@@ -362,6 +362,16 @@ def run_interaction_suite(page, console_errors):
     # placeholder is already what is showing, so nothing moves. Reload to reproduce it.
     page.reload()
     page.wait_for_load_state("networkidle")
+    page.wait_for_timeout(400)
+    click_must_change(
+        page, console_errors,
+        "homepage Route button opens the AI skill catalog from a cold arrival state",
+        "#lr-btn",
+    )
+    check("homepage Route button activates the AI skill catalog",
+          "active" in (page.locator("#harness").get_attribute("class") or ""))
+    page.click('.control[data-id="home"]')
+    page.wait_for_timeout(400)
     page.click('.control[data-id="harness"]')
     # The catalog and the example list render on requestIdleCallback. Until they settle,
     # every snapshot differs from the last for reasons that have nothing to do with the
@@ -539,7 +549,7 @@ def run(headed):
               "%d chars" % len(summary.inner_text()) if summary.count() else "missing")
 
         # --- the landing router is the centrepiece: it must be live, above the fold,
-        # and already showing a routed result before the visitor touches anything.
+        # and ready for the visitor's first action without pretending a task was routed.
         router = page.locator("#landing-router")
         check("landing router present on home", router.count() == 1 and router.is_visible())
 
@@ -548,15 +558,15 @@ def run(headed):
               "top at y=%d" % box["y"] if box else "no box")
 
         first = page.locator("#lr-result .lr-command")
-        check("landing router pre-routes on load",
-              first.count() == 1 and first.inner_text().startswith("/"),
-              first.inner_text() if first.count() else "no result rendered")
+        check("landing router starts with no task selected",
+              page.locator("#lr-input").input_value() == "" and first.count() == 0,
+              first.inner_text() if first.count() else "empty")
 
         check("landing router states it is a simulation",
               "no model runs on this page" in page.locator(".lr-note").inner_text().lower())
 
         # routing a typed task changes the verdict, i.e. it is computing not displaying
-        before = first.inner_text()
+        before = page.locator("#lr-result").inner_text()
         page.fill("#lr-input", "Something in the login flow is throwing errors, help me investigate the unexpected behavior.")
         page.click("#lr-btn")
         page.wait_for_timeout(300)
