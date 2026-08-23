@@ -194,16 +194,15 @@
 
         function routeTyped() {
             [].forEach.call(chips.children, function (c) { c.classList.remove("is-active"); });
-            if (!input.value.trim()) {
-                var catalogLink = document.querySelector('[data-nav="harness"]');
-                if (catalogLink) {
-                    catalogLink.click();
-                    return;
-                }
-            }
             renderLandingResult(input.value);
         }
-        button.addEventListener("click", routeTyped);
+        function showCatalog() {
+            var catalogLink = document.querySelector('[data-nav="harness"]');
+            if (catalogLink) {
+                catalogLink.click();
+            }
+        }
+        button.addEventListener("click", showCatalog);
         input.addEventListener("keydown", function (event) {
             if (event.key === "Enter") { event.preventDefault(); routeTyped(); }
         });

@@ -365,10 +365,10 @@ def run_interaction_suite(page, console_errors):
     page.wait_for_timeout(400)
     click_must_change(
         page, console_errors,
-        "homepage Route button opens the AI skill catalog from a cold arrival state",
+        "homepage See more skills button opens the AI skill catalog from a cold arrival state",
         "#lr-btn",
     )
-    check("homepage Route button activates the AI skill catalog",
+    check("homepage See more skills button activates the AI skill catalog",
           "active" in (page.locator("#harness").get_attribute("class") or ""))
     page.click('.control[data-id="home"]')
     page.wait_for_timeout(400)
@@ -428,17 +428,23 @@ def run_interaction_suite(page, console_errors):
                           'landing chip "%s"' % label, ".lr-chip", index=i,
                           setup=lambda o=other: page.locator(".lr-chip").nth(o).click())
 
+    page.click('.control[data-id="home"]')
+    page.wait_for_timeout(400)
+    errors_before = len(console_errors)
+    before = page.evaluate(OBSERVABLE)
+    page.fill("#lr-input", "Turn this rough plan into vertical-slice tracker tickets.")
+    page.press("#lr-input", "Enter")
+    page.wait_for_timeout(450)
+    after = page.evaluate(OBSERVABLE)
+    check("interaction: typed landing task routes on Enter",
+          before != after and not console_errors[errors_before:])
+    check("typed landing task produces a skill result",
+          page.locator("#lr-result .lr-command").count() == 1)
     click_must_change(
         page, console_errors,
-        "landing Route button with typed input",
+        "landing See more skills button from a task state",
         "#lr-btn",
-        setup=lambda: page.fill("#lr-input", "Turn this rough plan into vertical-slice tracker tickets."),
-    )
-    click_must_change(
-        page, console_errors,
-        "landing Route button with an empty input",
-        "#lr-btn",
-        setup=lambda: page.fill("#lr-input", ""),
+        setup=lambda: page.click('.control[data-id="home"]'),
     )
 
     # --- navigation: every nav control must actually swap the section. Each is approached
@@ -564,11 +570,15 @@ def run(headed):
 
         check("landing router states it is a simulation",
               "no model runs on this page" in page.locator(".lr-note").inner_text().lower())
+        check("homepage catalog action is labeled clearly",
+              page.locator("#lr-btn").inner_text().strip() == "See more skills")
+        check("homepage custom-task input explains its keyboard action",
+              "press Enter" in (page.locator("#lr-input").get_attribute("placeholder") or ""))
 
         # routing a typed task changes the verdict, i.e. it is computing not displaying
         before = page.locator("#lr-result").inner_text()
         page.fill("#lr-input", "Something in the login flow is throwing errors, help me investigate the unexpected behavior.")
-        page.click("#lr-btn")
+        page.press("#lr-input", "Enter")
         page.wait_for_timeout(300)
         after = page.locator("#lr-result .lr-command").inner_text()
         check("landing router responds to typed input", after != before,
@@ -579,7 +589,7 @@ def run(headed):
 
         # a one-term match is a coin flip and the card has to admit it
         page.fill("#lr-input", "I have an idea.")
-        page.click("#lr-btn")
+        page.press("#lr-input", "Enter")
         page.wait_for_timeout(300)
         check("weak matches are labelled as weak",
               page.locator("#lr-result .lr-weak").count() == 1)
