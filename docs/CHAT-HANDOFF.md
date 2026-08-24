@@ -1,8 +1,8 @@
-Continue the Portfolio-Website-route-ai-buttons project.
+Continue the Portfolio-Website-closing-handoff project.
 
 Purpose: Resume coordination
-Repository: C:\Users\faruk\Repo\Portfolio-Website-route-ai-buttons
-Current branch: fix/homepage-route-ai-buttons
+Repository: C:\Users\faruk\Repo\Portfolio-Website-closing-handoff
+Current branch: chore/refresh-portfolio-handoff
 Read AGENTS.md before acting.
 No docs/PROJECT-CONTEXT.md exists yet; use docs/PROJECT-CONTEXT-TEMPLATE.md from the harness when creating one.
 
@@ -12,9 +12,9 @@ Operating rules:
 - Keep this chat focused on coordination; create a separate outcome chat for implementation.
 
 Recent commits:
-- 03f8e65 Fix homepage route button cold state
-- cd7be35 Rebuild resume PDF and cascade into site
-- e42d0da Add Tableau to resume skills (#46)
+- 4afcb02 Point agents at the harness rules from the repository root (#49)
+- d0c7050 Repurpose homepage route button as skills link (#48)
+- bf2f7d5 Fix homepage route button cold state (#47)
 
 Working-tree status:
 - Clean
