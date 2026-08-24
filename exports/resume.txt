@@ -7,16 +7,16 @@ https://freddyshaikh.com | https://www.linkedin.com/in/freddy-shaikh | https://g
 SUMMARY
 ========================================================================
 
-Senior Full Stack Software Engineer with 7+ years building cloud-native distributed systems on AWS, and the designated technical lead for AI-driven engineering acceleration at Morningstar. Owns delivery end-to-end - .NET and Python services, REST and GraphQL APIs, Vue front ends, Harness CI/CD - and built the agentic engineering harness that senior and principal engineers now use as their default workflow. AWS Certified Solutions Architect - Professional.
+Senior Full Stack Software Engineer and designated technical lead for AI-driven engineering acceleration, with 7+ years building production systems across .NET, Python, Vue, and AWS. At Morningstar, architected the team's AI-assisted engineering harness, worked with MCP (Model Context Protocol) servers, and owned an LLM-driven audio feature using Amazon Bedrock and Polly. Owns delivery end to end across distributed systems, REST and GraphQL APIs, Harness CI/CD, and cloud infrastructure.
 
 ========================================================================
 SKILLS
 ========================================================================
 
-Languages: Python, Go, Java, C#, TypeScript, JavaScript, SQL, PowerShell, Bash, Gremlin (Graph Query)
-Cloud & Platform: AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly), GCP, Docker, Kubernetes, Terraform, CI/CD, IaC
-Application: Microservices, Distributed Systems, REST, GraphQL, .NET, Spring Boot, Vue 3, Astro, Test Automation, Tableau, Graph Databases
 AI & Agentic: LLM Orchestration, Bedrock, MCP (Model Context Protocol), Agentic Harnesses, Prompt Engineering, Answer Engine Optimization (AEO), SEO
+Languages: Python, Go, Java, C#, TypeScript, JavaScript, SQL, PowerShell, Bash, Gremlin (Graph Query)
+Application: Microservices, Distributed Systems, REST, GraphQL, .NET, Spring Boot, Vue 3, Test Automation, Tableau, Graph Databases
+Cloud & Platform: AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly), GCP, Docker, Kubernetes, Terraform, CI/CD, IaC
 
 ========================================================================
 EXPERIENCE
