@@ -41,11 +41,28 @@ Keep work agent-agnostic so Codex, Claude Code, and other hosts can resume from 
 This repository is the single logical Portfolio Website project.
 Temporary `Portfolio-Website-*` and `PW-*` worktrees are execution copies, not separate products.
 
+## Resume content - read the rules before touching it
+
+Editing, generating, or publishing any resume content requires
+[`docs/rules/resume-content.md`](docs/rules/resume-content.md). Read it before the first edit,
+not after drafting. It covers `resume.data.json`, everything under `resume/`, `exports/` and
+`Certificates/`, the build and export scripts, the published renditions, and job-application
+text that restates his experience. Reading resume files counts as a trigger, because the rules
+govern what you may conclude from what you read.
+
+This is not boilerplate. On 2026-08-11 a session treated commented-out draft bullets as
+disabled-but-true and activated two unverified metric claims; they reached a built PDF, two
+renditions, the live site, and all three job-board exports, on a resume headed to Google. The
+three rules in that file are what stops a repeat, and the third of them - present his experience
+in its strongest accurate light - is the one that makes reading the other two mandatory rather
+than optional.
+
 ## Source of truth
 
 - Treat tracked source files, resume data, tests, and pull requests as authoritative.
 - Do not invent credentials, employment claims, metrics, or project outcomes.
-- Never activate commented-out resume content without explicit per-bullet approval.
+- Never activate commented-out resume content without explicit per-bullet approval. The full rule, its incident, the drafting gate, and the positioning preference are in [`docs/rules/resume-content.md`](docs/rules/resume-content.md).
+- `resume.data.json` is the source; renditions, the site, PDFs and exports are generated from it. Never hand-edit the generated cascade.
 
 ## Workflow
 
