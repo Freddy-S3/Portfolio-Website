@@ -13,9 +13,9 @@ Senior Full Stack Software Engineer
 ## About
 
 ```
-Senior Full Stack Software Engineer with 7+ years building cloud-native distributed systems on AWS, and the designated technical lead for AI-driven engineering acceleration at Morningstar. Owns delivery end-to-end - .NET and Python services, REST and GraphQL APIs, Vue front ends, Harness CI/CD - and built the agentic engineering harness that senior and principal engineers now use as their default workflow. AWS Certified Solutions Architect - Professional.
+Senior Full Stack Software Engineer and designated technical lead for AI-driven engineering acceleration, with 7+ years building production systems across .NET, Python, Vue, and AWS. At Morningstar, architected the team's AI-assisted engineering harness, worked with MCP (Model Context Protocol) servers, and owned an LLM-driven audio feature using Amazon Bedrock and Polly. Owns delivery end to end across distributed systems, REST and GraphQL APIs, Harness CI/CD, and cloud infrastructure.
 ```
-  <!-- 459 / 2600 chars - OK -->
+  <!-- 491 / 2600 chars - OK -->
 
 ## Experience
 
@@ -56,23 +56,23 @@ Tokyo, Japan | 2018-08 to 2019-08
 
 LinkedIn allows 50 skills. Add in this order - the first three show on your profile.
 
-1. Python
-2. Go
-3. Java
-4. C#
-5. TypeScript
-6. JavaScript
-7. SQL
-8. PowerShell
-9. Bash
-10. Gremlin
-11. AWS
-12. GCP
-13. Docker
-14. Kubernetes
-15. Terraform
-16. CI/CD
-17. IaC
+1. LLM Orchestration
+2. Bedrock
+3. MCP
+4. Agentic Harnesses
+5. Prompt Engineering
+6. Answer Engine Optimization
+7. SEO
+8. Python
+9. Go
+10. Java
+11. C#
+12. TypeScript
+13. JavaScript
+14. SQL
+15. PowerShell
+16. Bash
+17. Gremlin
 18. Microservices
 19. Distributed Systems
 20. REST
@@ -80,17 +80,16 @@ LinkedIn allows 50 skills. Add in this order - the first three show on your prof
 22. .NET
 23. Spring Boot
 24. Vue 3
-25. Astro
-26. Test Automation
-27. Tableau
-28. Graph Databases
-29. LLM Orchestration
-30. Bedrock
-31. MCP
-32. Agentic Harnesses
-33. Prompt Engineering
-34. Answer Engine Optimization
-35. SEO
+25. Test Automation
+26. Tableau
+27. Graph Databases
+28. AWS
+29. GCP
+30. Docker
+31. Kubernetes
+32. Terraform
+33. CI/CD
+34. IaC
 
 ## Licenses & certifications
 

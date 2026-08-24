@@ -6,7 +6,7 @@
     "email": "shaikhfh1@gmail.com",
     "phone": "+1 (437) 267-3291",
     "url": "https://freddyshaikh.com",
-    "summary": "Senior Full Stack Software Engineer with 7+ years building cloud-native distributed systems on AWS, and the designated technical lead for AI-driven engineering acceleration at Morningstar. Owns delivery end-to-end - .NET and Python services, REST and GraphQL APIs, Vue front ends, Harness CI/CD - and built the agentic engineering harness that senior and principal engineers now use as their default workflow. AWS Certified Solutions Architect - Professional.",
+    "summary": "Senior Full Stack Software Engineer and designated technical lead for AI-driven engineering acceleration, with 7+ years building production systems across .NET, Python, Vue, and AWS. At Morningstar, architected the team's AI-assisted engineering harness, worked with MCP (Model Context Protocol) servers, and owned an LLM-driven audio feature using Amazon Bedrock and Polly. Owns delivery end to end across distributed systems, REST and GraphQL APIs, Harness CI/CD, and cloud infrastructure.",
     "location": {
       "city": "Toronto",
       "countryCode": "CA"
@@ -123,6 +123,18 @@
   ],
   "skills": [
     {
+      "name": "AI & Agentic",
+      "keywords": [
+        "LLM Orchestration",
+        "Bedrock",
+        "MCP (Model Context Protocol)",
+        "Agentic Harnesses",
+        "Prompt Engineering",
+        "Answer Engine Optimization (AEO)",
+        "SEO"
+      ]
+    },
+    {
       "name": "Languages",
       "keywords": [
         "Python",
@@ -138,18 +150,6 @@
       ]
     },
     {
-      "name": "Cloud & Platform",
-      "keywords": [
-        "AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly)",
-        "GCP",
-        "Docker",
-        "Kubernetes",
-        "Terraform",
-        "CI/CD",
-        "IaC"
-      ]
-    },
-    {
       "name": "Application",
       "keywords": [
         "Microservices",
@@ -159,22 +159,21 @@
         ".NET",
         "Spring Boot",
         "Vue 3",
-        "Astro",
         "Test Automation",
         "Tableau",
         "Graph Databases"
       ]
     },
     {
-      "name": "AI & Agentic",
+      "name": "Cloud & Platform",
       "keywords": [
-        "LLM Orchestration",
-        "Bedrock",
-        "MCP (Model Context Protocol)",
-        "Agentic Harnesses",
-        "Prompt Engineering",
-        "Answer Engine Optimization (AEO)",
-        "SEO"
+        "AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly)",
+        "GCP",
+        "Docker",
+        "Kubernetes",
+        "Terraform",
+        "CI/CD",
+        "IaC"
       ]
     }
   ]
