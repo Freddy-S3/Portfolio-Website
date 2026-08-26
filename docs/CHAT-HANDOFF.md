@@ -1,8 +1,8 @@
-Continue the Portfolio-Website-closing-handoff project.
+﻿Continue the Portfolio-Website-handoff project.
 
 Purpose: Resume coordination
-Repository: C:\Users\faruk\Repo\Portfolio-Website-closing-handoff
-Current branch: chore/refresh-portfolio-handoff
+Repository: C:\Users\faruk\Repo\Portfolio-Website-handoff
+Current branch: chore/refresh-portfolio-handoff-after-resume
 Read AGENTS.md before acting.
 No docs/PROJECT-CONTEXT.md exists yet; use docs/PROJECT-CONTEXT-TEMPLATE.md from the harness when creating one.
 
@@ -12,9 +12,9 @@ Operating rules:
 - Keep this chat focused on coordination; create a separate outcome chat for implementation.
 
 Recent commits:
-- 4afcb02 Point agents at the harness rules from the repository root (#49)
-- d0c7050 Repurpose homepage route button as skills link (#48)
-- bf2f7d5 Fix homepage route button cold state (#47)
+- a9bf0b8 Rebuild resume PDF and cascade into site
+- b21974d Own the resume content rules in this repository (#52)
+- 0d2ea7d Apply approved AI-forward Draft A resume (#51)
 
 Working-tree status:
 - Clean
