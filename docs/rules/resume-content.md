@@ -47,3 +47,6 @@ authoritative until then. Edit the source and regenerate; never hand-edit the ca
 Note that a build is a write into whatever tree it runs in - `tools/build-resume.ps1` rewrites
 `Certificates/*.pdf`, `index.html` and `exports/`. Run it in a worktree you hold, never in a tree
 another session may be editing.
+
+After changing resume content, run the source build, rendition build, and export generator, then
+verify the site, data, exports, and published PDFs remain synchronized.
