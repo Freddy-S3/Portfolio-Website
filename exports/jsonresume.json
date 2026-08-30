@@ -98,19 +98,12 @@
   "projects": [
     {
       "name": "Agentic Engineering Harness",
-      "description": "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets.",
+      "description": "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets. Concurrency and recovery model for parallel agents: exclusive working-tree claims with heartbeats and stale-claim takeover, git-worktree isolation, and compare-and-swap writes to shared state - enforced by a pre-commit hook that rejects an unclaimed agent write, with task state journaled before each risky step so an interrupted run resumes deterministically.",
       "highlights": [
-        "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets."
+        "Provider-neutral harness for autonomous coding agents across Copilot, Claude Code, and Codex: operating modes for supervised vs. unattended posture, plus a usage-limit-aware queue that resumes after rate-limit resets.",
+        "Concurrency and recovery model for parallel agents: exclusive working-tree claims with heartbeats and stale-claim takeover, git-worktree isolation, and compare-and-swap writes to shared state - enforced by a pre-commit hook that rejects an unclaimed agent write, with task state journaled before each risky step so an interrupted run resumes deterministically."
       ],
       "url": "https://github.com/Freddy-S3/agent-agnostic-harness"
-    },
-    {
-      "name": "The Compounding Engineer",
-      "description": "SEO- and ad-monetized technical blog on Astro covering agentic harness engineering and self-directed learning.",
-      "highlights": [
-        "SEO- and ad-monetized technical blog on Astro covering agentic harness engineering and self-directed learning."
-      ],
-      "url": "https://github.com/Freddy-S3/unattended-runs"
     },
     {
       "name": "Portfolio Site & Resume Pipeline",
