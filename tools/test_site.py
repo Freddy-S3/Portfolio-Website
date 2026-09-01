@@ -18,6 +18,10 @@ import os
 import sys
 from urllib.parse import unquote
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import check_no_cdn
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX = os.path.join(ROOT, "index.html")
 SHOTS = os.path.join(ROOT, ".screenshots")
@@ -546,8 +550,19 @@ def run(headed):
         page.on("pageerror", lambda e: console_errors.append("uncaught: %s" % e))
         page.on("requestfailed", lambda r: failed_requests.append(r.url))
 
+        # Recruiters read this link from inside corporate networks that block
+        # third-party origins. Nothing outside freddyshaikh.com may be fetched, so
+        # fail the request rather than let a CDN asset quietly succeed here and 403
+        # on their machine.
+        page.route("**/*", lambda route: route.abort()
+                   if route.request.url.startswith(("http://", "https://"))
+                   else route.continue_())
+
         page.goto("file:///" + INDEX.replace("\\", "/"))
         page.wait_for_load_state("networkidle")
+
+        cdn = check_no_cdn.violations()
+        check("no external runtime dependencies", not cdn, "; ".join(cdn[:3]))
 
         # --- content generated from the resume actually rendered
         summary = page.locator(".resume-summary")
@@ -831,8 +846,9 @@ def run(headed):
         browser.close()
 
     check("no console errors", not console_errors, "; ".join(console_errors[:3]))
-    real_failures = [u for u in failed_requests if not u.startswith("https://fonts.")]
-    check("no failed requests", not real_failures, "; ".join(real_failures[:3]))
+    # No whitelist. A blocked font request used to be excused here, which is exactly
+    # the failure a visitor behind a proxy saw: the request failed, the suite stayed green.
+    check("no failed requests", not failed_requests, "; ".join(failed_requests[:3]))
 
     failed = [name for name, ok, _ in results if not ok]
     print("\n%d/%d checks passed" % (len(results) - len(failed), len(results)))
