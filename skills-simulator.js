@@ -177,7 +177,7 @@
         var button = document.getElementById("lr-btn");
         if (!chips || !input || !button) { return; }
 
-        LANDING_CHIPS.forEach(function (chip, index) {
+        LANDING_CHIPS.forEach(function (chip) {
             var el = document.createElement("button");
             el.type = "button";
             el.className = "lr-chip";
@@ -188,7 +188,6 @@
                 el.classList.add("is-active");
                 routeFromLanding(chip.task);
             });
-            if (index === 0) { el.classList.add("is-active"); }
             chips.appendChild(el);
         });
 
