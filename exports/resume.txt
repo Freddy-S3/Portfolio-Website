@@ -22,7 +22,7 @@ Cloud & Platform: AWS (Lambda, ECS, S3, CloudFront, Bedrock, Polly), GCP, Docker
 EXPERIENCE
 ========================================================================
 
-Full Stack Software Engineer
+Senior Full Stack Software Engineer
 Morningstar | Toronto, Canada | January 2025 - PRESENT
 - Designated lead for AI-driven engineering acceleration: architected the team's AI-assisted engineering harness (skill files, scoped context and token budgets, operating-mode guardrails) and mentored senior and principal engineers onto it as their default workflow.
 - Technical SME for MCP (Model Context Protocol) server architecture, from proposal through production release.
