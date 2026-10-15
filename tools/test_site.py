@@ -14,6 +14,7 @@ Usage:
 """
 
 import argparse
+import json
 import os
 import sys
 from urllib.parse import unquote
@@ -648,8 +649,53 @@ def run(headed):
 
         page.click('.control[data-id="portfolio"]')
         page.wait_for_timeout(600)
+        # Asserted against resume.data.json rather than a hardcoded total. The absolute
+        # count was 9 and went stale the moment a card was deliberately removed - #55
+        # dropped The Compounding Engineer project, and this line failed every run on
+        # master from 2026-08-30 onward while the site was perfectly correct. A check
+        # that fails on an intended content change teaches people to ignore it, and this
+        # one was being ignored.
+        #
+        # What actually matters is that nothing resume.data.json declares goes missing
+        # from the page, so that is what this asserts. render_projects emits one card per
+        # project, and render_certifications one per award that is not also a degree;
+        # cards hand-authored directly in index.html are not derivable from the data and
+        # are therefore counted as a floor, not an exact total.
         cards = page.locator(".portfolio-item")
-        check("portfolio cards rendered", cards.count() == 9, "found %d, expected 9" % cards.count())
+        rendered = set(page.eval_on_selector_all(
+            ".portfolio-item h3", "els => els.map(e => e.textContent.trim())"
+        ))
+        with open(os.path.join(ROOT, "resume.data.json"), encoding="utf-8") as fh:
+            resume_data = json.load(fh)
+        # Resolve display labels through asset-map.json exactly as render_card does:
+        # a certification card shows the map's "label" when one is set, so comparing
+        # against the raw award string reports three false positives.
+        with open(os.path.join(ROOT, "tools", "asset-map.json"), encoding="utf-8") as fh:
+            assets = json.load(fh)
+
+        def label_for(title):
+            meta = assets.get(title)
+            return meta.get("label", title) if isinstance(meta, dict) else title
+
+        degrees = {e["degree"] for e in resume_data["education"]}
+        expected_titles = [label_for(p["title"]) for p in resume_data["projects"]]
+        expected_titles += [
+            label_for(a["award"]) for a in resume_data["awards"] if a["award"] not in degrees
+        ]
+
+        missing = [t for t in expected_titles if not any(t in r or r in t for r in rendered)]
+        check(
+            "every project and certification in resume.data.json has a portfolio card",
+            not missing,
+            "missing: %s" % ", ".join(missing) if missing else "%d cards for %d data entries"
+            % (cards.count(), len(expected_titles)),
+        )
+        check(
+            "portfolio cards rendered",
+            cards.count() >= len(expected_titles),
+            "found %d, expected at least %d from resume.data.json"
+            % (cards.count(), len(expected_titles)),
+        )
 
         # --- every image decoded, not just requested
         broken = page.eval_on_selector_all(
