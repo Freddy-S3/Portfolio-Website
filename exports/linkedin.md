@@ -19,7 +19,7 @@ Senior Full Stack Software Engineer and designated technical lead for AI-driven 
 
 ## Experience
 
-### Full Stack Software Engineer - Morningstar
+### Senior Full Stack Software Engineer - Morningstar
 
 Toronto, Canada | 2025-01 to Present
 
